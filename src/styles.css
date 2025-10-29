@@ -1,0 +1,257 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-primary: #2aaa8a;
+  --color-primary-light: #edfaf5;
+  --color-accent: #000000;
+
+  --color-neutral-white: #ffffff;
+  --color-neutral-light: #f0f0f0;
+  --color-neutral-medium: #808080;
+  --color-neutral-black: #000000;
+  --color-neutral-dark: #333333;
+  --color-neutral-inputBorder: #e4e4e7;
+  --color-neutral-bg: #f1f5f9;
+
+  --color-status-warning: #ff0000;
+  --color-status-lightred: #ff9f9f24;
+  --color-status-success: #118f1f;
+  --color-status-lightgreen: #b8edd840;
+
+  --color-grade-a: #175cd3;
+  --color-grade-a-light: #eff8ff;
+  --color-grade-b: #c11574;
+  --color-grade-b-light: #fdf2fa;
+  --color-grade-c: #f19934;
+  --color-grade-c-light: #fff6eb;
+  --color-grade-d: #f15757;
+  --color-grade-d-light: #fff0f0;
+
+  --color-secondary: #34a9f1;
+  --color-secondary-light: #f5fbff;
+
+  --color-background: #f8f8f8;
+  --color-danger: #f15757;
+  --color-border: #e4e4e7;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-text: #1d242b;
+  --color-grey: #697785;
+
+  --color-gray-light: #f0f0f0;
+  --color-gray: #808080;
+
+  --color-blue-light: #e6f4ff;
+  --color-blue: #3daaff;
+
+  --color-green-light: #e6f4ff;
+  --color-green: #2aaa8a;
+
+  --color-yellow-light: #fff8e6;
+  --color-yellow: #f5b700;
+
+  --color-red-light: #fff0f0;
+  --color-red: #f15757;
+
+  --color-orange-light: #fff8e6;
+  --color-orange: #f5b700;
+
+  --color-purple-light: #f0e6ff;
+  --color-purple: #a77bff;
+
+  --font-geist: 'Geist', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-roboto: 'Roboto', system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  --color-table-gray: #f0f0f0;
+  --color-table-header-text-gray: #808080;
+
+  --shadow-header: 0px 2px 30px 0px #06567f1a;
+  --shadow-media-input: 0px 0px 10px 0px #06567f1a;
+  --spacing-0.75: calc(var(--spacing) * 0.75);
+  --spacing-sidebar: 300px;
+  --spacing-header: 72px;
+
+  --animate-fade-in: fade-in 0.2s ease-in-out forwards;
+  --animate-fade-out: fade-out 0.2s ease-in-out forwards;
+  --animate-modal-entrance: modal-entrance 0.2s ease-in-out forwards;
+  --animate-modal-exit: modal-exit 0.2s ease-in-out forwards;
+
+  /* Animation utilities */
+  --animate-in: animate-in 0.15s ease-out;
+  --animate-out: animate-out 0.15s ease-in;
+  --fade-in-0: fade-in-0 0.15s ease-out;
+  --fade-out-0: fade-out-0 0.15s ease-in;
+  --zoom-in-95: zoom-in-95 0.15s ease-out;
+  --zoom-out-95: zoom-out-95 0.15s ease-in;
+  --slide-in-from-top-2: slide-in-from-top-2 0.15s ease-out;
+  --slide-in-from-bottom-2: slide-in-from-bottom-2 0.15s ease-out;
+  --slide-in-from-left-2: slide-in-from-left-2 0.15s ease-out;
+  --slide-in-from-right-2: slide-in-from-right-2 0.15s ease-out;
+
+  /* Button Utilities */
+  --utility-btn-base: flex w-fit cursor-pointer items-center justify-center
+    gap-2 rounded-md px-3 py-2.5 text-sm font-medium transition-all duration-200
+    hover: opacity-75 active: opacity-50 disabled: cursor-not-allowed
+    disabled: opacity-50 aria-busy: cursor-wait;
+  --utility-btn-primary: var(--utility-btn-base) bg-primary text-white;
+  --utility-btn-white: var(--utility-btn-base) border border-primary bg-white
+    text-primary;
+  --utility-btn-grey: var(--utility-btn-base) bg-grey/10 text-text;
+  --utility-btn-danger: var(--utility-btn-base) bg-danger text-white;
+}
+
+input[type='file'],
+input[type='file']::file-selector-button {
+  cursor: pointer;
+}
+input[type='radio'] {
+  accent-color: #27a082;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  /* Optional: further reduce size */
+  transform: scale(0.8) translateY(3px);
+}
+
+button {
+  cursor: pointer;
+}
+
+.progress {
+  position: relative;
+  height: 6px;
+  display: block;
+  width: 100%;
+  background-color: #c6c9c9;
+  overflow: hidden;
+}
+.indeterminate {
+  background-color: #2aaa8a;
+  &:before {
+    content: '';
+    width: 30%;
+    position: absolute;
+    background-color: inherit;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    will-change: left, right;
+    animation: indeterminate 1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+  }
+}
+
+@layer utilities {
+  .scrollbar-stable {
+    scrollbar-gutter: stable;
+  }
+
+  .animate-spin-fast {
+    animation: spin-fast 1s linear infinite;
+  }
+  .blurred-backdrop {
+    backdrop-filter: blur(2px);
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  .btn-primary {
+    @apply flex w-fit cursor-pointer items-center justify-center gap-2 rounded-md bg-primary px-3 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:opacity-75 active:opacity-50 disabled:cursor-not-allowed disabled:opacity-50 aria-busy:cursor-wait;
+  }
+
+  .btn-white {
+    @apply flex w-fit cursor-pointer items-center justify-center gap-2 rounded-md border border-primary bg-white px-3 py-2.5 text-sm font-medium text-primary transition-all duration-200 hover:opacity-75 active:opacity-50 disabled:cursor-not-allowed disabled:opacity-50 aria-busy:cursor-wait;
+  }
+
+  .btn-grey {
+    @apply flex w-fit cursor-pointer items-center justify-center gap-2 rounded-md bg-grey/10 px-3 py-2.5 text-sm font-medium text-text transition-all duration-200 hover:opacity-75 active:opacity-50 disabled:cursor-not-allowed disabled:opacity-50 aria-busy:cursor-wait;
+  }
+
+  .btn-danger {
+    @apply flex w-fit cursor-pointer items-center justify-center gap-2 rounded-md bg-danger px-3 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:opacity-75 active:opacity-50 disabled:cursor-not-allowed disabled:opacity-50 aria-busy:cursor-wait;
+  }
+
+  .dropdown-content {
+    @apply z-[100] rounded-lg border border-border bg-white shadow transition-all duration-300;
+  }
+
+  /* Data attribute animation styles */
+  .dropdown-content[data-state='open'] {
+    animation:
+      fade-in-0 0.15s ease-out,
+      zoom-in-95 0.15s ease-out;
+  }
+
+  .dropdown-content[data-state='closed'] {
+    animation:
+      fade-out-0 0.15s ease-in,
+      zoom-out-95 0.15s ease-in;
+  }
+
+  .dropdown-content[data-side='bottom'] {
+    animation-name: fade-in-0, zoom-in-95, slide-in-from-top-2;
+  }
+
+  .dropdown-content[data-side='top'] {
+    animation-name: fade-in-0, zoom-in-95, slide-in-from-bottom-2;
+  }
+
+  .dropdown-content[data-side='left'] {
+    animation-name: fade-in-0, zoom-in-95, slide-in-from-right-2;
+  }
+
+  .dropdown-content[data-side='right'] {
+    animation-name: fade-in-0, zoom-in-95, slide-in-from-left-2;
+  }
+}
+
+@keyframes spin-fast {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes indeterminate {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
+@keyframes indeterminate {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
