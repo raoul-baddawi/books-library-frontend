@@ -8,6 +8,7 @@ import * as TanStackQueryProvider from './integrations/tanstack-query/root-provi
 import reportWebVitals from './reportWebVitals.ts'
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
+import AuthProvider from './lib/providers/AuthProvider.tsx'
 
 // Create a new router instance
 
@@ -37,7 +38,9 @@ if (rootElement && !rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <TanStackQueryProvider.Provider {...TanStackQueryProviderContext}>
-        <RouterProvider router={router} />
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
       </TanStackQueryProvider.Provider>
     </StrictMode>,
   )

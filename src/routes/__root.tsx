@@ -5,6 +5,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 
 import Header from '../components/Header'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
+import Toast from '$/lib/components/ui/Toast'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -15,6 +16,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     <>
       <Header />
       <Outlet />
+      <Toast />
       <TanStackDevtools
         config={{
           position: 'bottom-right',

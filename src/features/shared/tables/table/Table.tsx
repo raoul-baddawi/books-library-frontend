@@ -297,15 +297,17 @@ export default function Table<T>({
         className,
       )}
     >
-      <ContextMenu handleCloseMenu={handleCloseDropdown} ref={contextMenuRef}>
-        {contextMenu}
-      </ContextMenu>
+      {contextMenu && (
+        <ContextMenu handleCloseMenu={handleCloseDropdown} ref={contextMenuRef}>
+          {contextMenu}
+        </ContextMenu>
+      )}
       <div className="relative z-0 w-full">
         <div
           ref={containerRef}
           id="tableContent"
           className={cn(
-            'border-normal border-tableBorderColor shadow-tableShadow relative z-50 h-[585px] w-full overflow-auto border bg-white',
+            'border-normal border-tableBorderColor shadow-tableShadow relative z-50 h-[200px] w-full overflow-auto border bg-white',
             tableClassName,
           )}
         >

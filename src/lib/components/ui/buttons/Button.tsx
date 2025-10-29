@@ -29,7 +29,7 @@ const Button = forwardRef<HTMLButtonElement, PropsWithChildren<Props>>(
         type={type || 'button'}
         aria-busy={isLoading}
         className={cn(
-          'btn-primary',
+          'btn-primary text-white',
           variant,
           className,
           disabled || isLoading ? 'cursor-not-allowed! opacity-50' : '',

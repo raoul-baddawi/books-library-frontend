@@ -57,7 +57,7 @@ export default function ExampleTable() {
   // const isArchivesPage = location.pathname.includes('/archives')
 
   return (
-    <div className="flex w-full gap-2.5 rounded-2xl border border-table-gray bg-white">
+    <div className="flex  gap-2.5 rounded-2xl border border-table-gray bg-white">
       <EnhancedTable<ExampleTableType>
         tableClassName="rounded-lg border-none"
         paginatable

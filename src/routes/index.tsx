@@ -1,35 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router'
-
-import SubmittableForm from '$/features/examples/submittable-form/SubmittableForm'
-import ExamplesListing from '$/features/examples/table-context/ExamplesListing'
+import PublicLayout from '$/lib/layouts/PublicLayout'
 
 export const Route = createFileRoute('/')({
-  component: App,
+  component: Home,
 })
 
-function App() {
+function Home() {
   return (
-    <div className="text-center">
-      <header className="min-h-screen flex flex-col items-center justify-center bg-white text-white text-[calc(10px+2vmin)]">
-        <SubmittableForm />
-        <ExamplesListing />
-        <a
-          className="text-[#61dafb] hover:underline"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <a
-          className="text-[#61dafb] hover:underline"
-          href="https://tanstack.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn TanStack
-        </a>
-      </header>
-    </div>
+    <PublicLayout>
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <h1 className="text-3xl font-semibold text-accent">LIBRARY page</h1>
+      </div>
+    </PublicLayout>
   )
 }
