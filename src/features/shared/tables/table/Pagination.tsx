@@ -70,7 +70,7 @@ const generatePageNumbers = (
 }
 
 const basePaginationButtonClassName =
-  'grid aspect-square w-6 h-6 text-xs cursor-pointer place-items-center rounded-[12px] font-bold text-black hover:bg-secondary-light  focus:bg-secondary-light'
+  'grid aspect-square w-6 h-6 text-xs cursor-pointer place-items-center rounded-[12px] font-bold text-black hover:bg-primary/10  focus:bg-secondary-light'
 
 export default function Pagination({
   totalNumberOfPages,
@@ -118,8 +118,7 @@ export default function Pagination({
                 )}
                 className={cn(
                   basePaginationButtonClassName,
-                  isCurrentPage &&
-                    'cursor-default bg-secondary-light text-secondary',
+                  isCurrentPage && 'cursor-default bg-primary/25 text-primary',
                   'disabled:bg-disable disabled:cursor-not-allowed disabled:opacity-30',
                 )}
               >

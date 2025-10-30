@@ -41,7 +41,6 @@ export default function TableBodyContent<T>({
   selectable,
   onContextMenu,
 }: Props<T>) {
-  // TODO: Fix the row click handler to not trigger on interactive elements in another simpler and cleaner way
   const handleRowClick = (
     e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
     row: Row<T>,

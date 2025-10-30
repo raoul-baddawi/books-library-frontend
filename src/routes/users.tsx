@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import PrivateLayout from '$/lib/layouts/PrivateLayout'
-import UsersListing from '$/features/users-table/UsersListing'
+import UsersListing from '$/features/admin-users/users-table/UsersListing'
 
 export const Route = createFileRoute('/users')({
   component: UsersPage,

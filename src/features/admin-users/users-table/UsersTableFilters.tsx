@@ -13,7 +13,7 @@ function UserTableFilters() {
     UserTableFiltersType
   >()
   return (
-    <div>
+    <div className="flex h-fit">
       Filters Goes here {JSON.stringify(filters)}
       <button
         onClick={() => handleSetFilters('search', `random-${Math.random()}`)}

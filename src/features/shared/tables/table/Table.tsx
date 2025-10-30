@@ -313,7 +313,7 @@ export default function Table<T>({
                 return (
                   <Fragment key={headerGroup.id}>
                     <tr
-                      className="sticky top-0 z-50 h-12 rounded-b-lg bg-white duration-200 ease-in"
+                      className="sticky top-0 z-101 h-12 rounded-b-lg bg-white duration-200 ease-in"
                       ref={tableHeaderRef}
                       key={headerGroup.id}
                     >
@@ -328,7 +328,7 @@ export default function Table<T>({
                             key={`${header.id}_${headerGroup.id}_${index}`}
                             colSpan={header.colSpan}
                             className={cn(
-                              'tabletScreen:text-custom-12 rounded-none border-l border-table-gray bg-secondary-light text-xs font-semibold text-table-header-text-gray',
+                              'tabletScreen:text-custom-12 rounded-none border-l border-table-gray bg-primary-light text-xs font-semibold text-table-header-text-gray',
                               headerClassName,
                               index !== 0 && 'px-2',
                               index === 0 && 'border-l-0 px-3',
@@ -388,6 +388,7 @@ export default function Table<T>({
                 onContextMenu={handleOnContextMenu}
                 selectable={selectable}
               />
+              <tr className="h-full bg-transparent"></tr>
             </tbody>
           </table>
         </div>

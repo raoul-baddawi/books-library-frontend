@@ -445,7 +445,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
                     )
                 : null}
 
-              {autoComplete && (
+              {(autoComplete || !multiple) && (
                 <div
                   className={cn('flex-1', !autoComplete && 'cursor-pointer')}
                   onClick={() => {
@@ -456,12 +456,13 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
                     ref={inputRef}
                     type="text"
                     className={cn(
-                      'flex-1 bg-transparent text-sm  outline-none placeholder:text-grey text-grey!',
+                      'flex-1 bg-transparent text-sm  outline-none placeholder:text-grey ',
                       multiple && selectedLabels.length > 0
                         ? 'w-auto '
                         : 'w-full ',
                       !autoComplete && 'leading-0 select-none',
                       disabled && 'cursor-not-allowed',
+                      multiple ? 'text-grey!' : isOpen && 'text-primary!',
                     )}
                     placeholder="" // Hide native placeholder
                     value={getInputDisplayValue()}
