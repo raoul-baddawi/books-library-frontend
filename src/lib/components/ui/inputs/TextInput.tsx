@@ -13,7 +13,7 @@ export default function TextInput({
       formNoValidate
       {...(type === 'number' && !props.step ? { step: 'any' } : {})}
       className={cn(
-        'w-full rounded-lg border border-border bg-white px-4 py-2.5 text-sm text-accent outline-hidden duration-200 placeholder:text-grey focus-within:outline-primary focus:border-accent disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-danger focus:aria-invalid:border-accent',
+        'w-full rounded-lg border border-border bg-white px-4 py-2.5 text-sm text-accent outline-hidden duration-200 placeholder:text-grey focus-within:outline-primary! focus:border-primary disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-danger focus:aria-invalid:border-red',
         className,
       )}
       {...props}

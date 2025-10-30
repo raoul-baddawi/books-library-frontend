@@ -25,7 +25,7 @@ export default function PrivateLayout({ children }: PropsWithChildren) {
   return (
     <div className="grid h-full grid-cols-[200px_1fr]">
       <Sidebar />
-      <main className="scrollbar-stable overflow-auto col-start-2 p-4">
+      <main className="scrollbar-stable col-start-2 p-4 grid grid-cols-1 grid-rows-1 h-screen">
         {children}
       </main>
     </div>

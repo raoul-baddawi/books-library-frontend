@@ -26,7 +26,7 @@ export default function PasswordInput({
       <input
         type={showPassword ? 'text' : 'password'}
         className={cn(
-          'w-full rounded-lg border border-border bg-white px-4 py-2.5 text-sm outline-hidden duration-200 placeholder:text-grey focus-within:outline-primary focus:border-accent disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-danger focus:aria-invalid:border-accent',
+          'w-full rounded-lg border border-border bg-white px-4 py-2.5 text-sm outline-hidden duration-200 placeholder:text-grey focus-within:outline-primary focus:border-primary disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-danger focus:aria-invalid:border-red',
           className,
         )}
         aria-invalid={isInvalid}
@@ -39,14 +39,14 @@ export default function PasswordInput({
       <button
         type="button"
         onClick={togglePasswordVisibility}
-        className="text-gray-500 absolute inset-y-0 right-0 flex items-center px-3 focus:outline-none"
+        className="text-gray absolute inset-y-0 right-0 flex items-center px-3 focus:outline-none"
         tabIndex={-1}
         aria-label={showPassword ? 'Hide password' : 'Show password'}
       >
         {showPassword ? (
-          <EyeOff size={20} className="text-gray-400 hover:text-gray-600" />
+          <EyeOff size={20} className="text-gray/85 hover:text-gray" />
         ) : (
-          <Eye size={20} className="text-gray-400 hover:text-gray-600" />
+          <Eye size={20} className="text-gray/85 hover:text-gray" />
         )}
       </button>
     </div>

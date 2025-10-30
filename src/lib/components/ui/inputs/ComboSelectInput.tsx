@@ -83,6 +83,27 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
     const dropdownRef = useRef<HTMLDivElement>(null!)
     const inputRef = useRef<HTMLInputElement>(null)
     const optionsRef = useRef<HTMLDivElement>(null)
+
+    const handleAutoAddOption = () => {
+      const newOption = {
+        label: inputValue,
+        value: inputValue,
+      }
+
+      setInternalOptions((prev) => [...prev, newOption])
+
+      if (multiple) {
+        const currentValues = Array.isArray(normalizedSelectedValues)
+          ? normalizedSelectedValues
+          : []
+        const newSelected = currentValues.includes(inputValue)
+          ? currentValues
+          : [...currentValues, inputValue]
+        updateSelectedValues(newSelected)
+      } else {
+        updateSelectedValues(inputValue)
+      }
+    }
     const handleBlur = () => {
       setIsOpen(false)
       setIsTyping(false)
@@ -109,24 +130,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
           }
         } else if (autoAddOptions) {
           // Only add new options if autoAddOptions is true
-          const newOption = {
-            label: inputValue,
-            value: inputValue,
-          }
-
-          setInternalOptions((prev) => [...prev, newOption])
-
-          if (multiple) {
-            const currentValues = Array.isArray(normalizedSelectedValues)
-              ? normalizedSelectedValues
-              : []
-            const newSelected = currentValues.includes(inputValue)
-              ? currentValues
-              : [...currentValues, inputValue]
-            updateSelectedValues(newSelected)
-          } else {
-            updateSelectedValues(inputValue)
-          }
+          handleAutoAddOption()
         } else if (!multiple) {
           // If no matching option and autoAddOptions is false, clear the selection
           updateSelectedValues(0)
@@ -307,7 +311,11 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
     }
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (disabled || !filteredOptions || filteredOptions.length === 0) return
+      if (
+        (disabled || !filteredOptions || filteredOptions.length === 0) &&
+        !autoAddOptions
+      )
+        return
 
       switch (e.key) {
         case 'ArrowDown':
@@ -330,15 +338,17 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
           break
         case 'Enter':
           e.preventDefault()
-          if (
-            isOpen &&
-            highlightedIndex >= 0 &&
-            filteredOptions[highlightedIndex]
-          ) {
-            toggleOption(filteredOptions[highlightedIndex])
+          if (isOpen) {
+            if (highlightedIndex >= 0 && filteredOptions[highlightedIndex]) {
+              toggleOption(filteredOptions[highlightedIndex])
+            } else {
+              handleAutoAddOption()
+              setInputValue('')
+            }
           } else if (!isOpen) {
             setIsOpen(true)
           }
+
           break
         case 'Escape':
           e.preventDefault()
@@ -358,27 +368,23 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
 
     const selectedLabels = getSelectedLabels()
 
-    // Determine what to show in the input field
     const getInputDisplayValue = () => {
       if (isTyping && inputValue) {
-        // If user is actively typing, show what they're typing
         return capitalizeAll ? inputValue.toUpperCase() : inputValue
       } else if (!multiple && selectedLabels.length > 0) {
         const selected = selectedLabels[0] as string
-        // If not typing and has selection, show selected label
         return selected && typeof selected === 'string'
           ? capitalizeAll
             ? selected?.toUpperCase()
             : selected
           : ''
       } else {
-        // Otherwise show input value (for typing state)
         return capitalizeAll ? inputValue.toUpperCase() : inputValue
       }
     }
 
     return (
-      <div className={cn('flex min-h-11 w-full flex-col', className)}>
+      <div className={cn('flex min-h-10 w-full flex-col', className)}>
         <div className="relative h-full w-full" ref={dropdownRef}>
           <div
             className={cn(
@@ -395,7 +401,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
           >
             <span
               className={cn(
-                'pointer-events-none absolute top-1/2 left-3 z-9 origin-left -translate-y-1/2 text-sm text-accent transition-all duration-200',
+                'pointer-events-none absolute top-1/2 left-3 z-9 origin-left -translate-y-1/2 text-sm text-grey transition-all duration-200',
                 (isOpen || inputValue || selectedLabels.length > 0) &&
                   'top-0 left-3 scale-90 bg-white px-1 text-xs',
                 disabled && 'opacity-60',
@@ -433,53 +439,71 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
                     })
                   : selectedLabels.length > 0 && (
                       <span className="text-sm">
-                        Selectionné
+                        Selected
                         {` ${selectedLabels.length} option${selectedLabels.length > 1 ? 's' : ''}`}
                       </span>
                     )
                 : null}
 
-              <div
-                className={cn('flex-1', !autoComplete && 'cursor-pointer')}
-                onClick={() => {
-                  if (!autoComplete && !disabled) setIsOpen(!isOpen)
-                }}
-              >
-                <input
-                  ref={inputRef}
-                  type="text"
-                  className={cn(
-                    'flex-1 bg-transparent text-sm text-accent outline-none',
-                    multiple && selectedLabels.length > 0
-                      ? 'w-auto placeholder:text-accent'
-                      : 'w-full',
-                    !autoComplete && 'leading-0 select-none',
-                    disabled && 'cursor-not-allowed',
-                  )}
-                  placeholder="" // Hide native placeholder
-                  value={getInputDisplayValue()}
-                  onChange={handleInputChange}
-                  onFocus={() => {
-                    if (!disabled) {
-                      setTimeout(() => {
-                        if (!isOpen) {
-                          setIsOpen(true)
-                        }
-                      }, 100)
-                    }
+              {autoComplete && (
+                <div
+                  className={cn('flex-1', !autoComplete && 'cursor-pointer')}
+                  onClick={() => {
+                    if (!autoComplete && !disabled) setIsOpen(!isOpen)
                   }}
-                  onKeyDown={handleKeyDown}
-                  disabled={disabled}
-                  tabIndex={disabled ? -1 : 0}
-                  readOnly={!autoComplete}
-                  style={!autoComplete ? { cursor: 'pointer' } : undefined}
-                  aria-invalid={ariaInvalid}
-                  aria-errormessage={ariaErrorMessage}
-                  name={name}
-                />
-              </div>
+                >
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    className={cn(
+                      'flex-1 bg-transparent text-sm  outline-none placeholder:text-grey text-grey!',
+                      multiple && selectedLabels.length > 0
+                        ? 'w-auto '
+                        : 'w-full ',
+                      !autoComplete && 'leading-0 select-none',
+                      disabled && 'cursor-not-allowed',
+                    )}
+                    placeholder="" // Hide native placeholder
+                    value={getInputDisplayValue()}
+                    onChange={handleInputChange}
+                    onFocus={() => {
+                      if (!disabled) {
+                        setTimeout(() => {
+                          if (!isOpen) {
+                            setIsOpen(true)
+                          }
+                        }, 100)
+                      }
+                    }}
+                    onKeyDown={handleKeyDown}
+                    disabled={disabled}
+                    tabIndex={disabled ? -1 : 0}
+                    readOnly={!autoComplete}
+                    style={!autoComplete ? { cursor: 'pointer' } : undefined}
+                    aria-invalid={ariaInvalid}
+                    aria-errormessage={ariaErrorMessage}
+                    name={name}
+                  />
+                </div>
+              )}
             </div>
-
+            {multiple && (selectedValues as OptionValueType[]).length > 0 && (
+              <XIcon
+                className={cn('mr-2 cursor-pointer transition-opacity')}
+                size={16}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  if (disabled) return
+                  setInputValue('')
+                  if (multiple) {
+                    updateSelectedValues([])
+                  } else {
+                    updateSelectedValues('')
+                  }
+                  inputRef.current?.focus()
+                }}
+              />
+            )}
             <ChevronDown
               className={cn(
                 'cursor-pointer transition-transform',

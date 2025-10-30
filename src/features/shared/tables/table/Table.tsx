@@ -27,6 +27,7 @@ import Pagination from './Pagination'
 import { getCommonPinningStyles } from './styles'
 import TableBodyContent from './TableBodyContent'
 import TableRowCheckbox from './TableRowCheckbox'
+import TableSkeletonLoader from '../components/loaders/TableSkeletonLoader'
 
 type TableBaseProps<T> = {
   columns: TableColumn<T>[]
@@ -291,23 +292,18 @@ export default function Table<T>({
   }, [])
 
   return (
-    <div
-      className={cn(
-        'flex h-full w-full flex-col items-center justify-between gap-6',
-        className,
-      )}
-    >
+    <div className={cn('flex h-full w-full flex-col items-center', className)}>
       {contextMenu && (
         <ContextMenu handleCloseMenu={handleCloseDropdown} ref={contextMenuRef}>
           {contextMenu}
         </ContextMenu>
       )}
-      <div className="relative z-0 w-full">
+      <div className="relative z-0 w-full flex flex-1 h-[calc(100%-3rem)] border-b border-b-table-gray">
         <div
           ref={containerRef}
           id="tableContent"
           className={cn(
-            'border-normal border-tableBorderColor shadow-tableShadow relative z-50 h-[200px] w-full overflow-auto border bg-white',
+            'flex border-normal border-tableBorderColor shadow-tableShadow relative z-50 h-full w-full overflow-auto border bg-white',
             tableClassName,
           )}
         >
@@ -374,6 +370,9 @@ export default function Table<T>({
                   </Fragment>
                 )
               })}
+              {isPendingData && (
+                <TableSkeletonLoader columns={tableColumns.length} />
+              )}
             </thead>
             <tbody>
               <TableBodyContent<T>

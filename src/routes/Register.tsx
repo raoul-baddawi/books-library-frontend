@@ -9,44 +9,59 @@ import useApiMutation from '$/lib/hooks/useApiMutation'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '$/lib/providers/AuthProvider'
 import { useEffect } from 'react'
+import { loginSchema } from './login'
 import { toast } from 'sonner'
 
-export const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1, 'Password is required'),
-})
-type LoginData = z.infer<typeof loginSchema>
-export const Route = createFileRoute('/login')({
-  component: Login,
+const registerSchema = loginSchema
+  .extend({
+    firstName: z.string().min(1, 'First name is required'),
+    lastName: z.string().min(1, 'Last name is required'),
+    confirmPassword: z.string().min(1, 'Confirm Password is required'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  })
+
+type RegisterData = z.infer<typeof registerSchema>
+export const Route = createFileRoute('/Register')({
+  component: Register,
 })
 
-function Login() {
+function Register() {
   const router = useRouter()
   const { role } = useAuth()
   const queryClient = useQueryClient()
   const { mutate, isPending } = useApiMutation({
-    mutationFn: (data: LoginData) => {
+    mutationFn: (data: RegisterData) => {
       return apiClient
-        .post('auth/login', {
+        .post('auth/register', {
           json: data,
         })
         .json()
     },
     onSuccess: () => {
-      toast.success('Login successful!')
+      toast.success('Registration successful!')
       queryClient.invalidateQueries({ queryKey: ['user'] })
     },
   })
 
-  const { handleFormSubmit, fields } = useAppForm<LoginData>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: { email: '', password: '' },
+  const { handleFormSubmit, fields } = useAppForm<RegisterData>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      confirmPassword: '',
+    },
     onSubmit: (data) => mutate(data),
   })
 
   const { TextInput, PasswordInput } = fields
 
   useEffect(() => {
+    // In real world app, we redirect the user to an otp or a code verification page
     if (role) {
       if (role === 'ADMIN') {
         router.navigate({ to: '/users' })
@@ -61,7 +76,21 @@ function Login() {
         onSubmit={handleFormSubmit}
         className="w-full max-w-md p-6 rounded bg-white shadow flex flex-col gap-2"
       >
-        <h2 className="mb-4 text-xl font-semibold">Login</h2>
+        <h2 className="mb-4 text-xl font-semibold">Register</h2>
+        <div>
+          <TextInput
+            name="firstName"
+            placeholder="First Name"
+            label="First Name"
+          />
+        </div>
+        <div>
+          <TextInput
+            name="lastName"
+            placeholder="Last Name"
+            label="Last Name"
+          />
+        </div>
         <div>
           <TextInput name="email" placeholder="Email" label="Email" />
         </div>
@@ -72,11 +101,18 @@ function Login() {
             label="Password"
           />
         </div>
+        <div>
+          <PasswordInput
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            label="Confirm Password"
+          />
+        </div>
         <Link
           className="text-sm text-primary! hover:underline inline-block"
-          to="/Register"
+          to="/login"
         >
-          Don't have an account? Register
+          Already have an account? Login
         </Link>
         <Button
           isLoading={isPending}
@@ -84,7 +120,7 @@ function Login() {
           type="submit"
           className="w-full! mt-2"
         >
-          Login
+          Register
         </Button>
       </form>
     </div>

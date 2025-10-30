@@ -8,6 +8,8 @@ import {
 } from 'react'
 
 import useApiQuery from '../hooks/useApiQuery'
+import useApiMutation from '../hooks/useApiMutation'
+import { apiClient } from '../utils/apiClient'
 
 export const UserRoleEnum = {
   ADMIN: 'ADMIN',
@@ -19,20 +21,17 @@ export type UserRoleType = (typeof UserRoleEnum)[keyof typeof UserRoleEnum]
 
 export type AuthUser = {
   id: string
-  username: string
   role: UserRoleType
-  books: {
-    id: string
-    name: string
-    description: string
-    isPublished: boolean
-  }[]
+  email: string
+  fullName: string
 }
 
 export type AuthContextType = {
   user: AuthUser | null
   role: UserRoleType | null
   isFetching: boolean
+  isPendingLogout: boolean
+
   status: 'pending' | 'error' | 'success'
   setUser: (user: AuthUser) => void
   invalidateUser: (fetchingStateVisible?: boolean) => Promise<void>
@@ -43,8 +42,9 @@ type VerifiedAuthContext = {
   user: AuthUser
   role: UserRoleType
   isFetching: boolean
+  isPendingLogout: boolean
   status: 'success'
-  setUser: (user: AuthUser) => void
+  setUser: (user: Partial<AuthUser>) => void
   invalidateUser: (fetchingStateVisible?: boolean) => Promise<void>
   clearUser: () => void
 }
@@ -56,6 +56,12 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 
   const queryClient = useQueryClient()
 
+  const { mutate, isPending } = useApiMutation({
+    mutationKey: ['logout'],
+    mutationFn: () => {
+      return apiClient.post('auth/logout').json()
+    },
+  })
   const {
     data: user,
     isFetching,
@@ -82,6 +88,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 
   const clearUser = () => {
     queryClient.setQueryData(['user'], null)
+    mutate()
   }
 
   return (
@@ -90,6 +97,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         user: user ?? null,
         role: user?.role ?? null,
         isFetching: isFetching && showFetchingState,
+        isPendingLogout: isPending,
         status,
         setUser,
         clearUser,

@@ -9,7 +9,6 @@ import { Fragment } from 'react/jsx-runtime'
 import { valueOrNothing } from '$/lib/utils/functions'
 import { cn } from '$/lib/utils/styling'
 
-import TableSkeletonLoader from '../components/loaders/TableSkeletonLoader'
 import { getCommonPinningStyles } from './styles'
 
 type Props<T> = {
@@ -61,14 +60,14 @@ export default function TableBodyContent<T>({
   }
 
   if (isPendingData) {
-    return <TableSkeletonLoader columns={tableColumns} />
+    return null
   }
 
   if (!data.length) {
     return (
       <tr className="h-32">
         <th colSpan={tableColumns}>
-          {noDataComponent ? noDataComponent : 'Pas de données trouvées'}
+          {noDataComponent ? noDataComponent : 'No data found'}
         </th>
       </tr>
     )
@@ -91,7 +90,7 @@ export default function TableBodyContent<T>({
         <tr
           onContextMenu={onContextMenu}
           className={cn(
-            'hover:bg-gray-50 relative mx-4 h-12 cursor-default duration-200',
+            'hover:bg-gray/15 relative mx-4 h-12 cursor-default duration-200',
             row?.getIsSelected() && 'bg-gray-100',
             valueOrNothing(!!onRowClick, 'cursor-pointer'),
             rowClassName?.(row),

@@ -16,7 +16,7 @@ export const Route = createFileRoute('/signup')({
 })
 
 function Signup() {
-  const { setUser } = useAuth<true>()
+  const { setUser } = useAuth()
   const router = useRouter()
 
   const { handleFormSubmit, fields } = useAppForm<{
@@ -27,11 +27,11 @@ function Signup() {
     defaultValues: { email: '', password: '' },
     onSubmit: (data) => {
       const role = data.email.includes('admin') ? 'ADMIN' : 'AUTHOR'
-      setUser({ id: '2', username: data.email, role: role as any, books: [] })
+      setUser({ id: '2', role: role, email: data.email })
       if (role === 'ADMIN') {
-        ;(router as any).navigate({ to: '/users' })
+        router.navigate({ to: '/users' })
       } else {
-        ;(router as any).navigate({ to: '/books' })
+        router.navigate({ to: '/books' })
       }
     },
   })
