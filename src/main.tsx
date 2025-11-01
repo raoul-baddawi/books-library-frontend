@@ -8,6 +8,7 @@ import * as TanStackQueryProvider from './integrations/tanstack-query/root-provi
 import AuthProvider from './lib/providers/AuthProvider.tsx'
 import reportWebVitals from './reportWebVitals.ts'
 import { routeTree } from './routeTree.gen'
+import { Route as NotFoundRoute } from './routes/not-found'
 
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext()
 const router = createRouter({
@@ -19,6 +20,7 @@ const router = createRouter({
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
+  notFoundRoute: NotFoundRoute,
 })
 
 declare module '@tanstack/react-router' {
