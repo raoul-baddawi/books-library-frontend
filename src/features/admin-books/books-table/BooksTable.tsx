@@ -5,10 +5,9 @@ import { encodeId } from '$/lib/utils/misc'
 import { useRouter } from '@tanstack/react-router'
 import DeleteItemComponent from '../../shared/delete-popup/DeleteItemComponent'
 
-import { UserTableType } from './types'
-import UserRoleTableCell from './UserRoleTableCell'
+import { BookTableType } from './types'
 
-const userTableHeaders: TableColumn<UserTableType>[] = [
+const BookTableHeaders: TableColumn<BookTableType>[] = [
   {
     selector: 'id',
     title: 'ID',
@@ -20,46 +19,54 @@ const userTableHeaders: TableColumn<UserTableType>[] = [
   {
     selector: 'createdAt',
     title: 'Creation Date',
-
+    meta: {
+      className: 'w-0 min-w-[120px]',
+    },
     cell: (cell) => {
       return <div>{formatDate(cell.getValue())}</div>
     },
     header: () => <div className="text-start">Creation Date</div>,
   },
   {
-    selector: 'fullName',
-    title: 'Full Name',
-
-    header: () => <div className="text-start">Full Name</div>,
-  },
-  {
-    selector: 'email',
-    title: 'Email',
+    selector: 'name',
+    title: 'Name',
     meta: {
       className: 'w-0 min-w-[320px]',
+    },
+    header: () => <div className="text-start">Name</div>,
+  },
+  {
+    selector: 'description',
+    title: 'Description',
+    meta: {
+      className: 'w-0 min-w-[420px]',
     },
     cell: (cell) => {
       return <div className="min-w-30">{cell.getValue()}</div>
     },
-    header: () => <div className="text-start">Email</div>,
+    header: () => <div className="text-start">Description</div>,
   },
   {
-    selector: 'role',
-    title: 'Role',
+    selector: 'genre',
+    title: 'Genre',
     meta: {
       className: 'w-0 min-w-[220px]',
     },
     cell: (cell) => {
-      return (
-        <div className="w-30 flex">
-          <UserRoleTableCell
-            userRole={cell.getValue()}
-            className="text-center"
-          />
-        </div>
-      )
+      return <div className="w-30 flex">{cell.getValue()}</div>
     },
-    header: () => <div className="text-start">Role</div>,
+    header: () => <div className="text-start">Genre</div>,
+  },
+  {
+    selector: 'authorName',
+    title: 'Author Name',
+    meta: {
+      className: 'w-0 min-w-[220px]',
+    },
+    cell: (cell) => {
+      return <div className="w-30 flex">{cell.getValue()}</div>
+    },
+    header: () => <div className="text-start">Author Name</div>,
   },
   {
     selector: 'actions',
@@ -68,16 +75,13 @@ const userTableHeaders: TableColumn<UserTableType>[] = [
       className: 'w-0 min-w-[100px]',
     },
     cell: (cell) => {
-      if (cell.row.original.role === 'ADMIN') {
-        return <div className="text-center">-</div>
-      }
       return (
         <DeleteItemComponent
-          title="Delete this user?"
-          description="Are you sure you want to delete this user? This action cannot be undone."
-          url={`users/delete/${cell.row.original.id}`}
-          mutationKey={['deleteUser']}
-          invalidateKeys={['getAllUsers']}
+          title="Delete this Book?"
+          description="Are you sure you want to delete this Book? This action cannot be undone."
+          url={`books/delete/${cell.row.original.id}`}
+          mutationKey={['deleteBook']}
+          invalidateKeys={['getAllBooks']}
         />
       )
     },
@@ -85,21 +89,21 @@ const userTableHeaders: TableColumn<UserTableType>[] = [
   },
 ]
 
-export default function UserTable() {
+export default function BookTable() {
   const router = useRouter()
 
   return (
     <div className="flex gap-2.5 rounded-2xl border border-table-gray bg-white grow row-span-2">
-      <EnhancedTable<UserTableType>
+      <EnhancedTable<BookTableType>
         tableClassName="rounded-lg border-none"
         paginatable
         rowClassName={() => 'hover:bg-neutral-light/30'}
         onRowClick={(row) =>
           router.navigate({
-            to: `/user/${encodeId(row.original.id)}`,
+            to: `/book/${encodeId(row.original.id)}`,
           })
         }
-        columns={userTableHeaders}
+        columns={BookTableHeaders}
       />
     </div>
   )

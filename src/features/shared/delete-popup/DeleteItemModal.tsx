@@ -4,6 +4,7 @@ import useDeleteItem from './api'
 import FormBox from './FormBox'
 import FormActionsButtons from './FormActionsButtons'
 import Dialog from '$/lib/components/dialogs/Dialog'
+import { toast } from 'sonner'
 
 export type DeleteItemModalProps = {
   url: string
@@ -30,13 +31,18 @@ export default function DeleteItemModal({
   const handleSubmitDelete = async () => {
     mutateAsync({
       url,
-    }).then(async () => {
-      await queryClient.invalidateQueries({
-        predicate: (query) =>
-          invalidateKeys.includes(query.queryKey[0] as string),
-      })
-      setOpen(false)
     })
+      .then(async () => {
+        await queryClient.invalidateQueries({
+          predicate: (query) =>
+            invalidateKeys.includes(query.queryKey[0] as string),
+        })
+        toast.success('Item deleted successfully')
+        setOpen(false)
+      })
+      .catch(() => {
+        toast.error('Failed to delete the item')
+      })
   }
 
   return (

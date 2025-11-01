@@ -6,19 +6,24 @@ import EnhancedTableComboSelect from '$/features/shared/tables/enhanced-table/En
 import { PlusCircle, RotateCcwIcon } from 'lucide-react'
 import { useState } from 'react'
 import {
-  UserTableFiltersType,
-  UserTableResponseType,
-  UserTableType,
+  BookTableFiltersType,
+  BookTableResponseType,
+  BookTableType,
 } from './types'
 import LinkButton from '$/lib/components/ui/buttons/LinkButton'
-import { USER_ROLES_SELECT_OPTIONS } from '$/lib/constants/select-options'
+import {
+  useAuthorsOptions,
+  useGenreOptions,
+} from '$/lib/api-hooks/api-select-options'
 
-export default function UserTableFilters() {
+export default function BookTableFilters() {
+  const { data: authorOptions } = useAuthorsOptions()
+  const { data: genreOptions } = useGenreOptions()
   const [key, setKey] = useState(0)
   const { resetFilters } = useEnhancedTable<
-    UserTableResponseType,
-    UserTableType,
-    UserTableFiltersType
+    BookTableResponseType,
+    BookTableType,
+    BookTableFiltersType
   >()
 
   const handleResetFilters = () => {
@@ -28,14 +33,14 @@ export default function UserTableFilters() {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between w-full">
-        <h1 className="font-semibold text-2xl">Users</h1>
+        <h1 className="font-semibold text-2xl">Books</h1>
         <LinkButton
-          to="/user/create"
+          to="/book/create"
           variant="btn-primary"
           className="text-white!"
         >
           <PlusCircle />
-          Create User
+          Create Book
         </LinkButton>
       </div>
       <div
@@ -43,14 +48,27 @@ export default function UserTableFilters() {
         key={key}
       >
         <div className="w-full sm:w-fit!">
-          <EnhancedTableSearchFilter placeHolder="Search by name or email." />
+          <EnhancedTableSearchFilter placeHolder="Search by name or description." />
         </div>
         <div className="flex min-h-11 grow flex-wrap items-center justify-end gap-2 xl:flex-nowrap">
-          <EnhancedTableComboSelect
-            initialOptions={USER_ROLES_SELECT_OPTIONS}
-            name="role"
-            placeHolder="Role"
-          />
+          {genreOptions && genreOptions.length > 0 && (
+            <EnhancedTableComboSelect
+              initialOptions={genreOptions}
+              name="genre"
+              multiple
+              autoComplete
+              placeHolder="Genre"
+            />
+          )}
+          {authorOptions && authorOptions.length > 0 && (
+            <EnhancedTableComboSelect
+              initialOptions={authorOptions}
+              name="author"
+              multiple
+              autoComplete
+              placeHolder="Author"
+            />
+          )}
           <button
             onClick={handleResetFilters}
             className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-neutral-light hover:border-red hover:bg-red-light"

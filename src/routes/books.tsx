@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import PrivateLayout from '$/lib/layouts/PrivateLayout'
-import ExamplesListing from '$/features/examples/table-context/ExamplesListing'
+import BooksListing from '$/features/admin-books/books-table/BooksListing'
 
 export const Route = createFileRoute('/books')({
   component: BooksPage,
@@ -9,9 +9,10 @@ export const Route = createFileRoute('/books')({
 
 function BooksPage() {
   return (
-    <PrivateLayout>
-      <h2 className="mb-4 text-xl font-semibold">Books</h2>
-      <ExamplesListing />
-    </PrivateLayout>
+    <div className="col-span-1 row-span-1">
+      <PrivateLayout>
+        <BooksListing />
+      </PrivateLayout>
+    </div>
   )
 }

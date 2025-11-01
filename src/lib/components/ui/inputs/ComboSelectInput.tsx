@@ -13,6 +13,7 @@ export type SelectOption = {
 export type OptionValueType = number | string
 
 interface ComboSelectProps {
+  id?: string
   placeholder?: string
   multiple?: boolean
   autoComplete?: boolean
@@ -38,6 +39,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
   (
     {
       className,
+      id,
       multiple = false,
       name,
       options = [],
@@ -348,7 +350,6 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
           } else if (!isOpen) {
             setIsOpen(true)
           }
-
           break
         case 'Escape':
           e.preventDefault()
@@ -359,7 +360,13 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
           if (isOpen) {
             e.preventDefault()
             setHighlightedIndex((prev) =>
-              prev < filteredOptions.length - 1 ? prev + 1 : 0,
+              e.shiftKey
+                ? prev === 0
+                  ? filteredOptions.length - 1
+                  : prev - 1
+                : prev >= filteredOptions.length - 1
+                  ? 0
+                  : prev + 1,
             )
           }
           break
@@ -397,7 +404,12 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
             onKeyDown={(e) => {
               e.stopPropagation()
             }}
-            onClick={() => !disabled && inputRef.current?.focus()}
+            onClick={() => {
+              if (!autoComplete) {
+                setIsOpen(!isOpen)
+              }
+              !disabled && inputRef.current?.focus()
+            }}
           >
             <span
               className={cn(
@@ -448,11 +460,13 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
               {(autoComplete || !multiple) && (
                 <div
                   className={cn('flex-1', !autoComplete && 'cursor-pointer')}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation()
                     if (!autoComplete && !disabled) setIsOpen(!isOpen)
                   }}
                 >
                   <input
+                    id={id}
                     ref={inputRef}
                     type="text"
                     className={cn(
@@ -468,7 +482,10 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
                     value={getInputDisplayValue()}
                     onChange={handleInputChange}
                     onFocus={() => {
-                      if (!disabled) {
+                      if (
+                        !disabled &&
+                        (multiple || autoComplete || autoAddOptions)
+                      ) {
                         setTimeout(() => {
                           if (!isOpen) {
                             setIsOpen(true)
@@ -543,7 +560,9 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
                           option.isDeleted && 'cursor-not-allowed!',
                         )}
                         disabled={option.isDeleted}
-                        onClick={() => toggleOption(option)}
+                        onClick={() => {
+                          toggleOption(option)
+                        }}
                         onMouseEnter={() => setHighlightedIndex(index)}
                       >
                         {multiple && (

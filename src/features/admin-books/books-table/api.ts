@@ -2,15 +2,15 @@ import { EnhancedTableSorting } from '$/features/shared/tables/enhanced-table'
 import { apiClient } from '$/lib/utils/apiClient'
 import { Pagination } from '$/lib/utils/types'
 
-import { UserTableFiltersType, UserTableResponseType } from './types'
+import { BookTableFiltersType, BookTableResponseType } from './types'
 
-const baseUrl = 'users'
+const baseUrl = 'books'
 
-export const getAllUsers = async (
-  filters?: UserTableFiltersType,
+export const getAllBooks = async (
+  filters?: BookTableFiltersType,
   pagination?: Pagination,
-  sorting?: EnhancedTableSorting<UserTableResponseType>,
-): Promise<UserTableResponseType> => {
+  sorting?: EnhancedTableSorting<BookTableResponseType>,
+): Promise<BookTableResponseType> => {
   return await apiClient
     .post(`${baseUrl}/get-all`, {
       json: { filters, pagination, sorting },

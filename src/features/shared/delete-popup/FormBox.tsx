@@ -17,7 +17,7 @@ export default function FormBox({
   contentClassName,
 }: PropsWithChildren<FormBoxProps>) {
   return (
-    <div className={cn('h-full min-w-sidebar rounded-lg', className)}>
+    <div className={cn('h-full  rounded-lg', className)}>
       {(title || description) && (
         <div className="mb-[22px]">
           <h2 className="text-xl font-bold">{title}</h2>

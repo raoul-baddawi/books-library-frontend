@@ -5,6 +5,7 @@ import useAppForm from '$/features/shared/forms/hooks/useAppForm'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Button from '$/lib/components/ui/buttons/Button'
 import { useRouter } from '@tanstack/react-router'
+import { USER_ROLES_SELECT_OPTIONS } from '$/lib/constants/select-options'
 
 export type UserFormProps = {
   defaultValues?: Partial<DefaultValues<UserFormType>>
@@ -44,7 +45,7 @@ function ManageUserForm({
           </div>
           {/* In real world applications,
            you would want to handle password changes more securely, 
-           we send a code to the user email, then the user would enter that code in a dedicated opt page, 
+           we send a code to the user email, then the user would enter that code in a dedicated otp page, 
            if the code is correct,
            then we allow him to change the password with confirm password */}
           <div className="flex flex-col">
@@ -59,16 +60,7 @@ function ManageUserForm({
             <fields.ComboSelectInput
               label="Role"
               name="role"
-              options={[
-                {
-                  label: 'ADMIN',
-                  value: 'ADMIN',
-                },
-                {
-                  label: 'AUTHOR',
-                  value: 'AUTHOR',
-                },
-              ]}
+              options={USER_ROLES_SELECT_OPTIONS}
             />
           </div>
         </div>

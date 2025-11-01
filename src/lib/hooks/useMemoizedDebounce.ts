@@ -9,7 +9,7 @@ import { isPrimitive } from '../utils/functions'
  * NOTE: make sure to pass primitive values to this hook as non primitive
  * values are mostly always new due to react's immutability pattern
  */
-export default function useMemoizedDebounce<T>(value: T, delay = 300) {
+export default function useMemoizedDebounce<T>(value: T, delay = 500) {
   const [debouncedValue, setDebouncedValue] = useState(value)
   const [memoizedValues, setMemoizedValues] = useState<T[]>([])
 

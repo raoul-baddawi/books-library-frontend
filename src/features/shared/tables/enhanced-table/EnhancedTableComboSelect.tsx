@@ -46,8 +46,8 @@ export default function EnhancedTableComboSelect({
   const [isOpen, setIsOpen] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [selectedValues, setSelectedValues] = useState<
-    OptionValueType[] | OptionValueType
-  >(multiple ? [] : '')
+    OptionValueType[] | OptionValueType | undefined
+  >(multiple ? [] : undefined)
   const [filteredOptions, setFilteredOptions] = useState(initialOptions)
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1)
   const dropdownRef = useRef<HTMLDivElement>(null!)
@@ -173,7 +173,7 @@ export default function EnhancedTableComboSelect({
     }
 
     const newSelected = !multiple
-      ? ''
+      ? undefined
       : (selectedValues as OptionValueType[]).filter((v) => v !== value)
 
     setSelectedValues(newSelected)
@@ -271,7 +271,12 @@ export default function EnhancedTableComboSelect({
             'flex h-full w-full items-center rounded-md border border-neutral-light px-3 py-2 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/25',
             isOpen && 'border-transparent ring-2 ring-primary/25!',
           )}
-          onClick={() => inputRef.current?.focus()}
+          onClick={() => {
+            if (!autoComplete) {
+              setIsOpen(!isOpen)
+            }
+            inputRef.current?.focus()
+          }}
         >
           <div className="flex flex-1 flex-wrap gap-1">
             {showSelectedOptions &&
@@ -315,7 +320,7 @@ export default function EnhancedTableComboSelect({
                 placeholder={
                   selectedLabels.length === 0
                     ? placeHolder
-                    : `Sélectionnées ${selectedLabels.length}`
+                    : `Selected ${selectedLabels.length}`
                 }
                 value={
                   !multiple
@@ -324,13 +329,12 @@ export default function EnhancedTableComboSelect({
                 }
                 onChange={handleInputChange}
                 onFocus={() => {
-                  setTimeout(() => {
-                    // this is to allow the click event to register first
+                  if (multiple || autoComplete || autoAddOptions) {
                     if (!isOpen) {
                       setIsOpen(true)
                     }
-                  }, 100)
-                }} // TODO (@genzzo): remove setTimeout, find a better solution to prevent flickering.
+                  }
+                }}
                 onKeyDown={handleKeyDown}
                 disabled={false}
                 tabIndex={0}
