@@ -126,7 +126,7 @@ const FileInput = forwardRef<HTMLInputElement, Props>(
           const invalidFileNames = missingFiles
             .map((file) => file.name)
             .join(', ')
-          const errorMessage = `Les fichiers suivants sont invalides : ${invalidFileNames}`
+          const errorMessage = `These files failed : ${invalidFileNames}`
           console.error(errorMessage)
         }
 

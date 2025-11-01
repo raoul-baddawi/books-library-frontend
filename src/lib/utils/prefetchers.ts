@@ -1,7 +1,8 @@
 import { QueryClient } from '@tanstack/react-query'
 import { redirect } from '@tanstack/react-router'
-import { apiClient } from './apiClient'
+
 import { AuthUser } from '../providers/AuthProvider'
+import { apiClient } from './apiClient'
 
 export async function ensureAuthenticated(queryClient: QueryClient) {
   const user = await queryClient.ensureQueryData({

@@ -1,9 +1,10 @@
+import { createFileRoute, useParams } from '@tanstack/react-router'
+
 import EditUser from '$/features/admin-users/user-form/EditUser'
 import { UserFormType } from '$/features/admin-users/user-form/validations'
 import useApiQuery from '$/lib/hooks/useApiQuery'
-import { decodeId } from '$/lib/utils/misc'
-import { createFileRoute, useParams } from '@tanstack/react-router'
 import { apiClient } from '$/lib/utils/apiClient'
+import { decodeId } from '$/lib/utils/misc'
 import { ensureAdmin } from '$/lib/utils/prefetchers'
 
 export const Route = createFileRoute('/user/$id')({

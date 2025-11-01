@@ -22,12 +22,12 @@ import { useOnClickOutside } from 'usehooks-ts'
 
 import { cn } from '$/lib/utils/styling'
 
+import TableSkeletonLoader from '../components/loaders/TableSkeletonLoader'
 import ContextMenu from './ContextMenu/ContextMenu'
 import Pagination from './Pagination'
 import { getCommonPinningStyles } from './styles'
 import TableBodyContent from './TableBodyContent'
 import TableRowCheckbox from './TableRowCheckbox'
-import TableSkeletonLoader from '../components/loaders/TableSkeletonLoader'
 
 type TableBaseProps<T> = {
   columns: TableColumn<T>[]

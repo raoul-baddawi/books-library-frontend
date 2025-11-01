@@ -109,7 +109,6 @@ export default function FormComboSelect<
     )
   }, [currentValue])
 
-  console.log(fieldState.error)
   return (
     <Fragment>
       {!!label && <Label htmlFor={name}>{label}</Label>}

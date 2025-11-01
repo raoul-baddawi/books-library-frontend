@@ -1,8 +1,9 @@
 import { createFileRoute, useParams } from '@tanstack/react-router'
+
+import BookDetailPage from '$/features/landing/BookDetailPage'
+import { Book } from '$/features/landing/LandingPage'
 import PublicLayout from '$/lib/layouts/PublicLayout'
 import { apiClient } from '$/lib/utils/apiClient'
-import { Book } from '$/features/landing/LandingPage'
-import BookDetailPage from '$/features/landing/BookDetailPage'
 
 export const Route = createFileRoute('/book-detail/$id')({
   loader: async ({ context, params }) => {

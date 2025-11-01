@@ -1,7 +1,9 @@
-import { cn } from '$/lib/utils/styling'
-import { Book } from './LandingPage'
 import { Link, useRouter } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
+
+import { cn } from '$/lib/utils/styling'
+
+import { Book } from './LandingPage'
 
 const EntityBadge = ({
   label,

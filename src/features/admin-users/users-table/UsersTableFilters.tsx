@@ -1,17 +1,19 @@
-import {
-  useEnhancedTable,
-  EnhancedTableSearchFilter,
-} from '$/features/shared/tables/enhanced-table'
-import EnhancedTableComboSelect from '$/features/shared/tables/enhanced-table/EnhancedTableComboSelect'
 import { PlusCircle, RotateCcwIcon } from 'lucide-react'
 import { useState } from 'react'
+
+import {
+  EnhancedTableSearchFilter,
+  useEnhancedTable,
+} from '$/features/shared/tables/enhanced-table'
+import EnhancedTableComboSelect from '$/features/shared/tables/enhanced-table/EnhancedTableComboSelect'
+import LinkButton from '$/lib/components/ui/buttons/LinkButton'
+import { USER_ROLES_SELECT_OPTIONS } from '$/lib/constants/select-options'
+
 import {
   UserTableFiltersType,
   UserTableResponseType,
   UserTableType,
 } from './types'
-import LinkButton from '$/lib/components/ui/buttons/LinkButton'
-import { USER_ROLES_SELECT_OPTIONS } from '$/lib/constants/select-options'
 
 export default function UserTableFilters() {
   const [key, setKey] = useState(0)

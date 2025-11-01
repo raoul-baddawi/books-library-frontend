@@ -1,4 +1,5 @@
 import z from 'zod'
+
 import type {
   FileSizeType,
   FileValidatorOptions,
@@ -62,7 +63,6 @@ export function isFileBelowMinSize(file: File, minSize: FileSizeType) {
 }
 
 export const getUrlWithoutLastUnderscore = (url: string) => {
-  console.log(url)
   const filename = url?.split('/').pop() || ''
   const lastUnderscore = filename.lastIndexOf('_')
   const lastDot = filename.lastIndexOf('.')

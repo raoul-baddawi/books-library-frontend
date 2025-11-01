@@ -1,10 +1,10 @@
+import { useRouter } from '@tanstack/react-router'
+import { Menu } from 'lucide-react'
 import type { PropsWithChildren } from 'react'
 import { useEffect, useState } from 'react'
-import { useRouter } from '@tanstack/react-router'
 
 import Sidebar from '$/lib/components/Sidebar'
 import { useAuth, UserRoleEnum } from '$/lib/providers/AuthProvider'
-import { Menu } from 'lucide-react'
 
 export default function PrivateLayout({ children }: PropsWithChildren) {
   const { user, role, isFetching } = useAuth()

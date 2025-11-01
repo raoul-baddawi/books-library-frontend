@@ -1,9 +1,11 @@
-import { UserFormType } from './validations'
+import { useRouter } from '@tanstack/react-router'
+
+import PageLoader from '$/lib/components/loaders/PgaeLoader'
 import useApiMutation from '$/lib/hooks/useApiMutation'
 import { apiClient } from '$/lib/utils/apiClient'
+
 import ManageUserForm from './ManageUserForm'
-import { useRouter } from '@tanstack/react-router'
-import PageLoader from '$/lib/components/loaders/PgaeLoader'
+import { UserFormType } from './validations'
 
 type EditUserProps = {
   data?: UserFormType
@@ -36,7 +38,6 @@ function EditUser({ data, id }: EditUserProps) {
       }
       defaultValues={data}
       isEditMode
-      onInvalidSubmit={(errors) => console.log(errors)}
     />
   )
 }

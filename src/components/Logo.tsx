@@ -1,6 +1,7 @@
-import { cn } from '$/lib/utils/styling'
 import { Link, useRouter } from '@tanstack/react-router'
 import { LucideLibraryBig } from 'lucide-react'
+
+import { cn } from '$/lib/utils/styling'
 
 function Logo({ className }: { className?: string }) {
   const router = useRouter()

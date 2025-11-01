@@ -1,22 +1,26 @@
-import {
-  useEnhancedTable,
-  EnhancedTableSearchFilter,
-} from '$/features/shared/tables/enhanced-table'
-import EnhancedTableComboSelect from '$/features/shared/tables/enhanced-table/EnhancedTableComboSelect'
 import { PlusCircle, RotateCcwIcon } from 'lucide-react'
 import { useState } from 'react'
+
+import {
+  EnhancedTableSearchFilter,
+  useEnhancedTable,
+} from '$/features/shared/tables/enhanced-table'
+import EnhancedTableComboSelect from '$/features/shared/tables/enhanced-table/EnhancedTableComboSelect'
+import {
+  useAuthorsOptions,
+  useGenreOptions,
+} from '$/lib/api-hooks/api-select-options'
+import LinkButton from '$/lib/components/ui/buttons/LinkButton'
+import { useAuth } from '$/lib/providers/AuthProvider'
+
 import {
   BookTableFiltersType,
   BookTableResponseType,
   BookTableType,
 } from './types'
-import LinkButton from '$/lib/components/ui/buttons/LinkButton'
-import {
-  useAuthorsOptions,
-  useGenreOptions,
-} from '$/lib/api-hooks/api-select-options'
 
 export default function BookTableFilters() {
+  const { user } = useAuth()
   const { data: authorOptions } = useAuthorsOptions()
   const { data: genreOptions } = useGenreOptions()
   const [key, setKey] = useState(0)
@@ -60,15 +64,17 @@ export default function BookTableFilters() {
               placeHolder="Genre"
             />
           )}
-          {authorOptions && authorOptions?.length > 0 && (
-            <EnhancedTableComboSelect
-              initialOptions={authorOptions}
-              name="author"
-              multiple
-              autoComplete
-              placeHolder="Author"
-            />
-          )}
+          {user.role === 'ADMIN' &&
+            authorOptions &&
+            authorOptions?.length > 0 && (
+              <EnhancedTableComboSelect
+                initialOptions={authorOptions}
+                name="author"
+                multiple
+                autoComplete
+                placeHolder="Author"
+              />
+            )}
           <button
             onClick={handleResetFilters}
             className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-neutral-light hover:border-red hover:bg-red-light"

@@ -1,301 +1,356 @@
-Welcome to your new TanStack app! 
+# Books Library Frontend
 
-# Getting Started
+A modern web application for managing and browsing books, built with React, TanStack Router, and TanStack Query.
 
-To run this application:
+---
+
+## 📋 Table of Contents
+
+- [Setup Instructions](#setup-instructions)
+- [Application Overview](#application-overview)
+- [User Roles & Permissions](#user-roles--permissions)
+- [Application Flow](#application-flow)
+- [Routes](#routes)
+- [Environment Variables](#environment-variables)
+- [Development Scripts](#development-scripts)
+- [Code Quality](#code-quality)
+- [Live Demo](#live-demo)
+
+---
+
+## 🚀 Setup Instructions
+
+### Prerequisites
+
+- **Node.js** (v18 or higher)
+- **pnpm** (v8 or higher)
+
+### Installation Steps
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd books-library-frontend
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Configure environment variables**
+
+   Create a `.env` file in the root directory with the following:
+
+   ```env
+   VITE_BASE_API_URL=<your-backend-api-url>
+   ```
+
+   ⚠️ **Important:** The environment variable **must** start with `VITE_` prefix for Vite to expose it to the client-side code. If you want to use a different name, ensure it starts with `VITE_`.
+
+4. **Start the development server**
+
+   ```bash
+   pnpm dev
+   ```
+
+   The application will be available at `http://localhost:3000`
+
+### Alternative Scripts
+
+- **Build for production:**
+
+  ```bash
+  pnpm build
+  ```
+
+- **Preview production build:**
+  ```bash
+  pnpm serve
+  ```
+
+---
+
+## 📖 Application Overview
+
+The Books Library application is a full-featured content management system for books with the following capabilities:
+
+- **Public book browsing** - Anyone can view and search books
+- **User authentication** - Login/Signup functionality
+- **Role-based access control** - Different permissions for admins and authors
+- **Book management** - Create, edit, and delete books
+- **User management** - Admin-only user administration
+- **Advanced filtering** - Search and filter books by genre or by author (admin user)
+- **Media uploads** - Support for book cover images
+
+---
+
+## 👥 User Roles & Permissions
+
+The application supports **two user roles** with distinct permissions:
+
+### 1. **ADMIN**
+
+**Full system access**
+
+- ✅ View all books
+- ✅ Create new books
+- ✅ Edit any book
+- ✅ Delete any book
+- ✅ View all users
+- ✅ Create new users
+- ✅ Edit users
+- ✅ Delete users (except other admins)
+- ✅ Access to `/users` and `/books` routes
+
+### 2. **AUTHOR**
+
+**Limited to book management**
+
+- ✅ View all books
+- ✅ Create new books
+- ✅ Edit their own books
+- ✅ Delete their own books
+- ❌ Cannot access user management
+- ✅ Access to `/books` route only
+
+---
+
+## 🔄 Application Flow
+
+### Public Access
+
+1. **Landing Page (`/`)**
+   - Publicly accessible without authentication
+   - Browse all available books
+   - Search books by title/description
+   - Filter books by genre
+   - View book details
+   - Access to Login/Signup
+
+### Authentication Flow
+
+2. **Login (`/login`)**
+   - Users can authenticate with email and password
+   - Redirects to appropriate dashboard based on role:
+     - **ADMIN** → `/users`
+     - **AUTHOR** → `/books`
+
+3. **Signup (`/signup`)**
+   - New users can create an account
+   - Automatic role assignment based on registration
+
+### Protected Routes
+
+4. **Books Management (`/books`)**
+   - Accessible by: **ADMIN** and **AUTHOR**
+   - Features:
+     - View all books in a table
+     - Search and filter books
+     - Sort by creation date
+     - Click a row to edit the book
+     - Create new books via `/book/create`
+     - Edit books via `/book/:id`
+     - Delete books (with confirmation)
+
+5. **Users Management (`/users`)**
+   - Accessible by: **ADMIN only**
+   - Features:
+     - View all users in a table
+     - Search and filter users
+     - Sort by creation date
+     - Click a row to edit the user
+     - Create new users via `/user/create`
+     - Edit users via `/user/:id`
+     - Delete users (except admins, with confirmation)
+
+### Resource Management
+
+Each user can perform **CRUD operations** on their accessible resources:
+
+- **Create**: Add new books/users (where permitted)
+- **Read**: View books/users in tables and detail pages
+- **Update**: Edit existing books/users
+- **Delete**: Remove books/users with confirmation dialog
+
+---
+
+## 🗺️ Routes
+
+### Public Routes
+
+- `/` - Landing page with book listings
+- `/login` - User login
+- `/signup` - User registration
+- `/book-detail/:id` - Public book detail page
+
+### Protected Routes (Requires Authentication)
+
+- `/books` - Books management table (Admin & Author)
+- `/book/create` - Create new book (Admin & Author)
+- `/book/:id` - Edit book (Admin & Author)
+- `/users` - Users management table (**Admin only**)
+- `/user/create` - Create new user (**Admin only**)
+- `/user/:id` - Edit user (**Admin only**)
+
+### Special Routes
+
+- `/unauthorized` - Shown when accessing restricted routes
+- `/not-found` - 404 page for non-existent routes
+
+---
+
+## 🔐 Environment Variables
+
+The application requires the following environment variable:
+
+| Variable            | Required | Description          | Example                     |
+| ------------------- | -------- | -------------------- | --------------------------- |
+| `VITE_BASE_API_URL` | Yes      | Backend API base URL | `http://localhost:3001/api` |
+
+⚠️ **Critical Notes:**
+
+- The variable name **must** start with `VITE_` prefix
+- Vite only exposes variables prefixed with `VITE_` to the client
+- If you change the variable name, ensure it starts with `VITE_`
+- Restart the dev server after modifying `.env`
+
+---
+
+## 🛠️ Development Scripts
+
+| Command           | Description                                       |
+| ----------------- | ------------------------------------------------- |
+| `pnpm dev`        | Start development server on port 3000             |
+| `pnpm build`      | Build for production (includes type checking)     |
+| `pnpm serve`      | Preview production build                          |
+| `pnpm test`       | Run tests with Vitest                             |
+| `pnpm type:check` | Run TypeScript type checking                      |
+| `pnpm lint`       | Lint and auto-fix code with ESLint                |
+| `pnpm format`     | Format code with Prettier                         |
+| `pnpm pre-commit` | Run all quality checks (type-check, lint, format) |
+
+---
+
+## ✨ Code Quality
+
+This project maintains high code quality standards:
+
+### Pre-commit Hook
+
+The `pre-commit` script runs before every commit to ensure code quality:
 
 ```bash
-pnpm install
-pnpm start
+pnpm pre-commit
 ```
 
-# Building For Production
+This command:
 
-To build this application for production:
+1. **Type checks** all TypeScript files
+2. **Lints** code with ESLint (auto-fixes issues)
+3. **Formats** code with Prettier
 
-```bash
-pnpm build
+All checks must pass before the commit is allowed.
+
+### Code Quality Tools
+
+- **TypeScript** - Static type checking
+- **ESLint** - Code linting with:
+  - TanStack configuration
+  - React hooks rules
+  - Unused imports detection
+  - Import sorting
+- **Prettier** - Code formatting
+- **Vitest** - Unit testing
+
+---
+
+## 🌐 Live Demo
+
+Visit the live application at:
+
+**[Your Live Demo URL Here]**
+
+> 💡 Replace this with the actual deployment URL when available
+
+---
+
+## 🏗️ Tech Stack
+
+- **React 19** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Build tool and dev server
+- **TanStack Router** - File-based routing
+- **TanStack Query** - Data fetching and caching
+- **TanStack Table** - Advanced table management
+- **Tailwind CSS** - Utility-first styling
+- **React Hook Form** - Form management
+- **Zod** - Schema validation
+- **Radix UI** - Accessible UI primitives
+- **Framer Motion** - Animations
+- **Ky** - HTTP client
+- **Sonner** - Toast notifications
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── components/          # Shared components (Header, Logo)
+├── features/           # Feature-based modules
+│   ├── admin-books/   # Book management feature
+│   ├── admin-users/   # User management feature
+│   ├── landing/       # Public landing page
+│   └── shared/        # Shared feature components
+├── lib/               # Shared utilities and components
+│   ├── api-hooks/    # API-related hooks
+│   ├── components/   # Reusable UI components
+│   ├── constants/    # App-wide constants
+│   ├── hooks/        # Custom React hooks
+│   ├── layouts/      # Layout components
+│   ├── providers/    # Context providers
+│   └── utils/        # Utility functions
+├── routes/           # TanStack Router file-based routes
+└── main.tsx          # Application entry point
 ```
 
-## Testing
+---
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+## 🤝 Contributing
 
-```bash
-pnpm test
-```
+When contributing to this project:
 
-## Styling
+1. Ensure all environment variables are properly configured
+2. Run `pnpm pre-commit` before committing
+3. Follow the existing code structure and patterns
+4. Write tests for new features
+5. Update documentation as needed
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
+---
 
+## 🐛 Troubleshooting
 
-## Linting & Formatting
+### Common Issues
 
+**Issue: API calls failing**
 
-This project uses [eslint](https://eslint.org/) and [prettier](https://prettier.io/) for linting and formatting. Eslint is configured using [tanstack/eslint-config](https://tanstack.com/config/latest/docs/eslint). The following scripts are available:
+- Ensure `VITE_BASE_API_URL` is set correctly in `.env`
+- Verify the backend server is running
+- Check that the environment variable starts with `VITE_`
 
-```bash
-pnpm lint
-pnpm format
-pnpm check
-```
+**Issue: Changes not reflected after `.env` update**
 
+- Restart the development server (`pnpm dev`)
+- Clear browser cache
 
+**Issue: Build errors**
 
-## Routing
-This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `src/routes`.
+- Run `pnpm type:check` to identify TypeScript errors
+- Run `pnpm lint` to fix linting issues
 
-### Adding A Route
+---
 
-To add a new route to your application just add another a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
-```
-
-Then anywhere in your JSX you can use it like so:
-
-```tsx
-<Link to="/about">About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you use the `<Outlet />` component.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-
-import { Link } from "@tanstack/react-router";
-
-export const Route = createRootRoute({
-  component: () => (
-    <>
-      <header>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-        </nav>
-      </header>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
-})
-```
-
-The `<TanStackRouterDevtools />` component is not required so you can remove it if you don't want it in your layout.
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-const peopleRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/people",
-  loader: async () => {
-    const response = await fetch("https://swapi.dev/api/people");
-    return response.json() as Promise<{
-      results: {
-        name: string;
-      }[];
-    }>;
-  },
-  component: () => {
-    const data = peopleRoute.useLoaderData();
-    return (
-      <ul>
-        {data.results.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    );
-  },
-});
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-### React-Query
-
-React-Query is an excellent addition or alternative to route loading and integrating it into you application is a breeze.
-
-First add your dependencies:
-
-```bash
-pnpm add @tanstack/react-query @tanstack/react-query-devtools
-```
-
-Next we'll need to create a query client and provider. We recommend putting those in `main.tsx`.
-
-```tsx
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-// ...
-
-const queryClient = new QueryClient();
-
-// ...
-
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-
-  root.render(
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  );
-}
-```
-
-You can also add TanStack Query Devtools to the root route (optional).
-
-```tsx
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <ReactQueryDevtools buttonPosition="top-right" />
-      <TanStackRouterDevtools />
-    </>
-  ),
-});
-```
-
-Now you can use `useQuery` to fetch your data.
-
-```tsx
-import { useQuery } from "@tanstack/react-query";
-
-import "./App.css";
-
-function App() {
-  const { data } = useQuery({
-    queryKey: ["people"],
-    queryFn: () =>
-      fetch("https://swapi.dev/api/people")
-        .then((res) => res.json())
-        .then((data) => data.results as { name: string }[]),
-    initialData: [],
-  });
-
-  return (
-    <div>
-      <ul>
-        {data.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default App;
-```
-
-You can find out everything you need to know on how to use React-Query in the [React-Query documentation](https://tanstack.com/query/latest/docs/framework/react/overview).
-
-## State Management
-
-Another common requirement for React applications is state management. There are many options for state management in React. TanStack Store provides a great starting point for your project.
-
-First you need to add TanStack Store as a dependency:
-
-```bash
-pnpm add @tanstack/store
-```
-
-Now let's create a simple counter in the `src/App.tsx` file as a demonstration.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-function App() {
-  const count = useStore(countStore);
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-    </div>
-  );
-}
-
-export default App;
-```
-
-One of the many nice features of TanStack Store is the ability to derive state from other state. That derived state will update when the base state updates.
-
-Let's check this out by doubling the count using derived state.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store, Derived } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-const doubledStore = new Derived({
-  fn: () => countStore.state * 2,
-  deps: [countStore],
-});
-doubledStore.mount();
-
-function App() {
-  const count = useStore(countStore);
-  const doubledCount = useStore(doubledStore);
-
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-      <div>Doubled - {doubledCount}</div>
-    </div>
-  );
-}
-
-export default App;
-```
-
-We use the `Derived` class to create a new store that is derived from another store. The `Derived` class has a `mount` method that will start the derived store updating.
-
-Once we've created the derived store we can use it in the `App` component just like we would any other store using the `useStore` hook.
-
-You can find out everything you need to know on how to use TanStack Store in the [TanStack Store documentation](https://tanstack.com/store/latest).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
+**Built with ❤️ using modern React and TanStack tools by Raoul Baddawi**

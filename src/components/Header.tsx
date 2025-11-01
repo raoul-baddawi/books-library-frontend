@@ -1,6 +1,8 @@
-import { useAuth } from '$/lib/providers/AuthProvider'
 import { Link, useRouter } from '@tanstack/react-router'
 import { CircleUser } from 'lucide-react'
+
+import { useAuth } from '$/lib/providers/AuthProvider'
+
 import Logo from './Logo'
 
 export default function Header() {
@@ -15,8 +17,8 @@ export default function Header() {
     router.preloadRoute({ to: targetRoute })
   }
 
-  const firstName = user?.fullName?.split(' ')[0] || ''
-  const lastName = user.fullName?.split(' ')[1] || ''
+  const firstName = user ? user?.fullName?.split(' ')[0] || '' : ''
+  const lastName = user ? user?.fullName?.split(' ')[1] || '' : ''
   const firstCharacters =
     firstName.charAt(0).toUpperCase() +
     (lastName ? lastName.charAt(0).toUpperCase() : '')

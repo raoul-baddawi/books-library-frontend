@@ -250,7 +250,7 @@ const FileListPreview = <
                       <div className="mx-auto flex w-full flex-col gap-2 p-2">
                         <p className="mt-1 flex items-center gap-2 text-sm text-neutral-medium">
                           <p className="text-xs">
-                            Téléchargement en cours...
+                            Uploading...
                             {` ${uploadProgress[(item as File).name] ? uploadProgress[(item as File).name].progress : 0}%`}
                           </p>
                           <div
@@ -286,7 +286,7 @@ const FileListPreview = <
                 </div>
               ) : item instanceof File ? (
                 <p className="mx-auto flex h-full w-[60%] items-center justify-center text-center text-sm text-neutral-medium">
-                  Type de fichier non pris en charge
+                  Unsupported file type
                 </p>
               ) : (
                 item &&
@@ -302,10 +302,7 @@ const FileListPreview = <
               )}
             </div>
 
-            <Dialog.RawBody
-              title="Aperçu de l'image"
-              description="Cliquez pour fermer"
-            >
+            <Dialog.RawBody title="Image Preview" description="Click to close">
               <Dialog.Close asChild>
                 <button className="absolute -top-2 -right-2 flex size-6 items-center justify-center rounded-full border border-black bg-white p-1">
                   <XIcon />

@@ -1,10 +1,12 @@
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+
 import { useGenreOptions } from '$/lib/api-hooks/api-select-options'
 import { OptionValueType } from '$/lib/components/ui/inputs/ComboSelectInput'
 import useMemoizedDebounce from '$/lib/hooks/useMemoizedDebounce'
-import { useInfiniteQuery } from '@tanstack/react-query'
-import { useState } from 'react'
-import { Book } from './LandingPage'
 import { apiClient } from '$/lib/utils/apiClient'
+
+import { Book } from './LandingPage'
 
 const BOOKS_LIMIT = 10
 
@@ -29,8 +31,7 @@ async function fetchBooks({
       })
       .json()
     return result || []
-  } catch (error) {
-    console.error('Error fetching books:', error)
+  } catch {
     return []
   }
 }
@@ -51,7 +52,6 @@ export default function useLandingPageListings() {
         search: debouncedSearchText,
       }),
     getNextPageParam: (lastPage, allPages) => {
-      console.log({ lastPage, allPages })
       if (!lastPage || !Array.isArray(lastPage) || !allPages) return undefined
       return lastPage?.length === BOOKS_LIMIT ? allPages?.length + 1 : undefined
     },
@@ -61,8 +61,7 @@ export default function useLandingPageListings() {
   })
 
   return {
-    ...infniteQuery,
-    data: infniteQuery.data?.pages?.flat() ?? [],
+    infniteQueryData: infniteQuery,
     genre,
     setGenre,
     search,

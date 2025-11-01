@@ -1,8 +1,10 @@
-import ManageUserForm from './ManageUserForm'
-import useApiMutation from '$/lib/hooks/useApiMutation'
-import { UserFormType } from './validations'
-import { apiClient } from '$/lib/utils/apiClient'
 import { useRouter } from '@tanstack/react-router'
+
+import useApiMutation from '$/lib/hooks/useApiMutation'
+import { apiClient } from '$/lib/utils/apiClient'
+
+import ManageUserForm from './ManageUserForm'
+import { UserFormType } from './validations'
 
 function CreateUser() {
   const router = useRouter()

@@ -1,7 +1,8 @@
+import React from 'react'
+
 import ComboSelect from '$/lib/components/ui/inputs/ComboSelectInput'
 import Label from '$/lib/components/ui/inputs/Label'
 import TextInput from '$/lib/components/ui/inputs/TextInput'
-import React from 'react'
 
 type Props = {
   search: string

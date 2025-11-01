@@ -1,11 +1,13 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from '@tanstack/react-router'
 import { DefaultValues, FieldErrors } from 'react-hook-form'
-import { userFormSchema, UserFormType } from './validations'
+
 import FormBox from '$/features/shared/delete-popup/FormBox'
 import useAppForm from '$/features/shared/forms/hooks/useAppForm'
-import { zodResolver } from '@hookform/resolvers/zod'
 import Button from '$/lib/components/ui/buttons/Button'
-import { useRouter } from '@tanstack/react-router'
 import { USER_ROLES_SELECT_OPTIONS } from '$/lib/constants/select-options'
+
+import { userFormSchema, UserFormType } from './validations'
 
 export type UserFormProps = {
   defaultValues?: Partial<DefaultValues<UserFormType>>

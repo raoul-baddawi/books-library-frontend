@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
-import PublicLayout from '$/lib/layouts/PublicLayout'
+
 import LandingPage from '$/features/landing/LandingPage'
+import PublicLayout from '$/lib/layouts/PublicLayout'
 import { apiClient } from '$/lib/utils/apiClient'
 
 export const Route = createFileRoute('/')({

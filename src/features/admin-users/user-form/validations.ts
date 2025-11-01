@@ -1,5 +1,6 @@
-import { UserRoleEnum } from '$/lib/providers/AuthProvider'
 import { z } from 'zod'
+
+import { UserRoleEnum } from '$/lib/providers/AuthProvider'
 
 export const zodRoleEnumSchema = z.enum([
   UserRoleEnum.ADMIN,

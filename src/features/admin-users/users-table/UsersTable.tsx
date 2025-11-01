@@ -1,3 +1,6 @@
+import { useRouter } from '@tanstack/react-router'
+import { useDebounceCallback } from 'usehooks-ts'
+
 import {
   EnhancedTable,
   EnhancedTableSortableColumnHeader,
@@ -5,12 +8,10 @@ import {
 import { TableColumn } from '$/features/shared/tables/table/Table'
 import { formatDate } from '$/lib/utils/date.functions'
 import { encodeId } from '$/lib/utils/misc'
-import { useRouter } from '@tanstack/react-router'
-import DeleteItemComponent from '../../shared/delete-popup/DeleteItemComponent'
 
+import DeleteItemComponent from '../../shared/delete-popup/DeleteItemComponent'
 import { UserTableType } from './types'
 import UserRoleTableCell from './UserRoleTableCell'
-import { useDebounceCallback } from 'usehooks-ts'
 
 const userTableHeaders: TableColumn<UserTableType>[] = [
   {

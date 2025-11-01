@@ -1,5 +1,6 @@
 import { UserRoleType } from '$/lib/providers/AuthProvider'
 import { cn } from '$/lib/utils/styling'
+
 import { roleColors, roleLabels } from './constants'
 
 type UserRoleTableCellProps = {

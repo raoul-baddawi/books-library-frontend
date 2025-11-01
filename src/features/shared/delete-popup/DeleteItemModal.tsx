@@ -1,10 +1,11 @@
 import { useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
+
+import Dialog from '$/lib/components/dialogs/Dialog'
 
 import useDeleteItem from './api'
-import FormBox from './FormBox'
 import FormActionsButtons from './FormActionsButtons'
-import Dialog from '$/lib/components/dialogs/Dialog'
-import { toast } from 'sonner'
+import FormBox from './FormBox'
 
 export type DeleteItemModalProps = {
   url: string

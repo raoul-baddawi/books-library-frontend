@@ -1,5 +1,5 @@
-import { motion, AnimatePresence } from 'framer-motion'
-import { UploadIcon, Sparkles } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Sparkles, UploadIcon } from 'lucide-react'
 
 type DragDropFileInputComponentProps = {
   isDragging?: boolean

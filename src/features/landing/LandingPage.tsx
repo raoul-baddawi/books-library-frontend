@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react'
-import BooksLoader from './BooksLoader'
 
 import BookCard from './BookCard'
 import BooksListingFilters from './BooksListingFilters'
+import BooksLoader from './BooksLoader'
 import useLandingPageListings from './useLandingPageListings'
 
 export type Book = {
@@ -18,13 +18,15 @@ export type Book = {
 
 export default function LandingPage() {
   const {
-    data,
-    isLoading,
-    isError,
-    fetchNextPage,
-    isFetchingNextPage,
-    hasNextPage,
-    refetch,
+    infniteQueryData: {
+      isLoading,
+      isError,
+      fetchNextPage,
+      isFetchingNextPage,
+      hasNextPage,
+      refetch,
+      data,
+    },
     genre,
     setGenre,
     search,
@@ -48,9 +50,10 @@ export default function LandingPage() {
       }
     })
 
-    if (loaderRef.current) observer.observe(loaderRef.current)
+    const currentLoader = loaderRef.current
+    if (currentLoader) observer.observe(currentLoader)
     return () => {
-      if (loaderRef.current) observer.unobserve(loaderRef.current)
+      if (currentLoader) observer.unobserve(currentLoader)
     }
   }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
@@ -58,7 +61,7 @@ export default function LandingPage() {
     refetch()
   }, [genre, refetch])
 
-  const books: Book[] = data ?? []
+  const books: Book[] = data?.pages?.flat() || []
 
   return (
     <div className="min-h-screen pb-20 px-5">

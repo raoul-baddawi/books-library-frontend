@@ -1,11 +1,13 @@
-import { ArrowLeft, Calendar, User } from 'lucide-react'
 import { useRouter } from '@tanstack/react-router'
+import { ArrowLeft, Calendar, User } from 'lucide-react'
 import { useState } from 'react'
+
+import PageLoader from '$/lib/components/loaders/PgaeLoader'
 import useApiQuery from '$/lib/hooks/useApiQuery'
-import { Book } from './LandingPage'
 import { apiClient } from '$/lib/utils/apiClient'
 import { cn } from '$/lib/utils/styling'
-import PageLoader from '$/lib/components/loaders/PgaeLoader'
+
+import { Book } from './LandingPage'
 
 interface BookDetailPageProps {
   bookId: string

@@ -1,9 +1,11 @@
-import { BookOpen, LogOut, User } from 'lucide-react'
 import { useRouter } from '@tanstack/react-router'
+import { BookOpen, LogOut, User } from 'lucide-react'
+
+import Logo from '$/components/Logo'
 import { useAuth } from '$/lib/providers/AuthProvider'
+
 import { cn } from '../utils/styling'
 import Button from './ui/buttons/Button'
-import Logo from '$/components/Logo'
 
 interface SidebarProps {
   isOpen: boolean

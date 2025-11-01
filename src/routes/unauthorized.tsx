@@ -1,6 +1,7 @@
-import Button from '$/lib/components/ui/buttons/Button'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { Ban } from 'lucide-react'
+
+import Button from '$/lib/components/ui/buttons/Button'
 
 export const Route = createFileRoute('/unauthorized')({
   component: Unauthorized,

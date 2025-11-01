@@ -1,5 +1,6 @@
-import DotLoader from './DotLoader'
 import { cn } from '$/lib/utils/styling'
+
+import DotLoader from './DotLoader'
 type Props = {
   className?: string
 }

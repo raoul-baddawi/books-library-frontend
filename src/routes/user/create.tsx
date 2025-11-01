@@ -1,5 +1,6 @@
-import CreateUser from '$/features/admin-users/user-form/CreateUser'
 import { createFileRoute } from '@tanstack/react-router'
+
+import CreateUser from '$/features/admin-users/user-form/CreateUser'
 import { ensureAdmin } from '$/lib/utils/prefetchers'
 
 export const Route = createFileRoute('/user/create')({

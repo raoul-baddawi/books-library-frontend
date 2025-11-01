@@ -1,15 +1,16 @@
-import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
+/* eslint-disable react-refresh/only-export-components */
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
+import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
+import { useEffect } from 'react'
+import { toast } from 'sonner'
 import z from 'zod'
 
 import useAppForm from '$/features/shared/forms/hooks/useAppForm'
 import Button from '$/lib/components/ui/buttons/Button'
-import { apiClient } from '$/lib/utils/apiClient'
 import useApiMutation from '$/lib/hooks/useApiMutation'
-import { useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '$/lib/providers/AuthProvider'
-import { useEffect } from 'react'
-import { toast } from 'sonner'
+import { apiClient } from '$/lib/utils/apiClient'
 
 export const loginSchema = z.object({
   email: z.string().email(),

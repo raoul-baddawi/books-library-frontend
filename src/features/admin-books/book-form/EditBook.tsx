@@ -1,14 +1,16 @@
-import { BookFormType } from './validations'
+import { useRouter } from '@tanstack/react-router'
+
+import {
+  useAuthorsOptions,
+  useGenreOptions,
+} from '$/lib/api-hooks/api-select-options'
+import PageLoader from '$/lib/components/loaders/PgaeLoader'
 import useApiMutation from '$/lib/hooks/useApiMutation'
 import { apiClient } from '$/lib/utils/apiClient'
-import { useRouter } from '@tanstack/react-router'
-import PageLoader from '$/lib/components/loaders/PgaeLoader'
-import ManageBookForm from './ManageBookForm'
-import {
-  useGenreOptions,
-  useAuthorsOptions,
-} from '$/lib/api-hooks/api-select-options'
 import { filterAndJoinUploadedFilesWithUrls } from '$/lib/utils/media-utils/functions'
+
+import ManageBookForm from './ManageBookForm'
+import { BookFormType } from './validations'
 
 type EditBookProps = {
   data?: BookFormType
@@ -49,7 +51,6 @@ function EditBook({ data, id }: EditBookProps) {
       }
       defaultValues={data}
       isEditMode
-      onInvalidSubmit={(errors) => console.log(errors)}
       authorsOptions={authorsOptions}
       genreOptions={genreOptions}
       isGenrePending={isGenrePending}

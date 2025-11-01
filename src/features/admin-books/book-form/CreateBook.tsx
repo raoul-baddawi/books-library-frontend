@@ -1,19 +1,23 @@
-import ManageBookForm from './ManageBookForm'
-import useApiMutation from '$/lib/hooks/useApiMutation'
-import { BookFormType } from './validations'
-import { apiClient } from '$/lib/utils/apiClient'
 import { useRouter } from '@tanstack/react-router'
+
 import {
-  useGenreOptions,
   useAuthorsOptions,
+  useGenreOptions,
 } from '$/lib/api-hooks/api-select-options'
+import useApiMutation from '$/lib/hooks/useApiMutation'
+import { useAuth } from '$/lib/providers/AuthProvider'
+import { apiClient } from '$/lib/utils/apiClient'
 import { filterAndJoinUploadedFilesWithUrls } from '$/lib/utils/media-utils/functions'
+
+import ManageBookForm from './ManageBookForm'
+import { BookFormType } from './validations'
 
 function CreateBook() {
   const router = useRouter()
   const { data: genreOptions, isPending: isGenrePending } = useGenreOptions()
   const { data: authorsOptions, isPending: isAuthorsPending } =
     useAuthorsOptions()
+  const { user } = useAuth()
 
   const { mutateAsync, isPending } = useApiMutation({
     mutationFn: async (data: BookFormType) => {
@@ -24,6 +28,7 @@ function CreateBook() {
       return apiClient.post('Books', {
         json: {
           ...data,
+          authorId: user.role === 'AUTHOR' ? user.id.toString() : data.authorId,
           media,
         },
       })
@@ -33,7 +38,7 @@ function CreateBook() {
   return (
     <ManageBookForm
       defaultValues={{
-        authorId: '',
+        authorId: user.role === 'AUTHOR' ? user.id.toString() : '',
         genre: '',
         description: '',
         name: '',
@@ -44,7 +49,6 @@ function CreateBook() {
           router.history.back()
         })
       }
-      onInvalidSubmit={(errors) => console.log(errors)}
       authorsOptions={authorsOptions}
       genreOptions={genreOptions}
       isGenrePending={isGenrePending}

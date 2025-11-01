@@ -1,13 +1,16 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from '@tanstack/react-router'
 import { DefaultValues, FieldErrors } from 'react-hook-form'
-import { bookFormSchema, BookFormType } from './validations'
+
 import FormBox from '$/features/shared/delete-popup/FormBox'
 import useAppForm from '$/features/shared/forms/hooks/useAppForm'
-import { zodResolver } from '@hookform/resolvers/zod'
-import Button from '$/lib/components/ui/buttons/Button'
-import { useRouter } from '@tanstack/react-router'
 import { SelectOptionType } from '$/lib/api-hooks/api-select-options'
-import FileInputUiComponent from '$/lib/components/ui/FileInputUiComponent'
+import Button from '$/lib/components/ui/buttons/Button'
 import DragDropFileInputComponent from '$/lib/components/ui/DragDropFileInputComponent'
+import FileInputUiComponent from '$/lib/components/ui/FileInputUiComponent'
+import { useAuth } from '$/lib/providers/AuthProvider'
+
+import { bookFormSchema, BookFormType } from './validations'
 
 export type BookFormProps = {
   defaultValues?: Partial<DefaultValues<BookFormType>>
@@ -38,6 +41,7 @@ function ManageBookForm({
     onSubmit,
     onInvalidSubmit,
   })
+  const { user } = useAuth()
   return (
     <form onSubmit={handleFormSubmit} className="w-full">
       <FormBox className="w-full">
@@ -68,15 +72,17 @@ function ManageBookForm({
             />
           </div>
 
-          <div className="flex flex-col">
-            <fields.ComboSelectInput
-              label="Author"
-              name="authorId"
-              autoComplete
-              options={authorsOptions}
-              disabled={isAuthorsPending}
-            />
-          </div>
+          {user.role === 'ADMIN' && (
+            <div className="flex flex-col">
+              <fields.ComboSelectInput
+                label="Author"
+                name="authorId"
+                autoComplete
+                options={authorsOptions}
+                disabled={isAuthorsPending}
+              />
+            </div>
+          )}
         </div>
         <div className="grid grid-cols-1 gap-4 w-full">
           <div className="flex flex-col">

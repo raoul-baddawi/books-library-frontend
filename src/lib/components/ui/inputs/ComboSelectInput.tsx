@@ -406,7 +406,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
               if (!autoComplete) {
                 setIsOpen(!isOpen)
               }
-              !disabled && inputRef.current?.focus()
+              if (!disabled) inputRef.current?.focus()
             }}
           >
             <span

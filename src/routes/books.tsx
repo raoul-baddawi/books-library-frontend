@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import PrivateLayout from '$/lib/layouts/PrivateLayout'
-import BooksListing from '$/features/admin-books/books-table/BooksListing'
 import { getAllBooks } from '$/features/admin-books/books-table/api'
+import BooksListing from '$/features/admin-books/books-table/BooksListing'
+import PrivateLayout from '$/lib/layouts/PrivateLayout'
 import { ensureAdminOrAuthor } from '$/lib/utils/prefetchers'
 
 export const Route = createFileRoute('/books')({

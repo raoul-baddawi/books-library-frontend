@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import PrivateLayout from '$/lib/layouts/PrivateLayout'
-import UsersListing from '$/features/admin-users/users-table/UsersListing'
 import { getAllUsers } from '$/features/admin-users/users-table/api'
+import UsersListing from '$/features/admin-users/users-table/UsersListing'
+import PrivateLayout from '$/lib/layouts/PrivateLayout'
 import { ensureAdmin } from '$/lib/utils/prefetchers'
 
 export const Route = createFileRoute('/users')({
