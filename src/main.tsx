@@ -6,11 +6,8 @@ import ReactDOM from 'react-dom/client'
 
 import * as TanStackQueryProvider from './integrations/tanstack-query/root-provider.tsx'
 import reportWebVitals from './reportWebVitals.ts'
-// Import the generated route tree
 import { routeTree } from './routeTree.gen'
 import AuthProvider from './lib/providers/AuthProvider.tsx'
-
-// Create a new router instance
 
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext()
 const router = createRouter({
@@ -24,7 +21,6 @@ const router = createRouter({
   defaultPreloadStaleTime: 0,
 })
 
-// Register the router instance for type safety
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router

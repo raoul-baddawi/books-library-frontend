@@ -66,7 +66,7 @@ export default function FormComboSelect<
             typeof value === 'string' ? JSON.parse(value) : value
           const arrayValue = Array.isArray(parsedValue) ? parsedValue : []
 
-          if (arrayValue.length === 0) {
+          if (!arrayValue || arrayValue?.length === 0) {
             if (valueAsNumber) {
               return []
             }
@@ -98,7 +98,6 @@ export default function FormComboSelect<
   const fieldState = form.getFieldState(name, formState)
   const inputErrorVisible = fieldState.invalid && !!fieldState.error?.message
 
-  // Get the current form value for controlled behavior
   const currentValue = form.watch(name)
 
   useEffect(() => {

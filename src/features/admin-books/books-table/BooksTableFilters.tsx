@@ -32,7 +32,7 @@ export default function BookTableFilters() {
   }
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center justify-between w-full">
+      <div className="flex sm:items-center gap-2 justify-between w-full flex-col sm:flex-row">
         <h1 className="font-semibold text-2xl">Books</h1>
         <LinkButton
           to="/book/create"
@@ -51,7 +51,7 @@ export default function BookTableFilters() {
           <EnhancedTableSearchFilter placeHolder="Search by name or description." />
         </div>
         <div className="flex min-h-11 grow flex-wrap items-center justify-end gap-2 xl:flex-nowrap">
-          {genreOptions && genreOptions.length > 0 && (
+          {genreOptions && genreOptions?.length > 0 && (
             <EnhancedTableComboSelect
               initialOptions={genreOptions}
               name="genre"
@@ -60,7 +60,7 @@ export default function BookTableFilters() {
               placeHolder="Genre"
             />
           )}
-          {authorOptions && authorOptions.length > 0 && (
+          {authorOptions && authorOptions?.length > 0 && (
             <EnhancedTableComboSelect
               initialOptions={authorOptions}
               name="author"

@@ -17,7 +17,7 @@ export const getCommonPinningStyles = <T>(
     isPinned === 'right' && column.getIsFirstColumn('right')
   const zIndexIfCellIndexIsTheLastCell =
     cell_index === row_cells_length - 1 ? 100 - row_index : 0
-  const defaultZIndex = table ? table.getRowModel().rows.length - row_index : 0
+  const defaultZIndex = table ? table.getRowModel().rows?.length - row_index : 0
 
   return {
     boxShadow: isLastLeftPinnedColumn

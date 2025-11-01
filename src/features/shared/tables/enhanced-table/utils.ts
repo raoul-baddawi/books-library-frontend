@@ -75,7 +75,7 @@ export function filterEnhancedTableSelectedDataFields<
           const nestedFields = Array.from(row.keys()).filter((key) => {
             return key.includes(`${field}.`) || key === field
           })
-          if (nestedFields.length) {
+          if (nestedFields?.length) {
             for (const nestedField of nestedFields) {
               if (row.has(nestedField)) {
                 newRow[nestedField] = row.get(nestedField)
@@ -102,7 +102,7 @@ export function filterEnhancedTableSelectedDataFields<
           const nestedFields = Array.from(row.keys()).filter((key) => {
             return key.includes(`${field}.`) || key === field
           })
-          if (nestedFields.length) {
+          if (nestedFields?.length) {
             for (const nestedField of nestedFields) {
               newRow.delete(nestedField)
             }

@@ -5,7 +5,12 @@ import { cn } from '../utils/styling'
 import Button from './ui/buttons/Button'
 import Logo from '$/components/Logo'
 
-export default function Sidebar() {
+interface SidebarProps {
+  isOpen: boolean
+  onClose: () => void
+}
+
+export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { clearUser, isPendingLogout, role } = useAuth()
   const router = useRouter()
 
@@ -20,8 +25,23 @@ export default function Sidebar() {
     ...(role === 'AUTHOR' ? authorLinks : []),
   ]
 
+  const handleNavigate = (to: string) => {
+    router.navigate({ to })
+    onClose()
+  }
+
+  const handlePrefetchOnHover = (to: string) => {
+    router.preloadRoute({ to })
+  }
+
   return (
-    <aside className="flex flex-col fixed z-54 row-span-2 row-start-1 h-full w-[200px] transform rounded-lg border border-border bg-white p-4 transition-transform duration-300 ease-in-out">
+    <aside
+      className={cn(
+        'flex flex-col fixed z-201 md:z-54 row-span-2 row-start-1 h-full w-[200px] rounded-lg border border-border bg-white p-4 transition-transform duration-300 ease-in-out',
+        'md:translate-x-0',
+        isOpen ? 'translate-x-0' : '-translate-x-full',
+      )}
+    >
       <div className="mb-3 text-lg font-semibold text-center">
         <Logo className="text-xl flex flex-col items-center" />
       </div>
@@ -36,7 +56,8 @@ export default function Sidebar() {
                 isActive &&
                   'bg-primary text-white font-medium hover:bg-primary/75',
               )}
-              onClick={() => router.navigate({ to: item.to })}
+              onClick={() => handleNavigate(item.to)}
+              onMouseEnter={() => handlePrefetchOnHover(item.to)}
             >
               <item.icon className="h-4 w-4" />
               <span>{item.label}</span>
@@ -51,6 +72,7 @@ export default function Sidebar() {
           onClick={() => {
             clearUser()
             router.navigate({ to: '/' })
+            onClose()
           }}
         >
           <LogOut className="h-4 w-4" />

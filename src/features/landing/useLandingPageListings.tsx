@@ -17,16 +17,22 @@ async function fetchBooks({
   genre: OptionValueType[]
   search?: string
 }): Promise<Book[]> {
-  return apiClient
-    .get<Promise<Book[]>>('books', {
-      searchParams: {
-        page,
-        limit: BOOKS_LIMIT,
-        genre: genre.length ? genre.join(',') : undefined,
-        search: search.trim() || undefined,
-      },
-    })
-    .json()
+  try {
+    const result = await apiClient
+      .get<Book[]>('books', {
+        searchParams: {
+          page,
+          limit: BOOKS_LIMIT,
+          genre: genre?.length ? genre.join(',') : undefined,
+          search: search?.trim() || undefined,
+        },
+      })
+      .json()
+    return result || []
+  } catch (error) {
+    console.error('Error fetching books:', error)
+    return []
+  }
 }
 
 export default function useLandingPageListings() {
@@ -36,7 +42,6 @@ export default function useLandingPageListings() {
   const [genre, setGenre] = useState<OptionValueType[]>([])
   const [search, setSearch] = useState<string>('')
   const debouncedSearchText = useMemoizedDebounce(search, 500)
-
   const infniteQuery = useInfiniteQuery<Book[], Error>({
     queryKey: ['books', genre, debouncedSearchText],
     queryFn: ({ pageParam = 1 }) =>
@@ -45,15 +50,19 @@ export default function useLandingPageListings() {
         genre,
         search: debouncedSearchText,
       }),
-    getNextPageParam: (lastPage, allPages) =>
-      lastPage.length === BOOKS_LIMIT ? allPages.length + 1 : undefined,
+    getNextPageParam: (lastPage, allPages) => {
+      console.log({ lastPage, allPages })
+      if (!lastPage || !Array.isArray(lastPage) || !allPages) return undefined
+      return lastPage?.length === BOOKS_LIMIT ? allPages?.length + 1 : undefined
+    },
     refetchOnWindowFocus: false,
     initialPageParam: 1,
+    retry: 1,
   })
 
   return {
     ...infniteQuery,
-    data: infniteQuery.data?.pages.flat() ?? [],
+    data: infniteQuery.data?.pages?.flat() ?? [],
     genre,
     setGenre,
     search,

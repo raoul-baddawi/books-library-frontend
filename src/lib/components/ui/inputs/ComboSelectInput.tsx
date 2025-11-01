@@ -131,10 +131,8 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
             updateSelectedValues(matchingOption.value)
           }
         } else if (autoAddOptions) {
-          // Only add new options if autoAddOptions is true
           handleAutoAddOption()
         } else if (!multiple) {
-          // If no matching option and autoAddOptions is false, clear the selection
           updateSelectedValues(0)
         }
       }
@@ -326,7 +324,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
             setIsOpen(true)
           } else {
             setHighlightedIndex((prev) =>
-              prev < filteredOptions.length - 1 ? prev + 1 : 0,
+              prev < filteredOptions?.length - 1 ? prev + 1 : 0,
             )
           }
           break
@@ -334,7 +332,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
           e.preventDefault()
           if (isOpen) {
             setHighlightedIndex((prev) =>
-              prev > 0 ? prev - 1 : filteredOptions.length - 1,
+              prev > 0 ? prev - 1 : filteredOptions?.length - 1,
             )
           }
           break
@@ -362,9 +360,9 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
             setHighlightedIndex((prev) =>
               e.shiftKey
                 ? prev === 0
-                  ? filteredOptions.length - 1
+                  ? filteredOptions?.length - 1
                   : prev - 1
-                : prev >= filteredOptions.length - 1
+                : prev >= filteredOptions?.length - 1
                   ? 0
                   : prev + 1,
             )
@@ -378,7 +376,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
     const getInputDisplayValue = () => {
       if (isTyping && inputValue) {
         return capitalizeAll ? inputValue.toUpperCase() : inputValue
-      } else if (!multiple && selectedLabels.length > 0) {
+      } else if (!multiple && selectedLabels?.length > 0) {
         const selected = selectedLabels[0] as string
         return selected && typeof selected === 'string'
           ? capitalizeAll
@@ -414,7 +412,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
             <span
               className={cn(
                 'pointer-events-none absolute top-1/2 left-3 z-9 origin-left -translate-y-1/2 text-sm text-grey transition-all duration-200',
-                (isOpen || inputValue || selectedLabels.length > 0) &&
+                (isOpen || inputValue || selectedLabels?.length > 0) &&
                   'top-0 left-3 scale-90 bg-white px-1 text-xs',
                 disabled && 'opacity-60',
                 isOpen && 'text-primary',
@@ -449,10 +447,10 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
                         </span>
                       )
                     })
-                  : selectedLabels.length > 0 && (
+                  : selectedLabels?.length > 0 && (
                       <span className="text-sm">
                         Selected
-                        {` ${selectedLabels.length} option${selectedLabels.length > 1 ? 's' : ''}`}
+                        {` ${selectedLabels.length} option${selectedLabels?.length > 1 ? 's' : ''}`}
                       </span>
                     )
                 : null}
@@ -471,7 +469,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
                     type="text"
                     className={cn(
                       'flex-1 bg-transparent text-sm  outline-none placeholder:text-grey ',
-                      multiple && selectedLabels.length > 0
+                      multiple && selectedLabels?.length > 0
                         ? 'w-auto '
                         : 'w-full ',
                       !autoComplete && 'leading-0 select-none',
@@ -505,7 +503,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
                 </div>
               )}
             </div>
-            {multiple && (selectedValues as OptionValueType[]).length > 0 && (
+            {multiple && (selectedValues as OptionValueType[])?.length > 0 && (
               <XIcon
                 className={cn('mr-2 cursor-pointer transition-opacity')}
                 size={16}
@@ -543,7 +541,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
           {isOpen && !disabled && (
             <div className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md border border-neutral-light bg-white shadow-lg">
               <div ref={optionsRef}>
-                {filteredOptions && filteredOptions.length > 0 ? (
+                {filteredOptions && filteredOptions?.length > 0 ? (
                   filteredOptions.map((option, index) => {
                     const isSelected = multiple
                       ? Array.isArray(normalizedSelectedValues) &&

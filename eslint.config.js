@@ -36,7 +36,6 @@ export default tseslint.config(
     },
 
     rules: {
-      // ✅ Core React & Hooks
       ...reactHooks.configs.recommended.rules,
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
@@ -45,7 +44,6 @@ export default tseslint.config(
       'react-hooks/immutability': 'off', // ignore order-of-declaration warnings
       'react-hooks/incompatible-library': 'off', // tanstack warning
 
-      // ✅ TypeScript & Imports
       '@typescript-eslint/no-unused-vars': [
         'warn',
         { varsIgnorePattern: '^_', argsIgnorePattern: '^_' },
@@ -53,17 +51,14 @@ export default tseslint.config(
       'unused-imports/no-unused-imports': 'warn',
       'unused-imports/no-unused-vars': 'off',
 
-      // ✅ Imports sorting
       'simple-import-sort/imports': 'warn',
       'simple-import-sort/exports': 'warn',
 
-      // ✅ React Fast Refresh rule (dev only)
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
       ],
 
-      // ✅ Other general noise reducers
       'no-console': 'off',
       'no-debugger': 'off',
       'no-undef': 'off',

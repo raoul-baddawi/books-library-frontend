@@ -27,7 +27,7 @@ export default function UserTableFilters() {
   }
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center justify-between w-full">
+      <div className="flex gap-2 sm:items-center justify-between w-full flex-col sm:flex-row">
         <h1 className="font-semibold text-2xl">Users</h1>
         <LinkButton
           to="/user/create"

@@ -50,6 +50,7 @@ export default function FormTextAreaInput<
     <Fragment>
       {!!label && <Label htmlFor={name}>{label}</Label>}
       <TextAreaInput
+        id={name}
         aria-invalid={fieldState.invalid}
         aria-errormessage={inputErrorVisible ? errorMessageId : undefined}
         disabled={isSubmitting}

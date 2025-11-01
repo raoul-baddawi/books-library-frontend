@@ -13,6 +13,7 @@ type Props<T> = Pick<
   | 'errorComponent'
   | 'contextMenu'
   | 'onRowClick'
+  | 'onRowMouseEnter'
   | 'headerClassName'
   | 'tableClassName'
   | 'onContextMenu'
@@ -36,6 +37,7 @@ export default function EnhancedTable<
     // with the selected data which will be passed to the Table component
   } = useEnhancedTable<unknown, TSelectedData, TFilters>()
   const { contextMenu, ...props } = tableProps
+
   return (
     // @ts-expect-error typescript generics are not compatible with data passed
     // from both props and context. If you want to debug or change the props in

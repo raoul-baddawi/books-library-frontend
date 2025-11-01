@@ -1,4 +1,7 @@
-import { EnhancedTable } from '$/features/shared/tables/enhanced-table'
+import {
+  EnhancedTable,
+  EnhancedTableSortableColumnHeader,
+} from '$/features/shared/tables/enhanced-table'
 import { TableColumn } from '$/features/shared/tables/table/Table'
 import { formatDate } from '$/lib/utils/date.functions'
 import { encodeId } from '$/lib/utils/misc'
@@ -24,7 +27,12 @@ const userTableHeaders: TableColumn<UserTableType>[] = [
     cell: (cell) => {
       return <div>{formatDate(cell.getValue())}</div>
     },
-    header: () => <div className="text-start">Creation Date</div>,
+    header: () => (
+      <EnhancedTableSortableColumnHeader<UserTableType>
+        title="Creation Date"
+        selector="createdAt"
+      />
+    ),
   },
   {
     selector: 'fullName',
@@ -94,6 +102,9 @@ export default function UserTable() {
         tableClassName="rounded-lg border-none"
         paginatable
         rowClassName={() => 'hover:bg-neutral-light/30'}
+        onRowMouseEnter={(row) => {
+          router.preloadRoute({ to: `/user/${encodeId(row.original.id)}` })
+        }}
         onRowClick={(row) =>
           router.navigate({
             to: `/user/${encodeId(row.original.id)}`,

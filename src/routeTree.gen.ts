@@ -21,6 +21,7 @@ import { Route as UserCreateRouteImport } from './routes/user/create'
 import { Route as UserIdRouteImport } from './routes/user/$id'
 import { Route as BookCreateRouteImport } from './routes/book/create'
 import { Route as BookIdRouteImport } from './routes/book/$id'
+import { Route as BookDetailIdRouteImport } from './routes/book-detail.$id'
 
 const UsersRoute = UsersRouteImport.update({
   id: '/users',
@@ -82,6 +83,11 @@ const BookIdRoute = BookIdRouteImport.update({
   path: '/book/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BookDetailIdRoute = BookDetailIdRouteImport.update({
+  id: '/book-detail/$id',
+  path: '/book-detail/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -92,6 +98,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/users': typeof UsersRoute
+  '/book-detail/$id': typeof BookDetailIdRoute
   '/book/$id': typeof BookIdRoute
   '/book/create': typeof BookCreateRoute
   '/user/$id': typeof UserIdRoute
@@ -106,6 +113,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/users': typeof UsersRoute
+  '/book-detail/$id': typeof BookDetailIdRoute
   '/book/$id': typeof BookIdRoute
   '/book/create': typeof BookCreateRoute
   '/user/$id': typeof UserIdRoute
@@ -121,6 +129,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/users': typeof UsersRoute
+  '/book-detail/$id': typeof BookDetailIdRoute
   '/book/$id': typeof BookIdRoute
   '/book/create': typeof BookCreateRoute
   '/user/$id': typeof UserIdRoute
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/unauthorized'
     | '/users'
+    | '/book-detail/$id'
     | '/book/$id'
     | '/book/create'
     | '/user/$id'
@@ -151,6 +161,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/unauthorized'
     | '/users'
+    | '/book-detail/$id'
     | '/book/$id'
     | '/book/create'
     | '/user/$id'
@@ -165,6 +176,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/unauthorized'
     | '/users'
+    | '/book-detail/$id'
     | '/book/$id'
     | '/book/create'
     | '/user/$id'
@@ -180,6 +192,7 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   UnauthorizedRoute: typeof UnauthorizedRoute
   UsersRoute: typeof UsersRoute
+  BookDetailIdRoute: typeof BookDetailIdRoute
   BookIdRoute: typeof BookIdRoute
   BookCreateRoute: typeof BookCreateRoute
   UserIdRoute: typeof UserIdRoute
@@ -272,6 +285,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/book-detail/$id': {
+      id: '/book-detail/$id'
+      path: '/book-detail/$id'
+      fullPath: '/book-detail/$id'
+      preLoaderRoute: typeof BookDetailIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -284,6 +304,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   UnauthorizedRoute: UnauthorizedRoute,
   UsersRoute: UsersRoute,
+  BookDetailIdRoute: BookDetailIdRoute,
   BookIdRoute: BookIdRoute,
   BookCreateRoute: BookCreateRoute,
   UserIdRoute: UserIdRoute,

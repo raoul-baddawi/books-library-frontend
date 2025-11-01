@@ -25,6 +25,10 @@ type Props<T> = {
     row: Row<T>,
     e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
   ) => void
+  onRowMouseEnter?: (
+    row: Row<T>,
+    e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
+  ) => void
   onContextMenu: (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => void
 }
 
@@ -40,6 +44,7 @@ export default function TableBodyContent<T>({
   rowClassName,
   selectable,
   onContextMenu,
+  onRowMouseEnter,
 }: Props<T>) {
   const handleRowClick = (
     e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
@@ -94,6 +99,7 @@ export default function TableBodyContent<T>({
             valueOrNothing(!!onRowClick, 'cursor-pointer'),
             rowClassName?.(row),
           )}
+          onMouseEnter={(e) => onRowMouseEnter?.(row, e)}
           onClick={(e) => handleRowClick(e, row)}
         >
           {row.getVisibleCells().map((cell, index) => {
@@ -103,7 +109,7 @@ export default function TableBodyContent<T>({
                 })
               | undefined = cell.column.columnDef.meta
             const allColumns = table.getAllColumns()
-            const row_cells_length = row.getVisibleCells().length
+            const row_cells_length = row.getVisibleCells()?.length
             const actionCell = cell.column.columnDef.id === 'actions'
 
             return (

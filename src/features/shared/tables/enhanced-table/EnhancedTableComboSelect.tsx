@@ -47,7 +47,7 @@ export default function EnhancedTableComboSelect({
   const [inputValue, setInputValue] = useState('')
   const [selectedValues, setSelectedValues] = useState<
     OptionValueType[] | OptionValueType | undefined
-  >(multiple ? [] : undefined)
+  >(undefined)
   const [filteredOptions, setFilteredOptions] = useState(initialOptions)
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1)
   const dropdownRef = useRef<HTMLDivElement>(null!)
@@ -174,14 +174,14 @@ export default function EnhancedTableComboSelect({
 
     const newSelected = !multiple
       ? undefined
-      : (selectedValues as OptionValueType[]).filter((v) => v !== value)
+      : ((selectedValues || []) as OptionValueType[]).filter((v) => v !== value)
 
     setSelectedValues(newSelected)
   }
 
   const getSelectedLabels = () => {
     if (multiple) {
-      return (selectedValues as OptionValueType[]).map(
+      return ((selectedValues || []) as OptionValueType[]).map(
         (value) => options.find((opt) => opt.value === value)?.label || value,
       )
     } else {
@@ -191,7 +191,7 @@ export default function EnhancedTableComboSelect({
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!filteredOptions || filteredOptions.length === 0) return
+    if (!filteredOptions || filteredOptions?.length === 0) return
 
     switch (e.key) {
       case 'ArrowDown':
@@ -200,7 +200,7 @@ export default function EnhancedTableComboSelect({
           setIsOpen(true)
         } else {
           setHighlightedIndex((prev) =>
-            prev < filteredOptions.length - 1 ? prev + 1 : 0,
+            prev < filteredOptions?.length - 1 ? prev + 1 : 0,
           )
         }
         break
@@ -208,7 +208,7 @@ export default function EnhancedTableComboSelect({
         e.preventDefault()
         if (isOpen) {
           setHighlightedIndex((prev) =>
-            prev > 0 ? prev - 1 : filteredOptions.length - 1,
+            prev > 0 ? prev - 1 : filteredOptions?.length - 1,
           )
         }
         break

@@ -1,7 +1,8 @@
 import { cn } from '$/lib/utils/styling'
 import { Book } from './LandingPage'
-import { Link } from '@tanstack/react-router'
+import { Link, useRouter } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
+
 const EntityBadge = ({
   label,
   className,
@@ -14,8 +15,12 @@ const EntityBadge = ({
 
 function BookCard(book: Book & { index: number }) {
   const bookIndex = book.index
-  // Only stagger the first 10 cards (first page), others appear immediately
+  const router = useRouter()
   const delay = bookIndex * (book.index < 10 ? 0.1 : 0.03)
+
+  const handlePrefetch = () => {
+    router.preloadRoute({ to: '/book-detail/$id', params: { id: book.id } })
+  }
 
   return (
     <motion.div
@@ -28,9 +33,15 @@ function BookCard(book: Book & { index: number }) {
       }}
       className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col "
     >
-      <Link key={book.id} to="/" className="h-full flex flex-col ">
+      <Link
+        key={book.id}
+        to="/book-detail/$id"
+        params={{ id: book.id }}
+        className="h-full flex flex-col"
+        onMouseEnter={handlePrefetch}
+      >
         <img
-          src={book.media[0]}
+          src={book.media[0] || '/placeholder-book.png'}
           alt={book.name}
           className="w-full h-40 object-cover"
           loading="lazy"
@@ -44,7 +55,7 @@ function BookCard(book: Book & { index: number }) {
             className="bg-gray-light text-grey border-grey/10 border mb-2 w-fit"
           />
           <p className="text-sm text-gray! mb-2 ">
-            {book.description.length > 100
+            {book.description?.length > 100
               ? book.description.slice(0, 100) + '...'
               : book.description}
           </p>

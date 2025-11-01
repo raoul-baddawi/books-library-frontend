@@ -234,7 +234,7 @@ function ComboboxInputBasePlaceholder<T extends string | string[]>(
   const isValueArray = Array.isArray(props.value)
 
   if (isValueArray) {
-    const selectionCount = (props.value as Array<string>).length
+    const selectionCount = (props.value as Array<string>)?.length
 
     return (
       <span

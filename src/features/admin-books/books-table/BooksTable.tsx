@@ -1,4 +1,7 @@
-import { EnhancedTable } from '$/features/shared/tables/enhanced-table'
+import {
+  EnhancedTable,
+  EnhancedTableSortableColumnHeader,
+} from '$/features/shared/tables/enhanced-table'
 import { TableColumn } from '$/features/shared/tables/table/Table'
 import { formatDate } from '$/lib/utils/date.functions'
 import { encodeId } from '$/lib/utils/misc'
@@ -25,7 +28,12 @@ const BookTableHeaders: TableColumn<BookTableType>[] = [
     cell: (cell) => {
       return <div>{formatDate(cell.getValue())}</div>
     },
-    header: () => <div className="text-start">Creation Date</div>,
+    header: () => (
+      <EnhancedTableSortableColumnHeader<BookTableType>
+        title="Creation Date"
+        selector="createdAt"
+      />
+    ),
   },
   {
     selector: 'name',
@@ -103,6 +111,9 @@ export default function BookTable() {
             to: `/book/${encodeId(row.original.id)}`,
           })
         }
+        onRowMouseEnter={(row) => {
+          router.preloadRoute({ to: `/book/${encodeId(row.original.id)}` })
+        }}
         columns={BookTableHeaders}
       />
     </div>

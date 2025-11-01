@@ -41,6 +41,10 @@ type TableBaseProps<T> = {
   tableClassName?: string
   rowClassName?: (row: Row<T>) => string
   onContextMenu?: (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => void
+  onRowMouseEnter?: (
+    row: Row<T>,
+    e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
+  ) => void
   onRowClick?: (
     row: Row<T>,
     e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
@@ -118,6 +122,7 @@ export default function Table<T>({
   contextMenu,
   onRowSelectionChange,
   onRowClick,
+  onRowMouseEnter,
   hideHeader,
 }: TableProps<T>) {
   const lastSelectedRowRef = useRef<{ index: number; checked: boolean }>({
@@ -139,7 +144,7 @@ export default function Table<T>({
   const memoizedData = useMemo(() => {
     // the EMPTY_DATA_ARR also prevents unnecessary rerenders by keeping the
     // same array reference
-    if (!data || data.length === 0) return EMPTY_DATA_ARR as T[]
+    if (!data || data?.length === 0) return EMPTY_DATA_ARR as T[]
     return data
   }, [data])
 
@@ -165,7 +170,7 @@ export default function Table<T>({
           <div className="ml-4 flex items-center justify-center">
             <input
               className="size-4 hover:cursor-pointer"
-              disabled={!memoizedData.length || isPendingData}
+              disabled={!memoizedData?.length || isPendingData}
               type="checkbox"
               checked={table.getIsAllRowsSelected()}
               onChange={() => table.toggleAllRowsSelected()}
@@ -322,7 +327,7 @@ export default function Table<T>({
                           className?: string
                         }
                         const allColumns = table.getAllColumns()
-                        const row_cells_length = headerGroup.headers.length
+                        const row_cells_length = headerGroup.headers?.length
                         return (
                           <th
                             key={`${header.id}_${headerGroup.id}_${index}`}
@@ -371,7 +376,7 @@ export default function Table<T>({
                 )
               })}
               {isPendingData && (
-                <TableSkeletonLoader columns={tableColumns.length} />
+                <TableSkeletonLoader columns={tableColumns?.length} />
               )}
             </thead>
             <tbody>
@@ -384,6 +389,7 @@ export default function Table<T>({
                 table={table}
                 tableColumns={tableColumns.length}
                 onRowClick={onRowClick}
+                onRowMouseEnter={onRowMouseEnter}
                 rowClassName={rowClassName}
                 onContextMenu={handleOnContextMenu}
                 selectable={selectable}

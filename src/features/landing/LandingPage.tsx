@@ -58,7 +58,7 @@ export default function LandingPage() {
     refetch()
   }, [genre, refetch])
 
-  const books: Book[] = data
+  const books: Book[] = data ?? []
 
   return (
     <div className="min-h-screen pb-20 px-5">
@@ -75,7 +75,7 @@ export default function LandingPage() {
           isGenrePending={isGenrePending}
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {books.map((book, index) => (
+          {books?.map((book, index) => (
             <BookCard key={book.id} {...book} index={index} />
           ))}
         </div>

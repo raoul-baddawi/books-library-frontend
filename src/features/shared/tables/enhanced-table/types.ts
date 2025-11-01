@@ -49,6 +49,6 @@ export type EnhancedTableQueryFnParams<TSelectedData, TFilters> = {
   pagination?: Pagination
 }
 
-export type EnhancedTableQueryFn<TData, TFilters> = (
-  data: EnhancedTableQueryFnParams<TData, TFilters>,
+export type EnhancedTableQueryFn<TData, TSelectedData, TFilters> = (
+  data: EnhancedTableQueryFnParams<TSelectedData, TFilters>,
 ) => Promise<TData>

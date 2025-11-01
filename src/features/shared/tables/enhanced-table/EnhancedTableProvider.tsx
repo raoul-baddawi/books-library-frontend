@@ -30,7 +30,9 @@ const EnhancedTableContext = createContext<
   queryResult: {} as UseQueryResult<any, any>,
   queryKey: [],
   sorting: undefined,
-  filters: {},
+  filters: {
+    search: '',
+  },
   selectedRows: {},
   handleSetFilters: () => {},
   resetFilters: () => {},
@@ -61,7 +63,7 @@ type Props<TData, TSelectedData, TFilters extends KeyValueObject> = {
     UseQueryOptions<TData, unknown, TData, QueryKey>,
     'queryFn'
   > & {
-    queryFn: EnhancedTableQueryFn<TData, TFilters>
+    queryFn: EnhancedTableQueryFn<TData, TSelectedData, TFilters>
   }
   dataSelector: (data: TData) => TSelectedData[]
   totalCountSelector?: (data: TData) => number
@@ -78,9 +80,12 @@ export default function EnhancedTableProvider<
   totalCountSelector,
   children,
 }: PropsWithChildren<Props<TData, TSelectedData, TFilters>>) {
-  const [sorting, setSorting] = useState<EnhancedTableSorting<TData>>()
+  const [sorting, setSorting] = useState<EnhancedTableSorting<TSelectedData>>()
   const [filters, setFilters] = useState<TFilters>(
-    initialFilters ?? ({} as TFilters),
+    initialFilters ??
+      ({
+        search: '',
+      } as unknown as TFilters),
   )
   const [prioritizedRowId, setPrioritizedRowId] = useState<
     string | number | null
@@ -90,7 +95,12 @@ export default function EnhancedTableProvider<
   const [totalNumberOfPages, setTotalNumberOfPages] = useState(1)
   const [selectedRows, setSelectedRows] = useState({})
   const getSortingWithDefault = useMemo(() => {
-    return sorting ?? { key: 'id' as keyof TData, order: 'desc' as SortOrder }
+    return (
+      sorting ?? {
+        key: 'id' as keyof TSelectedData,
+        order: 'desc' as SortOrder,
+      }
+    )
   }, [sorting])
 
   const queryKey: QueryKey = [
@@ -146,7 +156,7 @@ export default function EnhancedTableProvider<
         setPagination((p) => ({ ...p, offset: 0 }))
         setFilters((f) => ({ ...f, [key]: filter }))
       },
-      handleSetSorting: (sorting: EnhancedTableSorting<TData>) => {
+      handleSetSorting: (sorting: EnhancedTableSorting<TSelectedData>) => {
         setPagination((p) => ({ ...p, offset: 0 }))
         setSorting(sorting ?? undefined)
       },

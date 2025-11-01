@@ -14,21 +14,6 @@ type PaginationProps = {
   onSetPageLimit: (limit: number) => void
 }
 
-// function generatePageNumbers(currentPage: number, totalNumberOfPages: number) {
-//   if (totalNumberOfPages <= 3) {
-//     return Array.from({ length: totalNumberOfPages }, (_, index) => index + 1);
-//   }
-//   if (currentPage === totalNumberOfPages) {
-//     return [totalNumberOfPages - 2, totalNumberOfPages - 1, totalNumberOfPages];
-//   }
-
-//   if (currentPage === 1) {
-//     return [currentPage, currentPage + 1, currentPage + 2];
-//   }
-
-//   return [currentPage - 1, currentPage, currentPage + 1];
-// }
-
 const generatePageNumbers = (
   currentPage: number,
   totalNumberOfPages: number,

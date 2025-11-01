@@ -3,8 +3,22 @@ import { UserFormType } from '$/features/admin-users/user-form/validations'
 import useApiQuery from '$/lib/hooks/useApiQuery'
 import { decodeId } from '$/lib/utils/misc'
 import { createFileRoute, useParams } from '@tanstack/react-router'
+import { apiClient } from '$/lib/utils/apiClient'
+import { ensureAdmin } from '$/lib/utils/prefetchers'
 
 export const Route = createFileRoute('/user/$id')({
+  beforeLoad: async ({ context }) => {
+    await ensureAdmin(context.queryClient)
+  },
+  loader: async ({ context, params }) => {
+    const decodedId = decodeId(params.id)
+
+    await context.queryClient.ensureQueryData({
+      queryKey: ['user-detail', decodedId],
+      queryFn: async () =>
+        await apiClient.get<UserFormType>(`users/${decodedId}`).json(),
+    })
+  },
   component: RouteComponent,
 })
 
