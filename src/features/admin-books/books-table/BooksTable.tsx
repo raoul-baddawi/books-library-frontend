@@ -9,6 +9,7 @@ import { useRouter } from '@tanstack/react-router'
 import DeleteItemComponent from '../../shared/delete-popup/DeleteItemComponent'
 
 import { BookTableType } from './types'
+import { useDebounceCallback } from 'usehooks-ts'
 
 const BookTableHeaders: TableColumn<BookTableType>[] = [
   {
@@ -99,7 +100,11 @@ const BookTableHeaders: TableColumn<BookTableType>[] = [
 
 export default function BookTable() {
   const router = useRouter()
-
+  const debouncedPrefetch = useDebounceCallback((bookId: number) => {
+    router.preloadRoute({
+      to: `/book/${encodeId(bookId)}`,
+    })
+  }, 500)
   return (
     <div className="flex gap-2.5 rounded-2xl border border-table-gray bg-white grow row-span-2">
       <EnhancedTable<BookTableType>
@@ -112,7 +117,7 @@ export default function BookTable() {
           })
         }
         onRowMouseEnter={(row) => {
-          router.preloadRoute({ to: `/book/${encodeId(row.original.id)}` })
+          debouncedPrefetch(row.original.id)
         }}
         columns={BookTableHeaders}
       />

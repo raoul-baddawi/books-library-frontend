@@ -10,22 +10,17 @@ import ImagePContainer from './ImagePContainer'
 import PdfIcon from './PdfIcon'
 import TrashIcon from './TrashIcon'
 
-export type OuterImage = {
-  id: number
-  url: string
-}
-
 type FileListPreviewProps<
   TFieldValues extends FieldValues = FieldValues,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   TContext = any,
   TTransformedValues = TFieldValues,
 > = {
-  files?: FileList | OuterImage[] | undefined
-  defaultUrls?: OuterImage[]
-  onFiles?: (files: FileList | File[] | OuterImage[]) => void
-  handleSetRemoveFile?: (file: File | OuterImage | undefined) => void
-  handleRemoveExternalImage?: (item: OuterImage) => void
+  files?: FileList | string[] | (File | string)[] | undefined
+  defaultUrls?: string[]
+  onFiles?: (files: FileList | File[] | string[]) => void
+  handleSetRemoveFile?: (file: File | string | undefined) => void
+  handleRemoveExternalImage?: (item: string) => void
   name?: string
   disabled?: boolean
   shouldUploadFiles?: boolean
@@ -54,9 +49,7 @@ const FileListPreview = <
   innerPrimaryClassname,
   form,
 }: FileListPreviewProps<TFieldValues, TContext, TTransformedValues>) => {
-  const [combinedImages, setCombinedImages] = useState<(File | OuterImage)[]>(
-    [],
-  )
+  const [combinedImages, setCombinedImages] = useState<(File | string)[]>([])
   const [expandedImage, setExpandedImage] = useState<string | null>(null)
   const [uploadProgress] = useState<
     Record<
@@ -64,12 +57,10 @@ const FileListPreview = <
       { progress: number; isDone: boolean; loaded: number; total: number }
     >
   >({})
-  const initialCombinedImagesRef = useRef<(File | OuterImage)[]>([])
+  const initialCombinedImagesRef = useRef<(File | string)[]>([])
+  const hasInitialized = useRef(false)
 
-  const areArraysEqual = (
-    arr1: (File | OuterImage)[],
-    arr2: (File | OuterImage)[],
-  ) => {
+  const areArraysEqual = (arr1: (File | string)[], arr2: (File | string)[]) => {
     if (arr1.length !== arr2.length) return false
     return arr1.every((item, index) =>
       item instanceof File && arr2[index] instanceof File
@@ -79,20 +70,40 @@ const FileListPreview = <
   }
 
   useEffect(() => {
-    const initialCombinedImages = [...files, ...defaultUrls]
-    if (
-      !areArraysEqual(initialCombinedImagesRef.current, initialCombinedImages)
-    ) {
-      initialCombinedImagesRef.current = initialCombinedImages
-      setCombinedImages(initialCombinedImages)
+    if (!name) {
+      const filesArray: (File | string)[] =
+        files instanceof FileList
+          ? Array.from(files)
+          : Array.isArray(files)
+            ? files
+            : []
+      const urlsToAdd = defaultUrls.filter((url) => !filesArray.includes(url))
+      const initialCombinedImages = [...filesArray, ...urlsToAdd]
+
+      if (
+        !areArraysEqual(initialCombinedImagesRef.current, initialCombinedImages)
+      ) {
+        initialCombinedImagesRef.current = initialCombinedImages
+        setCombinedImages(initialCombinedImages)
+      }
+    } else if (!hasInitialized.current) {
+      hasInitialized.current = true
+      const formFiles =
+        (form.getValues(name as Path<TFieldValues>) as (File | string)[]) || []
+
+      if (formFiles.length > 0) {
+        setCombinedImages(formFiles)
+      }
     }
-  }, [files, defaultUrls])
+  }, [files, defaultUrls, name, form])
 
   useEffect(() => {
     if (name) {
       const subscription = form.watch((value, { name: fieldName }) => {
         if (!name || fieldName !== name) return
-        setCombinedImages(value[name] as (File | OuterImage)[])
+        const formFiles = (value[name] as (File | string)[]) || []
+
+        setCombinedImages(formFiles)
       })
       return () => subscription.unsubscribe()
     }
@@ -106,7 +117,7 @@ const FileListPreview = <
     setExpandedImage(null)
   }
 
-  const handleRemoveFile = (file: File | OuterImage) => {
+  const handleRemoveFile = (file: File | string) => {
     handleSetRemoveFile?.(file)
     if (file && name) {
       form.setValue(
@@ -119,23 +130,27 @@ const FileListPreview = <
     onFiles?.([file] as File[])
   }
 
-  const isImageFile = (file: File | OuterImage) => {
+  const isImageFile = (file: File | string) => {
     if (file instanceof File) {
       return file.type.startsWith('image/')
     }
-    return (
-      file.url.endsWith('.jpg') ||
-      file.url.endsWith('.jpeg') ||
-      file.url.endsWith('.png') ||
-      file.url.endsWith('.gif')
-    )
+    if (file)
+      return (
+        file.endsWith('.jpg') ||
+        file.endsWith('.jpeg') ||
+        file.endsWith('.png') ||
+        file.endsWith('.gif')
+      )
+
+    return false
   }
 
-  const isPdfFile = (file: File | OuterImage) => {
+  const isPdfFile = (file: File | string) => {
     if (file instanceof File) {
       return file.type === 'application/pdf'
     }
-    return file.url.endsWith('.pdf')
+    if (file) return file.endsWith('.pdf')
+    return false
   }
 
   if (!combinedImages || combinedImages.length === 0) return null
@@ -182,12 +197,12 @@ const FileListPreview = <
                       onClick={() => {
                         if (item instanceof File) {
                           window.open(URL.createObjectURL(item))
-                        } else if (typeof item === 'object' && 'url' in item) {
-                          const url = !item.url.includes(
+                        } else if (item?.length) {
+                          const url = !item.includes(
                             import.meta.env.VITE_IMAGES_BASE_URL,
                           )
-                            ? `${import.meta.env.VITE_IMAGES_BASE_URL}/${item.url}`
-                            : item.url
+                            ? `${import.meta.env.VITE_IMAGES_BASE_URL}/${item}`
+                            : item
                           window.open(url)
                         }
                       }}
@@ -199,7 +214,7 @@ const FileListPreview = <
                         ? item.name.length > 20
                           ? `${item.name.substring(0, 20)}...${item.name.substring(item.name.length - 6)}`
                           : item.name
-                        : getUrlWithoutLastUnderscore(item.url)}
+                        : getUrlWithoutLastUnderscore(item)}
                     </p>
                     {!disabled && (
                       <button
@@ -214,9 +229,9 @@ const FileListPreview = <
                                 name as Path<TFieldValues>,
                                 form
                                   .getValues(name as Path<TFieldValues>)
-                                  .filter((f: string) => f !== item.url),
+                                  .filter((f: string) => f !== item),
                               )
-                              onFiles?.([item] as OuterImage[])
+                              onFiles?.([item] as string[])
                             }
                           }
                         }}
@@ -274,7 +289,8 @@ const FileListPreview = <
                   Type de fichier non pris en charge
                 </p>
               ) : (
-                item.url.includes('https') && (
+                item &&
+                item.includes('https') && (
                   <ImagePContainer
                     expandImage={expandImage}
                     handleRemoveFile={handleRemoveFile}

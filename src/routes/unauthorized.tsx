@@ -1,4 +1,5 @@
-import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
+import Button from '$/lib/components/ui/buttons/Button'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { Ban } from 'lucide-react'
 
 export const Route = createFileRoute('/unauthorized')({
@@ -21,13 +22,14 @@ function Unauthorized() {
         <p className="text-gray/70 mb-6">
           You do not have permission to view this page.
         </p>
-        <Link
+        <Button
+          variant="btn-primary"
           onMouseEnter={handlePrefetchHome}
-          to="/"
-          className="inline-block bg-primary text-white px-6 py-3 rounded-md hover:bg-primary/80 transition-colors font-medium"
+          onClick={() => router.history.back()}
+          className="mx-auto inline-block bg-primary text-white px-6 py-3 rounded-md hover:bg-primary/80 transition-colors font-medium"
         >
-          Go to Home
-        </Link>
+          Go Back
+        </Button>
       </div>
     </div>
   )

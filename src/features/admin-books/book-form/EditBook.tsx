@@ -8,6 +8,7 @@ import {
   useGenreOptions,
   useAuthorsOptions,
 } from '$/lib/api-hooks/api-select-options'
+import { filterAndJoinUploadedFilesWithUrls } from '$/lib/utils/media-utils/functions'
 
 type EditBookProps = {
   data?: BookFormType
@@ -19,9 +20,17 @@ function EditBook({ data, id }: EditBookProps) {
   const { data: authorsOptions, isPending: isAuthorsPending } =
     useAuthorsOptions()
   const { mutateAsync, isPending } = useApiMutation({
-    mutationFn: (data: BookFormType) => {
+    mutationFn: async (data: BookFormType) => {
+      const media = await filterAndJoinUploadedFilesWithUrls(
+        'books',
+        data.media,
+      )
+
       return apiClient.patch(`books/${id}`, {
-        json: data,
+        json: {
+          ...data,
+          media,
+        },
       })
     },
     mutationKey: ['edit-book'],

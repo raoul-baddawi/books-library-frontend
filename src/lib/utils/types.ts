@@ -23,3 +23,12 @@ export type Pagination = {
 export type SizeUnit = 'kb' | 'mb' | 'gb'
 
 export type FileSizeType = `${number}${SizeUnit}`
+
+export type FileValidatorOptions = {
+  required?: boolean
+  minSize?: FileSizeType
+  maxSize?: FileSizeType
+  minCount?: number
+  maxCount?: number
+  allowedFiles?: string[]
+}

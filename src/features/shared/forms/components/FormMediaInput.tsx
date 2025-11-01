@@ -4,9 +4,7 @@ import type { FieldPath, FieldValues, Path, PathValue } from 'react-hook-form'
 import { useOnClickOutside } from 'usehooks-ts'
 
 import FileInput from '$/lib/components/ui/inputs/file-input-with-preview/FileInput'
-import FileListPreview, {
-  type OuterImage,
-} from '$/lib/components/ui/inputs/file-input-with-preview/FileInputListPreview'
+import FileListPreview from '$/lib/components/ui/inputs/file-input-with-preview/FileInputListPreview'
 import InputError from '$/lib/components/ui/inputs/InputError'
 import Label from '$/lib/components/ui/inputs/Label'
 import { cn } from '$/lib/utils/styling'
@@ -19,7 +17,7 @@ export type FileInputUiProps = {
   inputUIOnDragComponent?: React.ReactNode
 }
 type FileInputProps = {
-  defaultUrls?: OuterImage[]
+  defaultUrls?: string[]
   className?: string
   multiple?: boolean
   disabled?: boolean
@@ -29,7 +27,7 @@ type FileInputProps = {
   allowedFiles?: string[]
   inputParentClassName?: string
   inputPlaceHolder?: string
-  onFiles?: (files: FileList | File[] | OuterImage[]) => void
+  onFiles?: (files: FileList | File[] | string[]) => void
 } & FileInputUiProps
 
 interface FormFileInputProps<
@@ -81,7 +79,7 @@ export default function FormFileInput<
       if (input) input.click()
     }
   }
-  const currentFiles = (form.watch(name) as FileList | OuterImage[]) || []
+  const currentFiles = (form.watch(name) as (File | string)[]) || []
 
   const handleFilesChange = (files: FileList) => {
     if (multiple) {
@@ -95,31 +93,32 @@ export default function FormFileInput<
       onFiles?.(files)
     }
   }
-  type PathV = PathValue<TFieldValues, TFieldName>
 
-  const removedImagesIds: PathV[] =
-    form.watch('removedImagesIds' as PathV) || []
+  const removedImagesIds: string[] =
+    (form.watch('removedImagesIds' as Path<TFieldValues>) as string[]) || []
 
-  const handleRemoveExternalImage = (item: OuterImage) => {
+  const handleRemoveExternalImage = (item: string) => {
+    const imageId = item
+
     form.setValue(
       'removedImagesIds' as Path<TFieldValues>,
-      [...removedImagesIds, item.id] as PathValue<
+      [...removedImagesIds, imageId] as PathValue<
         TFieldValues,
         Path<TFieldValues>
       >,
     )
     form.setValue(
       name,
-      (currentFiles as OuterImage[]).filter(
-        (i: OuterImage) => i.url !== item.url,
+      (currentFiles as (File | string)[]).filter(
+        (url: File | string) => url !== item,
       ) as PathValue<TFieldValues, Path<TFieldValues>>,
     )
   }
-  const handleRemoveFile = (file: File | OuterImage | undefined) => {
+  const handleRemoveFile = (file: File | string | undefined) => {
     if (file)
       if (file instanceof File) {
-        const newFiles = [...(currentFiles as FileList)].filter(
-          (f: File) => f.name !== file.name,
+        const newFiles = [...(currentFiles as (File | string)[])].filter(
+          (f: File | string) => f !== file,
         )
         form.setValue(name, newFiles as PathValue<TFieldValues, TFieldName>)
       } else {
@@ -146,6 +145,35 @@ export default function FormFileInput<
         )}
         ref={refDiv as Ref<HTMLDivElement>}
         onClick={handleContainerClick}
+        onDragEnter={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          setIsDraggingFile(true)
+        }}
+        onDragOver={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+        }}
+        onDragLeave={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          if (
+            e.currentTarget === e.target ||
+            !e.currentTarget.contains(e.relatedTarget as Node)
+          ) {
+            setIsDraggingFile(false)
+          }
+        }}
+        onDrop={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          setIsDraggingFile(false)
+
+          const files = e.dataTransfer.files
+          if (files && files.length > 0) {
+            handleFilesChange(files)
+          }
+        }}
       >
         <FileInput
           ref={inputRef}
@@ -169,18 +197,9 @@ export default function FormFileInput<
           <div
             className={cn(
               'relative flex items-center justify-center duration-150',
-              isDraggingFile && 'scale-0 opacity-0',
             )}
           >
-            {inputUIComponent}
-          </div>
-          <div
-            className={cn(
-              'relative flex items-center justify-center duration-150',
-              !isDraggingFile && 'scale-0 opacity-0',
-            )}
-          >
-            {inputUIOnDragComponent}
+            {isDraggingFile ? inputUIOnDragComponent : inputUIComponent}
           </div>
         </div>
       </div>

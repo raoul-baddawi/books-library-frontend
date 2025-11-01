@@ -6,12 +6,6 @@ import {
   useRef,
 } from 'react'
 
-// import {
-//   FileSize,
-//   isFileBelowMinSize,
-//   isFileExceedingMaxSize,
-//   isValidFileType,
-// } from "$/utils/functions/files.functions";
 import useGlobalPaste from '$/lib/hooks/useGlobalPaste'
 import {
   isFileBelowMinSize,

@@ -15,8 +15,8 @@ export default function Header() {
     router.preloadRoute({ to: targetRoute })
   }
 
-  const firstName = user?.fullName.split(' ')[0] || ''
-  const lastName = user.fullName.split(' ')[1] || ''
+  const firstName = user?.fullName?.split(' ')[0] || ''
+  const lastName = user.fullName?.split(' ')[1] || ''
   const firstCharacters =
     firstName.charAt(0).toUpperCase() +
     (lastName ? lastName.charAt(0).toUpperCase() : '')

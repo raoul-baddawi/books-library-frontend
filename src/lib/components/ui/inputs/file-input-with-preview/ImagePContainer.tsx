@@ -2,11 +2,10 @@ import { useEffect, useState } from 'react'
 
 import { getUrlWithoutLastUnderscore } from '$/lib/utils/functions'
 
-import type { OuterImage } from './FileInputListPreview'
 import TrashIcon from './TrashIcon'
 
 type Props = {
-  item: File | OuterImage
+  item: File | string
   index: number
   expandImage: (url: string) => void
   disabled?: boolean
@@ -29,7 +28,7 @@ const ImagePContainer = ({
 
       queueMicrotask(() => setPreview(objectURL))
     } else {
-      queueMicrotask(() => setPreview(item.url))
+      queueMicrotask(() => setPreview(item))
     }
 
     return () => {
@@ -51,7 +50,7 @@ const ImagePContainer = ({
       <p className="text-xs font-semibold text-neutral-medium">
         {item instanceof File
           ? item.name.substring(0, 20)
-          : getUrlWithoutLastUnderscore(item.url)}
+          : getUrlWithoutLastUnderscore(item)}
       </p>
       {!disabled && (
         <button

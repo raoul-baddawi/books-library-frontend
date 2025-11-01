@@ -1,3 +1,4 @@
+import { zodFilesValidator } from '$/lib/utils/functions'
 import { z } from 'zod'
 
 export const bookFormSchema = z.object({
@@ -13,6 +14,14 @@ export const bookFormSchema = z.object({
       errorMap: () => ({ message: 'Author is required' }),
     })
     .min(1, 'Author name is required'),
+  media: zodFilesValidator(
+    {
+      minCount: 1,
+    },
+    {
+      errorMessage: 'At least one photo is required',
+    },
+  ),
 })
 
 export type BookFormType = z.infer<typeof bookFormSchema>

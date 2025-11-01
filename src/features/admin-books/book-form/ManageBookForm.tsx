@@ -6,6 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Button from '$/lib/components/ui/buttons/Button'
 import { useRouter } from '@tanstack/react-router'
 import { SelectOptionType } from '$/lib/api-hooks/api-select-options'
+import FileInputUiComponent from '$/lib/components/ui/FileInputUiComponent'
+import DragDropFileInputComponent from '$/lib/components/ui/DragDropFileInputComponent'
 
 export type BookFormProps = {
   defaultValues?: Partial<DefaultValues<BookFormType>>
@@ -36,7 +38,6 @@ function ManageBookForm({
     onSubmit,
     onInvalidSubmit,
   })
-
   return (
     <form onSubmit={handleFormSubmit} className="w-full">
       <FormBox className="w-full">
@@ -74,6 +75,18 @@ function ManageBookForm({
               autoComplete
               options={authorsOptions}
               disabled={isAuthorsPending}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-4 w-full">
+          <div className="flex flex-col">
+            <fields.MediaInput
+              name="media"
+              disabled={isPending}
+              className="h-fit w-full"
+              multiple
+              inputUIOnDragComponent={<DragDropFileInputComponent isDragging />}
+              inputUIComponent={<FileInputUiComponent />}
             />
           </div>
         </div>

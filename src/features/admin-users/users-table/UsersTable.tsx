@@ -10,6 +10,7 @@ import DeleteItemComponent from '../../shared/delete-popup/DeleteItemComponent'
 
 import { UserTableType } from './types'
 import UserRoleTableCell from './UserRoleTableCell'
+import { useDebounceCallback } from 'usehooks-ts'
 
 const userTableHeaders: TableColumn<UserTableType>[] = [
   {
@@ -95,7 +96,11 @@ const userTableHeaders: TableColumn<UserTableType>[] = [
 
 export default function UserTable() {
   const router = useRouter()
-
+  const debouncedPrefetch = useDebounceCallback((userId: number) => {
+    router.preloadRoute({
+      to: `/user/${encodeId(userId)}`,
+    })
+  }, 500)
   return (
     <div className="flex gap-2.5 rounded-2xl border border-table-gray bg-white grow row-span-2">
       <EnhancedTable<UserTableType>
@@ -103,7 +108,7 @@ export default function UserTable() {
         paginatable
         rowClassName={() => 'hover:bg-neutral-light/30'}
         onRowMouseEnter={(row) => {
-          router.preloadRoute({ to: `/user/${encodeId(row.original.id)}` })
+          debouncedPrefetch(row.original.id)
         }}
         onRowClick={(row) =>
           router.navigate({

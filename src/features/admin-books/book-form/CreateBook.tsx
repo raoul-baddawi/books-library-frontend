@@ -7,6 +7,7 @@ import {
   useGenreOptions,
   useAuthorsOptions,
 } from '$/lib/api-hooks/api-select-options'
+import { filterAndJoinUploadedFilesWithUrls } from '$/lib/utils/media-utils/functions'
 
 function CreateBook() {
   const router = useRouter()
@@ -15,9 +16,16 @@ function CreateBook() {
     useAuthorsOptions()
 
   const { mutateAsync, isPending } = useApiMutation({
-    mutationFn: (data: BookFormType) => {
+    mutationFn: async (data: BookFormType) => {
+      const media = await filterAndJoinUploadedFilesWithUrls(
+        'books',
+        data.media,
+      )
       return apiClient.post('Books', {
-        json: data,
+        json: {
+          ...data,
+          media,
+        },
       })
     },
     mutationKey: ['create-Book'],
