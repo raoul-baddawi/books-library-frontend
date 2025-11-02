@@ -5,9 +5,9 @@ import type { FieldPath, FieldValues } from 'react-hook-form'
 import InputError from '$/lib/components/ui/inputs/InputError'
 import Label from '$/lib/components/ui/inputs/Label'
 import TextAreaInput from '$/lib/components/ui/inputs/TextAreaInput'
+import { cn } from '$/lib/utils/styling'
 
 import type { FormInputCleanComponentProps, FormInputProps } from '../types'
-import { cn } from '$/lib/utils/styling'
 
 interface FormTextAreaInputProps<
   TFieldValues extends FieldValues,

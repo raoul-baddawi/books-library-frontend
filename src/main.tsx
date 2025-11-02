@@ -7,8 +7,8 @@ import ReactDOM from 'react-dom/client'
 import * as TanStackQueryProvider from './integrations/tanstack-query/root-provider.tsx'
 import AuthProvider from './lib/providers/AuthProvider.tsx'
 import reportWebVitals from './reportWebVitals.ts'
-import { routeTree } from './routeTree.gen'
 import { Route as NotFoundRoute } from './routes/not-found'
+import { routeTree } from './routeTree.gen'
 
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext()
 const router = createRouter({

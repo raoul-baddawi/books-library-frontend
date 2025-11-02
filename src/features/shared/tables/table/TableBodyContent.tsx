@@ -6,11 +6,11 @@ import {
 } from '@tanstack/react-table'
 import { Fragment } from 'react/jsx-runtime'
 
+import { UserRoleType } from '$/lib/providers/AuthProvider'
 import { valueOrNothing } from '$/lib/utils/functions'
 import { cn } from '$/lib/utils/styling'
 
 import { getCommonPinningStyles } from './styles'
-import { UserRoleType } from '$/lib/providers/AuthProvider'
 
 type Props<T> = {
   data: T[]

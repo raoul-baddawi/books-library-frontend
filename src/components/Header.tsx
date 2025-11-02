@@ -24,7 +24,7 @@ export default function Header() {
     (lastName ? lastName.charAt(0).toUpperCase() : '')
 
   return (
-    <header className="w-full bg-[#91aaa4] p-4 text-white sticky top-0 z-50 flex items-center justify-between shadow-md">
+    <header className="w-full bg-[#91aaa4] p-4 text-white  z-50 flex items-center justify-between shadow-md">
       <Logo className="text-white!" />
       {user ? (
         <Link

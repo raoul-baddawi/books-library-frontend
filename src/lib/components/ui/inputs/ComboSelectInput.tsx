@@ -178,7 +178,9 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
           })
         }
       }
-    }, [highlightedIndex, isOpen])
+      // I only want to trigger this when highlightedIndex changes
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [highlightedIndex])
 
     useEffect(() => {
       if (isOpen && containerRef.current) {
@@ -189,10 +191,9 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
             const scrollTop =
               window.pageYOffset || document.documentElement.scrollTop
             const elementTop = rect.top + scrollTop
-            const offset = window.innerHeight * 0.25 // Position element at 25% from top
 
             window.scrollTo({
-              top: elementTop - offset,
+              top: elementTop - 30,
               behavior: 'smooth',
             })
           }
@@ -435,7 +436,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
           >
             <span
               className={cn(
-                'pointer-events-none absolute top-1/2 left-3 z-9 origin-left -translate-y-1/2 text-sm text-grey transition-all duration-200',
+                'pointer-events-none absolute top-1/2 left-3 z-9 origin-left -translate-y-1/2 text-base text-grey transition-all duration-200',
                 (isOpen || inputValue || selectedLabels?.length > 0) &&
                   'top-0 left-3 scale-90 bg-white px-1 text-xs',
                 disabled && 'opacity-60',
@@ -492,7 +493,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
                     ref={inputRef}
                     type="text"
                     className={cn(
-                      'flex-1 bg-transparent text-base outline-none placeholder:text-grey ',
+                      'flex-1 bg-transparent text-base  outline-none placeholder:text-grey ',
                       multiple && selectedLabels?.length > 0
                         ? 'w-auto '
                         : 'w-full ',
@@ -610,7 +611,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
                           {option.label}
                           {option.isDeleted && (
                             <span className="flex scale-80 transform items-center justify-center rounded-2xl border border-red bg-red-light p-0.5 px-2 text-[12px] font-semibold text-red">
-                              Supprimé
+                              Deleted
                             </span>
                           )}
                         </p>
