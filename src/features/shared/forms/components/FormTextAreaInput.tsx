@@ -7,6 +7,7 @@ import Label from '$/lib/components/ui/inputs/Label'
 import TextAreaInput from '$/lib/components/ui/inputs/TextAreaInput'
 
 import type { FormInputCleanComponentProps, FormInputProps } from '../types'
+import { cn } from '$/lib/utils/styling'
 
 interface FormTextAreaInputProps<
   TFieldValues extends FieldValues,
@@ -56,6 +57,11 @@ export default function FormTextAreaInput<
         disabled={isSubmitting}
         {...textAreaInputProps}
         {...registerReturn}
+        className={cn(
+          textAreaInputProps.className,
+          (fieldState.invalid || inputErrorVisible) &&
+            'aria-invalid:border-danger! focus:aria-invalid:border-red! border-red! border',
+        )}
       />
       {inputErrorVisible && (
         <InputError
