@@ -166,21 +166,21 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
       setHighlightedIndex(isOpen ? 0 : -1)
     }, [isOpen, filteredOptions])
 
-    useEffect(() => {
-      if (isOpen && highlightedIndex >= 0 && optionsRef.current) {
-        const highlightedElement = optionsRef.current.children[
-          highlightedIndex
-        ] as HTMLElement
-        if (highlightedElement) {
-          highlightedElement.scrollIntoView({
-            block: 'nearest',
-            behavior: 'smooth',
-          })
-        }
-      }
-      // I only want to trigger this when highlightedIndex changes
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [highlightedIndex])
+    // useEffect(() => {
+    //   if (isOpen && highlightedIndex >= 0 && optionsRef.current) {
+    //     const highlightedElement = optionsRef.current.children[
+    //       highlightedIndex
+    //     ] as HTMLElement
+    //     if (highlightedElement) {
+    //       highlightedElement.scrollIntoView({
+    //         block: 'nearest',
+    //         behavior: 'smooth',
+    //       })
+    //     }
+    //   }
+    //   // I only want to trigger this when highlightedIndex changes
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [highlightedIndex])
 
     useEffect(() => {
       if (isOpen && containerRef.current) {
