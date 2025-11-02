@@ -19,7 +19,12 @@ const BookTableHeaders: TableColumn<BookTableType>[] = [
     meta: {
       className: 'min-w-[60px] w-0',
     },
-    header: () => <div className="text-start">ID</div>,
+    header: () => (
+      <EnhancedTableSortableColumnHeader<BookTableType>
+        title="ID"
+        selector="id"
+      />
+    ),
   },
   {
     selector: 'createdAt',

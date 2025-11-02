@@ -16,7 +16,7 @@ function CreateBook() {
   const router = useRouter()
   const { data: genreOptions, isPending: isGenrePending } = useGenreOptions()
   const { data: authorsOptions, isPending: isAuthorsPending } =
-    useAuthorsOptions()
+    useAuthorsOptions(false)
   const { user } = useAuth()
 
   const { mutateAsync, isPending } = useApiMutation({

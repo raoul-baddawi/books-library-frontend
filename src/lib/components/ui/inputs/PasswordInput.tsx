@@ -1,5 +1,5 @@
 import { Eye, EyeOff } from 'lucide-react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { cn } from '$/lib/utils/styling'
 
@@ -16,14 +16,18 @@ export default function PasswordInput({
   ...inputProps
 }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  const togglePasswordVisibility = () => {
+  const togglePasswordVisibility = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
     setShowPassword((prev) => !prev)
+    inputRef.current?.focus()
   }
 
   return (
     <div className="relative w-full">
       <input
+        ref={inputRef}
         type={showPassword ? 'text' : 'password'}
         className={cn(
           'w-full rounded-lg border border-border bg-white px-4 py-2.5 text-sm outline-hidden duration-200 placeholder:text-grey focus-within:outline-primary focus:border-primary disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-danger focus:aria-invalid:border-red',
@@ -39,6 +43,7 @@ export default function PasswordInput({
       <button
         type="button"
         onClick={togglePasswordVisibility}
+        onMouseDown={(e) => e.preventDefault()}
         className="text-gray absolute inset-y-0 right-0 flex items-center px-3 focus:outline-none"
         tabIndex={-1}
         aria-label={showPassword ? 'Hide password' : 'Show password'}

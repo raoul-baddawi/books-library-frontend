@@ -7,7 +7,7 @@ import useAppForm from '$/features/shared/forms/hooks/useAppForm'
 import Button from '$/lib/components/ui/buttons/Button'
 import { USER_ROLES_SELECT_OPTIONS } from '$/lib/constants/select-options'
 
-import { userFormSchema, UserFormType } from './validations'
+import { userFormSchemaFunction, UserFormType } from './validations'
 
 export type UserFormProps = {
   defaultValues?: Partial<DefaultValues<UserFormType>>
@@ -24,8 +24,14 @@ function ManageUserForm({
   onSubmit,
 }: UserFormProps) {
   const router = useRouter()
-  const { handleFormSubmit, fields } = useAppForm<UserFormType>({
-    resolver: zodResolver(userFormSchema),
+  const {
+    handleFormSubmit,
+    fields,
+    formApi: {
+      formState: { dirtyFields },
+    },
+  } = useAppForm<UserFormType>({
+    resolver: zodResolver(userFormSchemaFunction(!isEditMode)),
     defaultValues,
     onSubmit,
     onInvalidSubmit,
@@ -58,7 +64,7 @@ function ManageUserForm({
             />
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col col-span-2">
             <fields.ComboSelectInput
               label="Role"
               name="role"
@@ -74,7 +80,14 @@ function ManageUserForm({
           >
             Cancel
           </Button>
-          <Button type="submit" isLoading={isPending} disabled={isPending}>
+          <Button
+            type="submit"
+            isLoading={isPending}
+            disabled={
+              isPending ||
+              (isEditMode ? Object.keys(dirtyFields).length === 0 : false)
+            }
+          >
             {isEditMode ? 'Update' : 'Create'}
           </Button>
         </div>

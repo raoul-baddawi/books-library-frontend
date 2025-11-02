@@ -35,7 +35,13 @@ function ManageBookForm({
   isAuthorsPending,
 }: BookFormProps) {
   const router = useRouter()
-  const { handleFormSubmit, fields } = useAppForm<BookFormType>({
+  const {
+    handleFormSubmit,
+    fields,
+    formApi: {
+      formState: { dirtyFields },
+    },
+  } = useAppForm<BookFormType>({
     resolver: zodResolver(bookFormSchema),
     defaultValues,
     onSubmit,
@@ -104,7 +110,14 @@ function ManageBookForm({
           >
             Cancel
           </Button>
-          <Button type="submit" isLoading={isPending} disabled={isPending}>
+          <Button
+            type="submit"
+            isLoading={isPending}
+            disabled={
+              isPending ||
+              (isEditMode ? Object.keys(dirtyFields).length === 0 : false)
+            }
+          >
             {isEditMode ? 'Update' : 'Create'}
           </Button>
         </div>

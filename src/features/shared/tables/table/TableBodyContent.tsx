@@ -10,6 +10,7 @@ import { valueOrNothing } from '$/lib/utils/functions'
 import { cn } from '$/lib/utils/styling'
 
 import { getCommonPinningStyles } from './styles'
+import { UserRoleType } from '$/lib/providers/AuthProvider'
 
 type Props<T> = {
   data: T[]
@@ -96,7 +97,11 @@ export default function TableBodyContent<T>({
           className={cn(
             'hover:bg-gray/15 relative mx-4 h-12 cursor-default duration-200',
             row?.getIsSelected() && 'bg-gray-100',
-            valueOrNothing(!!onRowClick, 'cursor-pointer'),
+            valueOrNothing(
+              !!onRowClick &&
+                (row.original as { role?: UserRoleType }).role !== 'ADMIN',
+              'cursor-pointer',
+            ),
             rowClassName?.(row),
           )}
           onMouseEnter={(e) => onRowMouseEnter?.(row, e)}

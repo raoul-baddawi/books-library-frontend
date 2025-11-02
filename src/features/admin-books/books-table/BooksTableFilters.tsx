@@ -21,14 +21,22 @@ import {
 
 export default function BookTableFilters() {
   const { user } = useAuth()
-  const { data: authorOptions } = useAuthorsOptions()
+  const { data: authorOptions } = useAuthorsOptions(true)
   const { data: genreOptions } = useGenreOptions()
   const [key, setKey] = useState(0)
-  const { resetFilters } = useEnhancedTable<
+  const { resetFilters, filters } = useEnhancedTable<
     BookTableResponseType,
     BookTableType,
     BookTableFiltersType
   >()
+
+  const hasActiveFilters =
+    filters &&
+    Object.keys(filters).length > 0 &&
+    Object.values(filters).some((value) => {
+      if (Array.isArray(value)) return value.length > 0
+      return value !== null && value !== undefined && value !== ''
+    })
 
   const handleResetFilters = () => {
     resetFilters()
@@ -77,7 +85,8 @@ export default function BookTableFilters() {
             )}
           <button
             onClick={handleResetFilters}
-            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-neutral-light hover:border-red hover:bg-red-light"
+            disabled={!hasActiveFilters}
+            className="flex h-11 w-11 cursor-pointer disabled:cursor-not-allowed! disabled:opacity-30 items-center justify-center rounded-lg border border-neutral-light hover:border-red hover:bg-red-light"
           >
             <RotateCcwIcon size={20} color="red" />
           </button>

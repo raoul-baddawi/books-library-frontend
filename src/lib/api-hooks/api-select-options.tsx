@@ -12,12 +12,14 @@ export function useGenreOptions() {
         .json(),
   })
 }
-export function useAuthorsOptions() {
+export function useAuthorsOptions(isValidAuthors = false) {
   return useApiQuery({
-    queryKey: ['authors-options'],
+    queryKey: ['authors-options', { isValidAuthors }],
     queryFn: async ({ apiClient }) =>
       await apiClient
-        .get<Promise<SelectOptionType[]>>('users/select-options')
+        .get<Promise<SelectOptionType[]>>('users/select-options', {
+          searchParams: { isValidAuthors },
+        })
         .json(),
   })
 }

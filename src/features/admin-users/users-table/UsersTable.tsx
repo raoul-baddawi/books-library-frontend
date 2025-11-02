@@ -20,7 +20,12 @@ const userTableHeaders: TableColumn<UserTableType>[] = [
     meta: {
       className: 'min-w-[60px] w-0',
     },
-    header: () => <div className="text-start">ID</div>,
+    header: () => (
+      <EnhancedTableSortableColumnHeader<UserTableType>
+        title="ID"
+        selector="id"
+      />
+    ),
   },
   {
     selector: 'createdAt',
@@ -111,11 +116,14 @@ export default function UserTable() {
         onRowMouseEnter={(row) => {
           debouncedPrefetch(row.original.id)
         }}
-        onRowClick={(row) =>
+        onRowClick={(row) => {
+          if (row.original.role === 'ADMIN') {
+            return false
+          }
           router.navigate({
             to: `/user/${encodeId(row.original.id)}`,
           })
-        }
+        }}
         columns={userTableHeaders}
       />
     </div>

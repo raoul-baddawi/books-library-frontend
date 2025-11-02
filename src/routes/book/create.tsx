@@ -19,7 +19,11 @@ export const Route = createFileRoute('/book/create')({
     await context.queryClient.ensureQueryData({
       queryKey: ['authors-options'],
       queryFn: async () =>
-        await apiClient.get<SelectOptionType[]>('users/select-options').json(),
+        await apiClient
+          .get<
+            SelectOptionType[]
+          >('users/select-options', { searchParams: { isValidAuthors: false } })
+          .json(),
     })
   },
   component: RouteComponent,
@@ -27,7 +31,7 @@ export const Route = createFileRoute('/book/create')({
 
 function RouteComponent() {
   return (
-    <div className="w-full p-4 bg-white h-full gap-6 flex flex-col">
+    <div className="overflow-auto w-full p-4 bg-white h-full gap-6 flex flex-col">
       <h1 className="text-4xl font-bold">Create Book</h1>
       <CreateBook />
     </div>

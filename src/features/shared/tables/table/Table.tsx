@@ -47,7 +47,7 @@ type TableBaseProps<T> = {
   ) => void
   onRowClick?: (
     row: Row<T>,
-    e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
+    e?: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
   ) => void
 }
 

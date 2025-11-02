@@ -18,6 +18,9 @@ export const bookFormSchema = z.object({
   media: zodFilesValidator(
     {
       minCount: 1,
+      maxCount: 10,
+      allowedFiles: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
+      maxSize: '5mb',
     },
     {
       errorMessage: 'At least one photo is required',

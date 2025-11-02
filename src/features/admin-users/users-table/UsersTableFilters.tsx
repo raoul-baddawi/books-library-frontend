@@ -17,11 +17,19 @@ import {
 
 export default function UserTableFilters() {
   const [key, setKey] = useState(0)
-  const { resetFilters } = useEnhancedTable<
+  const { resetFilters, filters } = useEnhancedTable<
     UserTableResponseType,
     UserTableType,
     UserTableFiltersType
   >()
+
+  const hasActiveFilters =
+    filters &&
+    Object.keys(filters).length > 0 &&
+    Object.values(filters).some((value) => {
+      if (Array.isArray(value)) return value.length > 0
+      return value !== null && value !== undefined && value !== ''
+    })
 
   const handleResetFilters = () => {
     resetFilters()
@@ -55,7 +63,8 @@ export default function UserTableFilters() {
           />
           <button
             onClick={handleResetFilters}
-            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-neutral-light hover:border-red hover:bg-red-light"
+            disabled={!hasActiveFilters}
+            className="flex h-11 w-11 cursor-pointer disabled:cursor-not-allowed! disabled:opacity-30 items-center justify-center rounded-lg border border-neutral-light hover:border-red hover:bg-red-light"
           >
             <RotateCcwIcon size={20} color="red" />
           </button>
