@@ -42,6 +42,7 @@ function CreateBook() {
         genre: '',
         description: '',
         name: '',
+        media: [],
       }}
       isPending={isPending}
       onSubmit={(data) =>

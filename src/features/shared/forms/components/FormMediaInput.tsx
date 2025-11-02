@@ -1,6 +1,12 @@
-import { type Ref, useId, useRef, useState } from 'react'
+import { type Ref, useEffect, useId, useRef, useState } from 'react'
 import { Fragment } from 'react/jsx-runtime'
-import type { FieldPath, FieldValues, Path, PathValue } from 'react-hook-form'
+import type {
+  FieldErrors,
+  FieldPath,
+  FieldValues,
+  Path,
+  PathValue,
+} from 'react-hook-form'
 import { useOnClickOutside } from 'usehooks-ts'
 
 import FileInput from '$/lib/components/ui/inputs/file-input-with-preview/FileInput'
@@ -69,7 +75,13 @@ export default function FormFileInput<
 }: FormFileInputProps<TFieldValues, TFieldName, TContext, TTransformedValues>) {
   const errorMessageId = useId()
   const fieldState = form.getFieldState(name)
-  const inputErrorVisible = fieldState.invalid && !!fieldState.error?.message
+  const nestedErrors = (fieldState.error as FieldErrors<TFieldValues>)?.[
+    name
+  ] as unknown as FieldErrors[]
+  const inputErrorVisible =
+    fieldState.invalid &&
+    (!!fieldState.error?.message || nestedErrors.some((err) => !!err?.message))
+
   const [isDraggingFile, setIsDraggingFile] = useState(false)
   const refDiv = useRef<HTMLElement>(null!)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -86,12 +98,13 @@ export default function FormFileInput<
       form.setValue(
         name,
         [...currentFiles, ...files] as PathValue<TFieldValues, TFieldName>,
-        { shouldDirty: true },
+        { shouldDirty: true, shouldValidate: true },
       )
       onFiles?.(files)
     } else {
       form.setValue(name, files as PathValue<TFieldValues, TFieldName>, {
         shouldDirty: true,
+        shouldValidate: true,
       })
       onFiles?.(files)
     }
@@ -109,14 +122,14 @@ export default function FormFileInput<
         TFieldValues,
         Path<TFieldValues>
       >,
-      { shouldDirty: true },
+      { shouldDirty: true, shouldValidate: true },
     )
     form.setValue(
       name,
       (currentFiles as (File | string)[]).filter(
         (url: File | string) => url !== item,
       ) as PathValue<TFieldValues, Path<TFieldValues>>,
-      { shouldDirty: true },
+      { shouldDirty: true, shouldValidate: true },
     )
   }
   const handleRemoveFile = (file: File | string | undefined) => {
@@ -127,6 +140,7 @@ export default function FormFileInput<
         )
         form.setValue(name, newFiles as PathValue<TFieldValues, TFieldName>, {
           shouldDirty: true,
+          shouldValidate: true,
         })
       } else {
         handleRemoveExternalImage(file)
@@ -213,7 +227,13 @@ export default function FormFileInput<
       {inputErrorVisible && (
         <InputError
           id={errorMessageId}
-          message={fieldState.error!.message as string}
+          message={
+            (fieldState.error!.message as string) ||
+            nestedErrors
+              .map((err) => err?.message)
+              .filter(Boolean)
+              .join('\n')
+          }
         />
       )}
       <FileListPreview
