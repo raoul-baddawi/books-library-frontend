@@ -1,4 +1,4 @@
-import { type Ref, useEffect, useId, useRef, useState } from 'react'
+import { type Ref, useId, useRef, useState } from 'react'
 import { Fragment } from 'react/jsx-runtime'
 import type {
   FieldErrors,
