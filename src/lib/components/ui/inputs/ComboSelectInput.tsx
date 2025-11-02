@@ -515,12 +515,6 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
                         }, 100)
                       }
                     }}
-                    onBlur={() => {
-                      // Close dropdown when input loses focus
-                      setTimeout(() => {
-                        handleBlur()
-                      }, 200) // Small delay to allow click events to fire first
-                    }}
                     onKeyDown={handleKeyDown}
                     disabled={disabled}
                     tabIndex={disabled ? -1 : 0}
