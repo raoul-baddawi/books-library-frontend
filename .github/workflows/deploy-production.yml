@@ -42,7 +42,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm --log-level warn run build
+        run: pnpm run build
         env:
           VITE_BASE_API_URL: 'https://api.skillversestudio.com/'
 
