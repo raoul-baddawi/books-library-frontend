@@ -84,7 +84,7 @@ export default function TableBodyContent<T>({
         <th colSpan={tableColumns}>
           {errorComponent
             ? errorComponent
-            : 'Erreur lors de la récupération de données'}
+            : 'An error occurred while fetching data.'}
         </th>
       </tr>
     )

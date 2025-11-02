@@ -67,7 +67,7 @@ export default function LandingPage() {
     <div className="min-h-screen pb-20 px-5">
       <div className="max-w-5xl mx-auto py-10">
         <h1 className="text-4xl font-bold text-center mb-8 text-[#2aaa8a] drop-shadow-lg">
-          Welcome to the books Library
+          Welcome to the Book Library
         </h1>
         <BooksListingFilters
           genre={genre}

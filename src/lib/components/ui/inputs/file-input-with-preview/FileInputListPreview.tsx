@@ -285,8 +285,15 @@ const FileListPreview = <
                     )}
                 </div>
               ) : item instanceof File ? (
-                <p className="mx-auto flex h-full w-[60%] items-center justify-center text-center text-sm text-neutral-medium">
-                  Unsupported file type
+                <p className="mx-auto flex gap-2 h-full w-[60%] items-center justify-center text-center text-sm text-neutral-medium">
+                  Broken
+                  <button
+                    className="ml-auto flex h-fit cursor-pointer p-1"
+                    type="button"
+                    onClick={() => handleRemoveFile(item as File)}
+                  >
+                    <TrashIcon className="h-4 w-4 shrink-0" fill="#C1093E" />
+                  </button>
                 </p>
               ) : (
                 item &&

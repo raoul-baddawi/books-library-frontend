@@ -24,7 +24,7 @@ function BooksListingFilters({
   return (
     <div className="flex gap-4 mb-6 flex-wrap">
       <div className="grow flex-1 min-w-52">
-        <Label htmlFor="search">Search Books</Label>
+        <Label htmlFor="search">Search books</Label>
         <TextInput
           id="search"
           value={search}

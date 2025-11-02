@@ -51,7 +51,7 @@ export default function DeleteItemModal({
       <Dialog.Body>
         <FormBox
           contentClassName="gap-5"
-          className="w-full min-w-[700px] bg-white p-0"
+          className="w-full bg-white p-0"
           title={title}
         >
           <p className="text-sm font-semibold text-accent">{description}</p>
