@@ -85,6 +85,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
     const dropdownRef = useRef<HTMLDivElement>(null!)
     const inputRef = useRef<HTMLInputElement>(null)
     const optionsRef = useRef<HTMLDivElement>(null)
+    const containerRef = useRef<HTMLDivElement>(null)
 
     const handleAutoAddOption = () => {
       const newOption = {
@@ -178,6 +179,17 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
         }
       }
     }, [highlightedIndex, isOpen])
+
+    useEffect(() => {
+      if (isOpen && containerRef.current) {
+        setTimeout(() => {
+          containerRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          })
+        }, 100)
+      }
+    }, [isOpen])
 
     const updateSelectedValues = (
       newValue: OptionValueType | OptionValueType[],
@@ -389,7 +401,10 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
     }
 
     return (
-      <div className={cn('flex min-h-10 w-full flex-col', className)}>
+      <div
+        className={cn('flex min-h-10 w-full flex-col', className)}
+        ref={containerRef}
+      >
         <div className="relative h-full w-full" ref={dropdownRef}>
           <div
             className={cn(

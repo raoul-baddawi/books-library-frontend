@@ -157,7 +157,7 @@ export function zodFilesValidator(
         ) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: `File must be at least ${options.minSize}MB`,
+            message: `File must be at least ${options.minSize}`,
             path: issuePath,
           })
         }
@@ -168,7 +168,7 @@ export function zodFilesValidator(
         ) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: `File must be at most ${options.maxSize}MB`,
+            message: `File must be at most ${options.maxSize}`,
             path: issuePath,
           })
         }

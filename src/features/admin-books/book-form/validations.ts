@@ -19,8 +19,14 @@ export const bookFormSchema = z.object({
     {
       minCount: 1,
       maxCount: 10,
-      allowedFiles: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
-      maxSize: '5mb',
+      allowedFiles: [
+        'image/jpeg',
+        'image/jpg',
+        'image/png',
+        'image/webp',
+        'image/avif',
+      ],
+      maxSize: '500kb',
     },
     {
       errorMessage: 'At least one photo is required',

@@ -18,13 +18,13 @@ const generatePageNumbers = (
   currentPage: number,
   totalNumberOfPages: number,
 ) => {
-  if (totalNumberOfPages < 8) {
+  if (totalNumberOfPages <= 9) {
     return Array.from({ length: totalNumberOfPages }, (_, i) => i + 1)
   }
 
-  if (currentPage < 6) {
-    const items = Array.from({ length: currentPage }, (_, i) => i + 1)
-    items.push(currentPage + 1, -1, totalNumberOfPages - 1, totalNumberOfPages)
+  if (currentPage <= 5) {
+    const items = Array.from({ length: 6 }, (_, i) => i + 1)
+    items.push(-1, totalNumberOfPages - 1, totalNumberOfPages)
     return items
   }
 
@@ -33,6 +33,7 @@ const generatePageNumbers = (
       1,
       2,
       -1,
+      totalNumberOfPages - 5,
       totalNumberOfPages - 4,
       totalNumberOfPages - 3,
       totalNumberOfPages - 2,

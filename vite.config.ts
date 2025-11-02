@@ -15,9 +15,6 @@ export default defineConfig({
     viteReact(),
     tailwindcss(),
   ],
-  server: {
-    allowedHosts: ['8756c54ca008.ngrok-free.app'],
-  },
   resolve: {
     alias: {
       $: fileURLToPath(new URL('./src', import.meta.url)),
