@@ -83,13 +83,16 @@ export default function FormFileInput<
 
   const handleFilesChange = (files: FileList) => {
     if (multiple) {
-      form.setValue(name, [...currentFiles, ...files] as PathValue<
-        TFieldValues,
-        TFieldName
-      >)
+      form.setValue(
+        name,
+        [...currentFiles, ...files] as PathValue<TFieldValues, TFieldName>,
+        { shouldDirty: true },
+      )
       onFiles?.(files)
     } else {
-      form.setValue(name, files as PathValue<TFieldValues, TFieldName>)
+      form.setValue(name, files as PathValue<TFieldValues, TFieldName>, {
+        shouldDirty: true,
+      })
       onFiles?.(files)
     }
   }
@@ -106,12 +109,14 @@ export default function FormFileInput<
         TFieldValues,
         Path<TFieldValues>
       >,
+      { shouldDirty: true },
     )
     form.setValue(
       name,
       (currentFiles as (File | string)[]).filter(
         (url: File | string) => url !== item,
       ) as PathValue<TFieldValues, Path<TFieldValues>>,
+      { shouldDirty: true },
     )
   }
   const handleRemoveFile = (file: File | string | undefined) => {
@@ -120,7 +125,9 @@ export default function FormFileInput<
         const newFiles = [...(currentFiles as (File | string)[])].filter(
           (f: File | string) => f !== file,
         )
-        form.setValue(name, newFiles as PathValue<TFieldValues, TFieldName>)
+        form.setValue(name, newFiles as PathValue<TFieldValues, TFieldName>, {
+          shouldDirty: true,
+        })
       } else {
         handleRemoveExternalImage(file)
       }
