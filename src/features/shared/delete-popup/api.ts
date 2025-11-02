@@ -2,7 +2,7 @@ import useApiMutation from '$/lib/hooks/useApiMutation'
 import { apiClient } from '$/lib/utils/apiClient'
 
 async function setDeleted({ url }: { url: string }) {
-  return apiClient.post(url)
+  return apiClient.delete(url)
 }
 
 export default function useDeleteItem(mutationKey: string[]) {
