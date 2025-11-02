@@ -183,10 +183,19 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
     useEffect(() => {
       if (isOpen && containerRef.current) {
         setTimeout(() => {
-          containerRef.current?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-          })
+          const element = containerRef.current
+          if (element) {
+            const rect = element.getBoundingClientRect()
+            const scrollTop =
+              window.pageYOffset || document.documentElement.scrollTop
+            const elementTop = rect.top + scrollTop
+            const offset = window.innerHeight * 0.25 // Position element at 25% from top
+
+            window.scrollTo({
+              top: elementTop - offset,
+              behavior: 'smooth',
+            })
+          }
         }, 100)
       }
     }, [isOpen])
@@ -483,7 +492,7 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
                     ref={inputRef}
                     type="text"
                     className={cn(
-                      'flex-1 bg-transparent text-sm  outline-none placeholder:text-grey ',
+                      'flex-1 bg-transparent text-base outline-none placeholder:text-grey ',
                       multiple && selectedLabels?.length > 0
                         ? 'w-auto '
                         : 'w-full ',
@@ -505,6 +514,12 @@ const ComboSelect = forwardRef<HTMLInputElement, ComboSelectProps>(
                           }
                         }, 100)
                       }
+                    }}
+                    onBlur={() => {
+                      // Close dropdown when input loses focus
+                      setTimeout(() => {
+                        handleBlur()
+                      }, 200) // Small delay to allow click events to fire first
                     }}
                     onKeyDown={handleKeyDown}
                     disabled={disabled}

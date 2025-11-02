@@ -61,7 +61,7 @@ function ManageBookForm({
             <fields.TextAreaInput
               label="Description"
               name="description"
-              className="resize-y"
+              className="resize-y outline-none!"
               minRows={4}
             />
           </div>
