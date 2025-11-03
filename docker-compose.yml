@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  books-library-frontend:
+    container_name: books-library-frontend
+    build:
+      context: .
+      args:
+        - VITE_BASE_API_URL=${VITE_BASE_API_URL}
+    ports:
+      - '8080:80'
+    image: books-library-front:latest

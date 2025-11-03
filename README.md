@@ -71,6 +71,34 @@ A modern web application for managing and browsing books, built with React, TanS
   pnpm serve
   ```
 
+### 🐳 Docker Setup
+
+If you prefer using Docker, you can run the application in a containerized environment.
+
+**Prerequisites:**
+
+- **Docker** installed on your machine
+
+**Steps:**
+
+1. **Build the Docker image**
+
+   ```bash
+   docker-compose build
+   ```
+
+2. **Start the application**
+
+   ```bash
+   docker-compose up
+   ```
+
+3. **Access the application**
+
+   The app will be running on `http://localhost:8080`
+
+Happy Docker setup! 🎉
+
 ---
 
 ## 📖 Application Overview
