@@ -75,6 +75,12 @@ A modern web application for managing and browsing books, built with React, TanS
 
 If you prefer using Docker, you can run the application in a containerized environment.
 
+> **Note:** To use the Docker setup, you need to switch to the `feat-docker` branch:
+>
+> ```bash
+> git checkout feat-docker
+> ```
+
 **Prerequisites:**
 
 - **Docker** installed on your machine
