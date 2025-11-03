@@ -150,6 +150,17 @@ The application supports **two user roles** with distinct permissions:
 - ❌ Cannot access user management
 - ✅ Access to `/books` route only
 
+### 🔑 Test Credentials
+
+To test the application, you can use the following credentials:
+
+**Admin Account:**
+- **Email:** `raoulbaddawi1@gmail.com`
+- **Password:** `test123`
+
+**Author Account:**
+- Authors can be registered automatically via the signup page
+
 ---
 
 ## 🔄 Application Flow
