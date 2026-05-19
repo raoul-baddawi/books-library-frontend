@@ -125,8 +125,8 @@ function GuessCard({ guess }: { guess: GenderGuess }) {
     >
       <div className="flex items-center justify-between mb-3">
         <div>
-          <p className="font-semibold text-white">{guess.name}</p>
-          <p className="gr-faint text-xs">
+          <p className="font-semibold text-white!">{guess.name}</p>
+          <p className="gr-faint text-xs text-white!">
             {new Date(guess.createdAt).toLocaleDateString(undefined, {
               month: 'short',
               day: 'numeric',
