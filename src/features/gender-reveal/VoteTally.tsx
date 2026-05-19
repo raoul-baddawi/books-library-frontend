@@ -66,7 +66,7 @@ export default function VoteTally() {
       {/* Recent guesses */}
       {guesses.length > 0 && (
         <div className="mt-6">
-          <p className="gr-faint text-xs uppercase tracking-widest mb-3">
+          <p className="gr-faint text-xs uppercase tracking-widest mb-3 text-white!">
             Recent guesses
           </p>
           <div className="flex flex-col gap-2 max-h-44 overflow-y-auto pr-1">
@@ -104,7 +104,7 @@ export default function VoteTally() {
                       g.guess === 'BOY' ? 'gr-badge-boy' : 'gr-badge-girl'
                     }
                   >
-                    {g.guess === 'BOY' ? '?? Boy' : '?? Girl'}
+                    {g.guess === 'BOY' ? 'Boy' : 'Girl'}
                   </span>
                 </motion.div>
               ))}

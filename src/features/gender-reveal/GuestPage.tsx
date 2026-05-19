@@ -102,7 +102,7 @@ export default function GuestPage() {
           >
             Baby Reveal
           </h1>
-          <p className="gr-muted text-lg">
+          <p className="gr-muted text-lg text-white!">
             Make your guess before the big reveal!
           </p>
         </motion.div>
@@ -132,7 +132,7 @@ export default function GuestPage() {
                 <h2 className="text-xl font-bold text-center mb-1">
                   What's your name?
                 </h2>
-                <p className="gr-muted text-sm text-center mb-7">
+                <p className="gr-muted text-sm text-center mb-7 text-white!">
                   Enter your name to cast your vote
                 </p>
                 <input
@@ -168,7 +168,7 @@ export default function GuestPage() {
               className="w-full max-w-lg"
             >
               <div className="gr-card p-8">
-                <p className="gr-muted text-sm text-center mb-1">
+                <p className="gr-muted text-sm text-center mb-1 text-white!">
                   Hey, {name}! 👋
                 </p>
                 <h2
@@ -226,7 +226,7 @@ export default function GuestPage() {
                   </motion.button>
                 </div>
                 <div className="mb-7">
-                  <p className="gr-muted text-xs text-center mb-3">
+                  <p className="gr-muted text-xs text-center mb-3 text-white!">
                     📸 Reaction photo/video (optional)
                   </p>
                   <input
@@ -332,9 +332,10 @@ export default function GuestPage() {
                   {guess === 'BOY' ? '💙' : '💗'}
                 </motion.div>
                 <h2 className="text-2xl font-black mb-3">You're in! 🎊</h2>
-                <p className="gr-muted mb-1">
-                  <span className="text-white font-bold">{name}</span> voted for
-                  a{' '}
+                <p className="gr-muted mb-1 ">
+                  <span className="text-white font-bold">
+                    {name} voted for a{' '}
+                  </span>
                   <span
                     className="font-black"
                     style={{ color: guess === 'BOY' ? '#60a5fa' : '#f472b6' }}
@@ -342,7 +343,7 @@ export default function GuestPage() {
                     {guess === 'BOY' ? 'Baby Boy' : 'Baby Girl'}
                   </span>
                 </p>
-                <p className="gr-faint text-sm mt-5">
+                <p className="gr-faint text-sm mt-5 text-white!">
                   The reveal will happen soon. Stay tuned! 👀
                 </p>
               </div>

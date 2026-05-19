@@ -38,7 +38,7 @@ export default function Countdown({ targetDate }: { targetDate: string }) {
 
   return (
     <div className="text-center">
-      <p className="gr-muted text-xs font-semibold uppercase tracking-widest mb-4">
+      <p className="gr-muted text-xs font-semibold uppercase tracking-widest mb-4 text-white!">
         ⏳ Reveal in
       </p>
       <div className="flex gap-3">
