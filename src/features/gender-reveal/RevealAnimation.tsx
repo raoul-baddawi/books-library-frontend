@@ -254,36 +254,41 @@ export default function RevealAnimation({
         {started && (
           <AnimatePresence mode="wait">
             <motion.div
-              key={`${display}-${spinIdx}-${phase}`}
+              // Key only changes on meaningful phase transitions, not every spin tick
+              key={
+                phase === 'finalReveal'
+                  ? 'final'
+                  : phase === 'celebration'
+                    ? 'celebration'
+                    : 'card'
+              }
               initial={
                 phase === 'finalReveal'
                   ? { scale: 0.4, opacity: 0, rotate: -15, y: 30 }
-                  : phase === 'fakeout1'
-                    ? { scale: 1.05, opacity: 0.6 }
-                    : { y: -18, opacity: 0 }
+                  : { scale: 1, opacity: 1 }
               }
               animate={
-                phase === 'finalReveal'
-                  ? { scale: 1, opacity: 1, rotate: 0, y: 0 }
-                  : phase === 'celebration'
-                    ? { scale: 1.08, opacity: 1 }
-                    : phase === 'fakeout1'
-                      ? {
-                          scale: 1,
-                          opacity: 1,
-                          rotate: [0, -6, 6, -6, 6, 0] as never,
-                        }
-                      : { y: 0, opacity: 1 }
+                phase === 'celebration'
+                  ? { scale: 1.08, opacity: 1, rotate: 0 }
+                  : phase === 'fakeout1'
+                    ? {
+                        scale: 1,
+                        opacity: 1,
+                        rotate: [0, -6, 6, -6, 6, 0] as never,
+                      }
+                    : phase === 'finalReveal'
+                      ? { scale: 1, opacity: 1, rotate: 0, y: 0 }
+                      : { scale: 1, opacity: 1, rotate: 0 }
               }
-              exit={{ y: 22, opacity: 0 }}
+              exit={{ y: -24, opacity: 0, transition: { duration: 0.2 } }}
               transition={
                 phase === 'finalReveal'
                   ? { type: 'spring', stiffness: 280, damping: 18 }
                   : phase === 'fakeout1'
                     ? { duration: 0.55 }
-                    : { duration: 0.07 }
+                    : { duration: 0.3 }
               }
-              className="flex flex-col items-center gap-4 px-16 py-10 rounded-3xl"
+              className="flex flex-col items-center gap-4 px-16 py-10 rounded-3xl overflow-hidden"
               style={{
                 background: cardBg,
                 border: `2px solid ${cardBorder}`,
@@ -293,15 +298,34 @@ export default function RevealAnimation({
                   'background 0.3s, border-color 0.3s, box-shadow 0.3s',
               }}
             >
-              <span className="text-8xl sm:text-9xl">
-                {display === 'BOY' ? '👦' : '👧'}
-              </span>
-              <span
-                className="text-5xl sm:text-6xl font-black tracking-widest"
-                style={{ color: labelColor }}
+              {/* Slot-machine inner content — slides in per tick without remounting the card */}
+              <motion.div
+                key={spinIdx}
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{
+                  duration:
+                    phase === 'spinning'
+                      ? 0.055
+                      : phase === 'fakeout2'
+                        ? 0.08
+                        : phase === 'slowdown'
+                          ? 0.14
+                          : 0.22,
+                  ease: 'easeOut',
+                }}
+                className="flex flex-col items-center gap-4"
               >
-                {display}
-              </span>
+                <span className="text-8xl sm:text-9xl">
+                  {display === 'BOY' ? '👦' : '👧'}
+                </span>
+                <span
+                  className="text-5xl sm:text-6xl font-black tracking-widest"
+                  style={{ color: labelColor, transition: 'color 0.2s' }}
+                >
+                  {display}
+                </span>
+              </motion.div>
 
               {/* Spinning dots */}
               {(phase === 'spinning' ||
