@@ -9,33 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as UsersRouteImport } from './routes/users'
-import { Route as UnauthorizedRouteImport } from './routes/unauthorized'
-import { Route as SignupRouteImport } from './routes/signup'
+import { Route as RevealRouteImport } from './routes/reveal'
+import { Route as ParentsRouteImport } from './routes/parents'
 import { Route as NotFoundRouteImport } from './routes/not-found'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as BooksRouteImport } from './routes/books'
-import { Route as RegisterRouteImport } from './routes/Register'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as UserCreateRouteImport } from './routes/user/create'
-import { Route as UserIdRouteImport } from './routes/user/$id'
-import { Route as BookCreateRouteImport } from './routes/book/create'
-import { Route as BookIdRouteImport } from './routes/book/$id'
-import { Route as BookDetailIdRouteImport } from './routes/book-detail.$id'
 
-const UsersRoute = UsersRouteImport.update({
-  id: '/users',
-  path: '/users',
+const RevealRoute = RevealRouteImport.update({
+  id: '/reveal',
+  path: '/reveal',
   getParentRoute: () => rootRouteImport,
 } as any)
-const UnauthorizedRoute = UnauthorizedRouteImport.update({
-  id: '/unauthorized',
-  path: '/unauthorized',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SignupRoute = SignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
+const ParentsRoute = ParentsRouteImport.update({
+  id: '/parents',
+  path: '/parents',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NotFoundRoute = NotFoundRouteImport.update({
@@ -43,183 +29,60 @@ const NotFoundRoute = NotFoundRouteImport.update({
   path: '/not-found',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BooksRoute = BooksRouteImport.update({
-  id: '/books',
-  path: '/books',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RegisterRoute = RegisterRouteImport.update({
-  id: '/Register',
-  path: '/Register',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const UserCreateRoute = UserCreateRouteImport.update({
-  id: '/user/create',
-  path: '/user/create',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const UserIdRoute = UserIdRouteImport.update({
-  id: '/user/$id',
-  path: '/user/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BookCreateRoute = BookCreateRouteImport.update({
-  id: '/book/create',
-  path: '/book/create',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BookIdRoute = BookIdRouteImport.update({
-  id: '/book/$id',
-  path: '/book/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BookDetailIdRoute = BookDetailIdRouteImport.update({
-  id: '/book-detail/$id',
-  path: '/book-detail/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/Register': typeof RegisterRoute
-  '/books': typeof BooksRoute
-  '/login': typeof LoginRoute
   '/not-found': typeof NotFoundRoute
-  '/signup': typeof SignupRoute
-  '/unauthorized': typeof UnauthorizedRoute
-  '/users': typeof UsersRoute
-  '/book-detail/$id': typeof BookDetailIdRoute
-  '/book/$id': typeof BookIdRoute
-  '/book/create': typeof BookCreateRoute
-  '/user/$id': typeof UserIdRoute
-  '/user/create': typeof UserCreateRoute
+  '/parents': typeof ParentsRoute
+  '/reveal': typeof RevealRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/Register': typeof RegisterRoute
-  '/books': typeof BooksRoute
-  '/login': typeof LoginRoute
   '/not-found': typeof NotFoundRoute
-  '/signup': typeof SignupRoute
-  '/unauthorized': typeof UnauthorizedRoute
-  '/users': typeof UsersRoute
-  '/book-detail/$id': typeof BookDetailIdRoute
-  '/book/$id': typeof BookIdRoute
-  '/book/create': typeof BookCreateRoute
-  '/user/$id': typeof UserIdRoute
-  '/user/create': typeof UserCreateRoute
+  '/parents': typeof ParentsRoute
+  '/reveal': typeof RevealRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/Register': typeof RegisterRoute
-  '/books': typeof BooksRoute
-  '/login': typeof LoginRoute
   '/not-found': typeof NotFoundRoute
-  '/signup': typeof SignupRoute
-  '/unauthorized': typeof UnauthorizedRoute
-  '/users': typeof UsersRoute
-  '/book-detail/$id': typeof BookDetailIdRoute
-  '/book/$id': typeof BookIdRoute
-  '/book/create': typeof BookCreateRoute
-  '/user/$id': typeof UserIdRoute
-  '/user/create': typeof UserCreateRoute
+  '/parents': typeof ParentsRoute
+  '/reveal': typeof RevealRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/Register'
-    | '/books'
-    | '/login'
-    | '/not-found'
-    | '/signup'
-    | '/unauthorized'
-    | '/users'
-    | '/book-detail/$id'
-    | '/book/$id'
-    | '/book/create'
-    | '/user/$id'
-    | '/user/create'
+  fullPaths: '/' | '/not-found' | '/parents' | '/reveal'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/Register'
-    | '/books'
-    | '/login'
-    | '/not-found'
-    | '/signup'
-    | '/unauthorized'
-    | '/users'
-    | '/book-detail/$id'
-    | '/book/$id'
-    | '/book/create'
-    | '/user/$id'
-    | '/user/create'
-  id:
-    | '__root__'
-    | '/'
-    | '/Register'
-    | '/books'
-    | '/login'
-    | '/not-found'
-    | '/signup'
-    | '/unauthorized'
-    | '/users'
-    | '/book-detail/$id'
-    | '/book/$id'
-    | '/book/create'
-    | '/user/$id'
-    | '/user/create'
+  to: '/' | '/not-found' | '/parents' | '/reveal'
+  id: '__root__' | '/' | '/not-found' | '/parents' | '/reveal'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  RegisterRoute: typeof RegisterRoute
-  BooksRoute: typeof BooksRoute
-  LoginRoute: typeof LoginRoute
   NotFoundRoute: typeof NotFoundRoute
-  SignupRoute: typeof SignupRoute
-  UnauthorizedRoute: typeof UnauthorizedRoute
-  UsersRoute: typeof UsersRoute
-  BookDetailIdRoute: typeof BookDetailIdRoute
-  BookIdRoute: typeof BookIdRoute
-  BookCreateRoute: typeof BookCreateRoute
-  UserIdRoute: typeof UserIdRoute
-  UserCreateRoute: typeof UserCreateRoute
+  ParentsRoute: typeof ParentsRoute
+  RevealRoute: typeof RevealRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/users': {
-      id: '/users'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof UsersRouteImport
+    '/reveal': {
+      id: '/reveal'
+      path: '/reveal'
+      fullPath: '/reveal'
+      preLoaderRoute: typeof RevealRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/unauthorized': {
-      id: '/unauthorized'
-      path: '/unauthorized'
-      fullPath: '/unauthorized'
-      preLoaderRoute: typeof UnauthorizedRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/signup': {
-      id: '/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof SignupRouteImport
+    '/parents': {
+      id: '/parents'
+      path: '/parents'
+      fullPath: '/parents'
+      preLoaderRoute: typeof ParentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/not-found': {
@@ -229,27 +92,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotFoundRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/books': {
-      id: '/books'
-      path: '/books'
-      fullPath: '/books'
-      preLoaderRoute: typeof BooksRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/Register': {
-      id: '/Register'
-      path: '/Register'
-      fullPath: '/Register'
-      preLoaderRoute: typeof RegisterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -257,58 +99,14 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/user/create': {
-      id: '/user/create'
-      path: '/user/create'
-      fullPath: '/user/create'
-      preLoaderRoute: typeof UserCreateRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/user/$id': {
-      id: '/user/$id'
-      path: '/user/$id'
-      fullPath: '/user/$id'
-      preLoaderRoute: typeof UserIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/book/create': {
-      id: '/book/create'
-      path: '/book/create'
-      fullPath: '/book/create'
-      preLoaderRoute: typeof BookCreateRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/book/$id': {
-      id: '/book/$id'
-      path: '/book/$id'
-      fullPath: '/book/$id'
-      preLoaderRoute: typeof BookIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/book-detail/$id': {
-      id: '/book-detail/$id'
-      path: '/book-detail/$id'
-      fullPath: '/book-detail/$id'
-      preLoaderRoute: typeof BookDetailIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  RegisterRoute: RegisterRoute,
-  BooksRoute: BooksRoute,
-  LoginRoute: LoginRoute,
   NotFoundRoute: NotFoundRoute,
-  SignupRoute: SignupRoute,
-  UnauthorizedRoute: UnauthorizedRoute,
-  UsersRoute: UsersRoute,
-  BookDetailIdRoute: BookDetailIdRoute,
-  BookIdRoute: BookIdRoute,
-  BookCreateRoute: BookCreateRoute,
-  UserIdRoute: UserIdRoute,
-  UserCreateRoute: UserCreateRoute,
+  ParentsRoute: ParentsRoute,
+  RevealRoute: RevealRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

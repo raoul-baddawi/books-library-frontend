@@ -431,3 +431,328 @@ button {
     transform: translateX(0);
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   GENDER REVEAL — standalone theme (no Tailwind color deps)
+═══════════════════════════════════════════════════════════════ */
+
+@keyframes gr-twinkle {
+  0%,
+  100% {
+    opacity: 0.1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes gr-float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.7;
+  }
+  92% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-105vh) rotate(540deg);
+    opacity: 0;
+  }
+}
+
+@keyframes gr-pulse-border {
+  0%,
+  100% {
+    box-shadow: 0 0 20px var(--gr-glow);
+  }
+  50% {
+    box-shadow:
+      0 0 45px var(--gr-glow),
+      0 0 80px var(--gr-glow);
+  }
+}
+
+@layer utilities {
+  /* ── Page shell ───────────────────────────── */
+  .gr-page {
+    background: radial-gradient(
+      ellipse at 50% -10%,
+      #4a1d96 0%,
+      #1e1b4b 40%,
+      #0b0920 75%,
+      #030108 100%
+    );
+    min-height: 100vh;
+    position: relative;
+    color: #fff;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  /* ── Glass cards ──────────────────────────── */
+  .gr-card {
+    background: rgba(255, 255, 255, 0.045);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 1.5rem;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
+  }
+
+  .gr-card-boy {
+    --gr-glow: rgba(59, 130, 246, 0.35);
+    background: rgba(59, 130, 246, 0.07);
+    border: 2px solid rgba(59, 130, 246, 0.3);
+    border-radius: 1.5rem;
+    box-shadow:
+      0 0 40px rgba(59, 130, 246, 0.18),
+      0 25px 50px rgba(0, 0, 0, 0.5);
+  }
+
+  .gr-card-girl {
+    --gr-glow: rgba(236, 72, 153, 0.35);
+    background: rgba(236, 72, 153, 0.07);
+    border: 2px solid rgba(236, 72, 153, 0.3);
+    border-radius: 1.5rem;
+    box-shadow:
+      0 0 40px rgba(236, 72, 153, 0.18),
+      0 25px 50px rgba(0, 0, 0, 0.5);
+  }
+
+  .gr-card-choice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2rem 1rem;
+    border-radius: 1.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s,
+      border-color 0.2s,
+      background 0.2s;
+    position: relative;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .gr-card-choice:hover {
+    transform: translateY(-6px) scale(1.03);
+  }
+
+  .gr-card-choice.selected-boy {
+    background: rgba(59, 130, 246, 0.13);
+    border-color: rgba(59, 130, 246, 0.6);
+    box-shadow:
+      0 0 50px rgba(59, 130, 246, 0.35),
+      0 20px 40px rgba(0, 0, 0, 0.4);
+    animation: gr-pulse-border 2.5s ease-in-out infinite;
+    --gr-glow: rgba(59, 130, 246, 0.35);
+  }
+
+  .gr-card-choice.selected-girl {
+    background: rgba(236, 72, 153, 0.13);
+    border-color: rgba(236, 72, 153, 0.6);
+    box-shadow:
+      0 0 50px rgba(236, 72, 153, 0.35),
+      0 20px 40px rgba(0, 0, 0, 0.4);
+    animation: gr-pulse-border 2.5s ease-in-out infinite;
+    --gr-glow: rgba(236, 72, 153, 0.35);
+  }
+
+  /* ── Text ─────────────────────────────────── */
+  .gr-gradient-text {
+    background: linear-gradient(135deg, #f472b6 0%, #c084fc 50%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gr-muted {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .gr-faint {
+    color: rgba(255, 255, 255, 0.3);
+  }
+  .gr-boy-text {
+    color: #93c5fd;
+  }
+  .gr-girl-text {
+    color: #f9a8d4;
+  }
+
+  /* ── Badges ───────────────────────────────── */
+  .gr-badge-boy {
+    background: rgba(59, 130, 246, 0.18);
+    color: #93c5fd;
+    border: 1px solid rgba(59, 130, 246, 0.35);
+    border-radius: 9999px;
+    padding: 0.2rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .gr-badge-girl {
+    background: rgba(236, 72, 153, 0.18);
+    color: #f9a8d4;
+    border: 1px solid rgba(236, 72, 153, 0.35);
+    border-radius: 9999px;
+    padding: 0.2rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* ── Buttons ──────────────────────────────── */
+  .gr-btn-gradient {
+    background: linear-gradient(135deg, #ec4899, #8b5cf6, #3b82f6);
+    color: #fff;
+    font-weight: 700;
+    border-radius: 0.875rem;
+    padding: 0.875rem 1.5rem;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s,
+      opacity 0.2s;
+    position: relative;
+  }
+
+  .gr-btn-gradient:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 40px rgba(139, 92, 246, 0.55);
+  }
+
+  .gr-btn-gradient:active:not(:disabled) {
+    transform: translateY(0);
+  }
+  .gr-btn-gradient:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .gr-btn-ghost {
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.875rem;
+    padding: 0.875rem 1.25rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+  }
+
+  .gr-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .gr-btn-solid {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.875rem;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+  }
+
+  .gr-btn-solid:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+  }
+  .gr-btn-solid:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* ── Input ────────────────────────────────── */
+  .gr-input {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1.5px solid rgba(255, 255, 255, 0.13);
+    border-radius: 0.875rem;
+    color: #fff;
+    outline: none;
+    padding: 0.875rem 1.25rem;
+    font-size: 1.1rem;
+    text-align: center;
+    width: 100%;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s,
+      background 0.2s;
+  }
+
+  .gr-input::placeholder {
+    color: rgba(255, 255, 255, 0.25);
+  }
+
+  .gr-input:focus {
+    border-color: rgba(139, 92, 246, 0.7);
+    background: rgba(139, 92, 246, 0.07);
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.12);
+  }
+
+  .gr-input-dark {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.875rem;
+    color: #fff;
+    outline: none;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    width: 100%;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .gr-input-dark:focus {
+    border-color: rgba(139, 92, 246, 0.6);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  }
+
+  /* ── Upload zone ──────────────────────────── */
+  .gr-upload-zone {
+    width: 100%;
+    padding: 1.25rem;
+    border-radius: 0.875rem;
+    border: 1.5px dashed rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.03);
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition:
+      border-color 0.2s,
+      background 0.2s,
+      color 0.2s;
+    text-align: center;
+  }
+
+  .gr-upload-zone:hover {
+    border-color: rgba(139, 92, 246, 0.5);
+    background: rgba(139, 92, 246, 0.06);
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  /* ── Divider ──────────────────────────────── */
+  .gr-divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+}
