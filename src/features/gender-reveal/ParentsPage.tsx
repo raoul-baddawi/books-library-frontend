@@ -20,16 +20,32 @@ function LoginGate({ onUnlock }: { onUnlock: () => void }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isCheckingSession, setIsCheckingSession] = useState(true)
   const [shake, setShake] = useState(false)
 
-  // If already authenticated, unlock immediately
+  // If already authenticated, unlock immediately — otherwise show the form
   useEffect(() => {
     apiClient
       .get('auth/me')
       .json()
       .then(() => onUnlock())
-      .catch(() => {})
+      .catch(() => setIsCheckingSession(false))
   }, [onUnlock])
+
+  if (isCheckingSession) {
+    return (
+      <div className="gr-page flex items-center justify-center">
+        <StarField count={80} />
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
+          className="relative z-10 text-5xl"
+        >
+          🔐
+        </motion.div>
+      </div>
+    )
+  }
 
   const attempt = async () => {
     if (!email.trim() || !password) return
@@ -187,11 +203,23 @@ function ParentsDashboard() {
   const { mutateAsync: triggerReveal, isPending: isRevealing } =
     useTriggerReveal()
 
-  const [gender, setGender] = useState<Gender | null>(settings?.gender ?? null)
-  const [revealDate, setRevealDate] = useState(
-    settings?.revealDate ? settings.revealDate.slice(0, 16) : '',
-  )
+  const [gender, setGender] = useState<Gender | null>(null)
+  const [revealDate, setRevealDate] = useState('')
   const [filter, setFilter] = useState<'ALL' | 'BOY' | 'GIRL'>('ALL')
+
+  // Convert a UTC ISO string to the local datetime-local input value
+  const toLocalInput = (iso: string) => {
+    const d = new Date(iso)
+    return new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, 16)
+  }
+
+  useEffect(() => {
+    if (!settings) return
+    setGender(settings.gender ?? null)
+    setRevealDate(settings.revealDate ? toLocalInput(settings.revealDate) : '')
+  }, [settings])
 
   const boyCount = guesses.filter((g) => g.guess === 'BOY').length
   const girlCount = guesses.filter((g) => g.guess === 'GIRL').length
@@ -356,8 +384,11 @@ function ParentsDashboard() {
             onChange={(e) => setRevealDate(e.target.value)}
             className="gr-input-dark mb-1"
           />
+          <p className="gr-faint text-xs mb-3 text-white/75!">
+            Your local time ({Intl.DateTimeFormat().resolvedOptions().timeZone})
+          </p>
           {revealDate && (
-            <p className="gr-faint text-xs mb-5  text-white!">
+            <p className="gr-faint text-xs mb-5 text-white!">
               Countdown will show on guest page until this time.
             </p>
           )}
