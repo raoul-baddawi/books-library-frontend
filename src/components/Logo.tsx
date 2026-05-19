@@ -15,7 +15,7 @@ function Logo({ className }: { className?: string }) {
       onMouseEnter={handlePrefetchHome}
     >
       <LucideLibraryBig size={30} className="inline-block mr-2" />
-      Books Library
+      Gender Reveal
     </Link>
   )
 }
